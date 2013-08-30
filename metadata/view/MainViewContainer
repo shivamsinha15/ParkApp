@@ -1,0 +1,641 @@
+{
+    "type": "Ext.Container",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "action": null,
+        "id": "MainViewContainer",
+        "ui": "",
+        "designer|userClassName": "MainViewContainer",
+        "designer|initialView": true,
+        "autoDestroy": false,
+        "layout": "card"
+    },
+    "designerId": "79e64710-192a-404f-b450-5d800ef08f2c",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "action",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "Ext.TitleBar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|align": "start",
+                "container|pack": "center",
+                "docked": "top",
+                "height": 40,
+                "left": "",
+                "title": "Valet Parking"
+            },
+            "designerId": "c0aa508f-979c-4fd8-b9a7-3c355dd6fb06",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "backButtonEvent",
+                        "hidden": true,
+                        "id": "BackButton",
+                        "ui": "back",
+                        "text": "Back"
+                    },
+                    "designerId": "079da93a-47e5-4f6e-9ea2-c2c2af3c44e2",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "daySelectorButtonEvent",
+                        "id": "DaySelectorButton",
+                        "iconCls": "compose",
+                        "iconMask": true,
+                        "text": null
+                    },
+                    "designerId": "f4379e22-d73f-416a-a0c4-d1f13c4519b5",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Container",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "id": "MapContainer",
+                "ui": "",
+                "width": 1000,
+                "designer|displayName": "MapContainer",
+                "autoDestroy": false,
+                "hideOnMaskTap": false,
+                "layout": "card",
+                "modal": false
+            },
+            "designerId": "fec3cfb9-11c3-455d-82fb-6a13a8c6e48f",
+            "cn": [
+                {
+                    "type": "Ext.field.Slider",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "top",
+                        "height": 52,
+                        "id": "TimeSlider",
+                        "padding": "",
+                        "style": "background-color:black",
+                        "styleHtmlContent": true,
+                        "label": "",
+                        "labelWrap": true,
+                        "value": [
+                            0
+                        ],
+                        "maxValue": 1415
+                    },
+                    "designerId": "c32690ae-14ab-451a-adf2-731f86244688"
+                },
+                {
+                    "type": "Ext.Map",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": null,
+                        "docked": "bottom",
+                        "height": 999,
+                        "id": "MyMap",
+                        "itemId": "mymap",
+                        "width": 1071,
+                        "geo": [
+                            "var geo = Ext.create('Ext.util.Geolocation', {",
+                            "    autoUpdate: false,",
+                            "    listeners: {",
+                            "        locationupdate: function(geo) {",
+                            "            alert('New latitude: ' + geo.getLatitude());",
+                            "        },",
+                            "        locationerror: function(geo, bTimeout, bPermissionDenied, bLocationUnavailable, message) {",
+                            "            if(bTimeout){",
+                            "                alert('Timeout occurred.');",
+                            "            } else {",
+                            "                alert('Error occurred.');",
+                            "            }",
+                            "        }",
+                            "    }",
+                            "});",
+                            "",
+                            "geo.updateLocation();"
+                        ]
+                    },
+                    "designerId": "c5712d1a-df56-46c4-81e9-0b9a5f30db72",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Toolbar",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "container|pack": "center",
+                "docked": "bottom",
+                "height": 40,
+                "id": "BottomToolBar",
+                "designer|displayName": "BottomToolBar"
+            },
+            "designerId": "40986cae-8ec2-4130-b8dd-6f9a4de29e59",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "currentLocationButton",
+                        "docked": null,
+                        "height": 37,
+                        "width": 155,
+                        "iconCls": "locate",
+                        "iconMask": true,
+                        "text": "Current Location"
+                    },
+                    "designerId": "6c96eeba-8a78-402e-961f-6e88587521bb",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "searchLocationButtonEvent",
+                        "docked": null,
+                        "height": 37,
+                        "width": 155,
+                        "iconCls": "search",
+                        "iconMask": true,
+                        "text": "Search Location"
+                    },
+                    "designerId": "bd346352-70d7-4a83-82d8-955cf15fae3b",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "action": "addressListEvent",
+                "border": "",
+                "height": null,
+                "html": "",
+                "id": "SearchLocationPanel",
+                "width": null,
+                "hideOnMaskTap": false,
+                "modal": false
+            },
+            "designerId": "a90a1b60-8d1e-4fef-af50-45c86dffbe8f",
+            "customConfigs": [
+                {
+                    "group": "(Custom Properties)",
+                    "name": "action",
+                    "type": "string"
+                }
+            ],
+            "cn": [
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "searchLocationFieldEvent",
+                        "border": "",
+                        "id": "SearchLocationField",
+                        "itemId": "mysearchfield",
+                        "label": "",
+                        "labelWidth": "0%",
+                        "name": "",
+                        "autoComplete": true
+                    },
+                    "designerId": "464d0734-accb-483b-8211-53b7c7733e01",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ],
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onSearchLocationFieldKeyup",
+                                "implHandler": [
+                                    "",
+                                    "var tweetStore = Ext.getStore('MyDirectStore');",
+                                    "var tweetProxy = tweetStore.getProxy();",
+                                    "var textFieldValue = textfield.getValue();",
+                                    "var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';",
+                                    "alert(urlRequest);",
+                                    "tweetProxy.setUrl(urlRequest);",
+                                    "tweetStore.load();",
+                                    "var addressList = Ext.getCmp(\"AddressList\");",
+                                    "addressList.refresh();"
+                                ],
+                                "buffer": 1500,
+                                "name": "keyup"
+                            },
+                            "designerId": "c91b32a6-79de-4996-9ab0-2eaa0c589f5d"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.dataview.List",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "addressListEvent",
+                        "height": 753,
+                        "id": "AddressList",
+                        "itemId": "mylist",
+                        "width": 899,
+                        "store": "MyDirectStore"
+                    },
+                    "designerId": "6bac2911-da06-41d2-95df-e4866749fd99",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ],
+                    "cn": [
+                        {
+                            "type": "Ext.XTemplate",
+                            "reference": {
+                                "name": "itemTpl",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "implHandler": [
+                                    "<div style='margin-left:10px;'>",
+                                    "    {formatted_address},{lng},{lat}",
+                                    "</div>"
+                                ],
+                                "designer|displayName": "itemTpl"
+                            },
+                            "designerId": "d4292e09-c35a-4f70-a863-f168ccfa0e38"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "floatingCls": "200",
+                "height": 105,
+                "hidden": true,
+                "id": "DaySelectorPanel",
+                "itemId": "mypanel1",
+                "maxHeight": 100,
+                "maxWidth": 400,
+                "padding": "",
+                "width": 210,
+                "hideOnMaskTap": true
+            },
+            "designerId": "cad0e838-35ec-4eca-89ec-b30ec7e82c7c",
+            "cn": [
+                {
+                    "type": "Ext.field.Checkbox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "weekDayCheckBox",
+                        "docked": "top",
+                        "height": 45,
+                        "id": "Weekday",
+                        "width": 198,
+                        "label": "Weekdays",
+                        "labelWidth": "50%"
+                    },
+                    "designerId": "b662835c-18c3-483b-9653-57c2b6ddaf1f",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.field.Checkbox",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "weekEndCheckBox",
+                        "docked": "bottom",
+                        "height": 45,
+                        "id": "Weekend",
+                        "width": 198,
+                        "label": "Weekend",
+                        "labelWidth": "50%"
+                    },
+                    "designerId": "f35089f2-1610-408f-ac58-b598380a9c2b",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "basiceventbinding",
+                    "reference": {
+                        "name": "listeners",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "onDaySelectorPanelHide",
+                        "implHandler": [
+                            "//HasHideMaskOnTap"
+                        ],
+                        "name": "hide"
+                    },
+                    "designerId": "22802981-9b9f-4381-a59a-7271030517e6"
+                }
+            ]
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": "top",
+                "height": 130,
+                "hidden": true,
+                "id": "TimePickerPanel",
+                "padding": 0,
+                "width": 145,
+                "autoDestroy": false
+            },
+            "designerId": "5e7307cf-7e07-45f0-877e-26de69197884",
+            "cn": [
+                {
+                    "type": "Ext.picker.Picker",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "height": 124,
+                        "hideAnimation": [
+                            "{type:'popIn',duration: 200}"
+                        ],
+                        "id": "TimePicker",
+                        "itemId": "mypicker",
+                        "maxHeight": 124,
+                        "maxWidth": 140,
+                        "padding": 0,
+                        "top": null,
+                        "width": 135,
+                        "scrollable": false,
+                        "stretchX": true
+                    },
+                    "designerId": "5acd1d56-1335-465b-886c-71e24f8ba7fb",
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "doneButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Done"
+                            },
+                            "designerId": "d60e8b8c-b267-428f-b2de-3880af79b3f5"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "cancelButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Cancel"
+                            },
+                            "designerId": "ee59890b-2058-43a3-b2e7-aa8647dbb73a"
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "HourPickerSlot",
+                                "autoDestroy": false,
+                                "scrollToTopOnRefresh": false,
+                                "name": "HourPickerSlot",
+                                "title": "HourPickerSlot"
+                            },
+                            "designerId": "af161166-6ae5-4ccf-ae4b-721b9523208d"
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "MinutePickerSlot",
+                                "autoDestroy": false,
+                                "scrollToTopOnRefresh": false,
+                                "name": "MinutePickerSlot",
+                                "title": "MinutePickerSlot"
+                            },
+                            "designerId": "d1ee9ed5-9afe-4f2b-90bc-5836508f577b"
+                        },
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onMypickerPainted",
+                                "implHandler": [
+                                    "component.setCancelButton(false);",
+                                    "component.setDoneButton(false);",
+                                    ""
+                                ],
+                                "name": "painted"
+                            },
+                            "designerId": "13cdad8f-3c2f-4d1e-bd69-3236e1f67cb0"
+                        },
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onTimePickerInitialize",
+                                "implHandler": [
+                                    "",
+                                    "var hourPickerSlot = Ext.getCmp('HourPickerSlot');",
+                                    "var minutePickerSlot = Ext.getCmp('MinutePickerSlot');",
+                                    "var hours = getHours();",
+                                    "var minutes = getMinutes();",
+                                    "",
+                                    "if(!hourPickerSlot.getData()){",
+                                    "    hourPickerSlot.setData(hours);",
+                                    "} ",
+                                    "",
+                                    "if(!minutePickerSlot.getData()){",
+                                    "    minutePickerSlot.setData(minutes);",
+                                    "} ",
+                                    "",
+                                    "function getHours(){",
+                                    "    var chours = [];",
+                                    "    chours = createTimeArray(24);",
+                                    "    return chours;",
+                                    "}",
+                                    "",
+                                    "function getMinutes(){",
+                                    "    var cminutes = [];",
+                                    "    cminutes = createTimeArray(60);",
+                                    "    return cminutes;",
+                                    "}",
+                                    "",
+                                    "function createTimeArray(totalNumber){",
+                                    "    var timeArray = [];    ",
+                                    "",
+                                    "    for(var i=0; i< totalNumber; i++){",
+                                    "        if(i<10){",
+                                    "            timeArray.push(new timeObject('0'+ i, i));",
+                                    "        } else {",
+                                    "            timeArray.push(new timeObject(i,i));",
+                                    "        }   ",
+                                    "    }",
+                                    "    return timeArray;",
+                                    "}",
+                                    "",
+                                    "",
+                                    "function timeObject(text,value) {",
+                                    "    this.text = text;",
+                                    "    this.value = value;",
+                                    "}",
+                                    ""
+                                ],
+                                "name": "initialize"
+                            },
+                            "designerId": "72125f9e-44f5-46c3-be42-5297f538af05"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

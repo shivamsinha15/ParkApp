@@ -1,0 +1,14 @@
+{
+    "type": "cssresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "css",
+        "url": "http://extjs.cachefly.net/touch/sencha-touch-2.0.1.1/resources/css/android.css",
+        "id": "applecss"
+    },
+    "designerId": "209c9c71-f74f-4fee-9b90-2fe618f44e55"
+}

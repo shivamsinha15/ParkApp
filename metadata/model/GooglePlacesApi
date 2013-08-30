@@ -1,0 +1,80 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "GooglePlacesApi"
+    },
+    "designerId": "a5372fd8-e3ec-4c3e-9dce-e2dff831cd16",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "mapping": null,
+                "name": "formatted_address"
+            },
+            "designerId": "34fa47a6-fd17-4d8c-b485-971337b57cb1"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "mapping": "",
+                "name": "lat"
+            },
+            "designerId": "0c4d12c5-f6c3-4bf2-af5a-445cad3daa35"
+        },
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "https://maps.googleapis.com/maps/api/place/textsearch/xml?query=syndey+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM",
+                "withCredentials": true
+            },
+            "designerId": "7d63ae74-81d5-42d0-a134-f94b9587547f",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Xml",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "rootProperty": "PlaceSearchResponse",
+                        "record": "result"
+                    },
+                    "designerId": "a8608d0b-9fa4-4f97-87c5-a46bc9dc1034"
+                }
+            ]
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "lng"
+            },
+            "designerId": "9e45468a-6163-4ca6-b07a-6be58f86dffd"
+        }
+    ]
+}

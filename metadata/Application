@@ -1,0 +1,35 @@
+{
+    "type": "Ext.app.Application",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "models": [
+            "GooglePlacesApi"
+        ],
+        "stores": [
+            "MyDirectStore"
+        ],
+        "controllers": [
+            "MainViewController"
+        ],
+        "name": "MyApp"
+    },
+    "designerId": "application",
+    "cn": [
+        {
+            "type": "Ext.Loader",
+            "reference": {
+                "name": "loader",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "disableCaching": false
+            },
+            "designerId": "8619def1-4e93-46d4-965b-0a6483f71390"
+        }
+    ]
+}

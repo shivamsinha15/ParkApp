@@ -1,0 +1,91 @@
+{
+    "name": "ParkApp",
+    "settings": {
+        "urlPrefix": "http://127.0.0.1/",
+        "spacesToIndent": 4,
+        "exportPath": "/Users/shivamsinha/Documents/target",
+        "sdkPath": "",
+        "lineEnding": "LF",
+        "genTimestamps": false,
+        "cacheBust": false
+    },
+    "xdsVersion": "2.2.2",
+    "xdsBuild": 991,
+    "schemaVersion": 1,
+    "upgradeVersion": 210000000503,
+    "framework": "touch20",
+    "topInstanceFileMap": {
+        "79e64710-192a-404f-b450-5d800ef08f2c": {
+            "paths": [
+                "metadata/view/MainViewContainer",
+                "app/view/override/MainViewContainer.js",
+                "app/view/MainViewContainer.js"
+            ],
+            "className": "MainViewContainer"
+        },
+        "c621e865-d2eb-4b18-a8a4-6e6738f5a2e3": {
+            "paths": [
+                "metadata/resource/Library"
+            ],
+            "className": "Library"
+        },
+        "3300eac4-8766-4e15-9101-7b668fa2448d": {
+            "paths": [
+                "metadata/resource/GoogleMapsAPI"
+            ],
+            "className": "GoogleMapsAPI"
+        },
+        "002e032a-bf86-4e30-b5a8-6341878c03a9": {
+            "paths": [
+                "metadata/controller/MainViewController",
+                "app/controller/override/MainViewController.js",
+                "app/controller/MainViewController.js"
+            ],
+            "className": "MainViewController"
+        },
+        "a5372fd8-e3ec-4c3e-9dce-e2dff831cd16": {
+            "paths": [
+                "metadata/model/GooglePlacesApi",
+                "app/model/override/GooglePlacesApi.js",
+                "app/model/GooglePlacesApi.js"
+            ],
+            "className": "GooglePlacesApi"
+        },
+        "15fb7f12-e018-4c51-8f37-975247f0774b": {
+            "paths": [
+                "metadata/store/MyDirectStore",
+                "app/store/override/MyDirectStore.js",
+                "app/store/MyDirectStore.js"
+            ],
+            "className": "MyDirectStore"
+        },
+        "209c9c71-f74f-4fee-9b90-2fe618f44e55": {
+            "paths": [
+                "metadata/resource/css"
+            ],
+            "className": "css"
+        }
+    },
+    "viewOrderMap": {
+        "view": [
+            "79e64710-192a-404f-b450-5d800ef08f2c"
+        ],
+        "controller": [
+            "002e032a-bf86-4e30-b5a8-6341878c03a9"
+        ],
+        "model": [
+            "a5372fd8-e3ec-4c3e-9dce-e2dff831cd16"
+        ],
+        "resource": [
+            "c621e865-d2eb-4b18-a8a4-6e6738f5a2e3",
+            "3300eac4-8766-4e15-9101-7b668fa2448d",
+            "209c9c71-f74f-4fee-9b90-2fe618f44e55"
+        ],
+        "app": [
+            "application"
+        ],
+        "store": [
+            "15fb7f12-e018-4c51-8f37-975247f0774b"
+        ]
+    }
+}

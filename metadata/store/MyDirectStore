@@ -1,0 +1,15 @@
+{
+    "type": "directstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": false,
+        "model": "GooglePlacesApi",
+        "storeId": "MyDirectStore",
+        "designer|userClassName": "MyDirectStore"
+    },
+    "designerId": "15fb7f12-e018-4c51-8f37-975247f0774b"
+}
