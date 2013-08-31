@@ -3153,7 +3153,8 @@
                     "var nowMin = now.getMinutes();",
                     "",
                     "",
-                    "this.populateMap();"
+                    "this.loadParkingData();",
+                    ""
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
@@ -3575,42 +3576,116 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "populateMap",
+                "fn": "loadParkingData",
                 "implHandler": [
-                    "var peStore = Ext.getStore('ParkingEngineStore');",
+                    "var peStore = Ext.getStore('PESpaceDAO');",
                     "var peProxy = peStore.getProxy();",
                     "var peSpaceProxyUrl = \"http://localhost:8080/parking-engine/PESpace/all\";",
-                    "var peSpaceRuleUrl = \"http://localhost:8080/parking-engine/PERule/all\";",
-                    "",
                     "var urlRequest = peSpaceProxyUrl;",
                     "peProxy.setUrl(urlRequest);",
                     "peStore.load({",
                     "    callback: function(store, records, successful, operation, eOpts) {",
-                    "\t\t",
-                    "     for(var i=0;i<records._records.length;i++){",
-                    "\t\t\t",
-                    "            //MyApp.app.getController('MainViewController').peLoadedSpaces = [''];",
-                    "            var id = records._records[i].data.id;",
-                    "            var startLat = records._records[i].data.startLat;",
-                    "            var startLng = records._records[i].data.startLng;",
-                    "            var endLat = records._records[i].data.endLat;",
-                    "            var endLng = records._records[i].data.endLng;",
-                    "",
-                    "            //var peSpace = new this.PESpace(id,startLat,startLng,endLat,endLng);   ",
-                    "\t\t\t//MyApp.app.getController('MainViewController').peLoadedSpaces.push(peSpace);",
-                    "            MyApp.app.getController('MainViewController').createPolyLines(startLat,startLng,endLat,endLng);",
-                    "\t\t\t",
-                    "        }",
+                    "\t\tthis.loadPERules();",
                     "    },",
                     "    scope: this",
-                    "} );",
+                    "});",
+                    "/*Accessing Information from Records:",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
                     "",
+                    "     for(var i=0;i<records._records.length;i++){",
+                    "\t\t",
+                    "            var record = peStore.getAt(i);",
+                    "            var id =  record.get('id');",
+                    "            var startLat =  record.get('startLat');",
+                    "            var startLng =  record.get('startLng');",
+                    "            var endLat =  record.get('endLat');",
+                    "            var endLng =  record.get('endLng');",
+                    "\t\t\t",
+                    "            mainViewController.createPolyLines(startLat,startLng,endLat,endLng);",
+                    "",
+                    "*/"
+                ]
+            },
+            "designerId": "9bbea6ec-dbfa-42e0-a553-fbb7330531a9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "refreshMap",
+                "implHandler": [
+                    "var peSpaceDAO = Ext.getStore('PESpaceDAO'); ",
+                    "var peRuleDAO = Ext.getStore('PERuleDAO'); ",
+                    "",
+                    "var peSpaces = peSpaceDAO.getData();",
+                    "var peRules = peRuleDAO.getData();",
+                    "",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "",
+                    "for(var i=0;i<peSpaceDAO.getAllCount();i++){",
+                    "  var record = peSpaceDAO.getAt(i);",
+                    "  var id =  record.get('id');",
+                    "  var startLat =  record.get('startLat');",
+                    "  var startLng =  record.get('startLng');",
+                    "  var endLat =  record.get('endLat');",
+                    "  var endLng =  record.get('endLng');",
+                    "  mainViewController.createPolyLines(startLat,startLng,endLat,endLng);",
+                    " }",
+                    "       ",
                     "",
                     "",
                     ""
                 ]
             },
-            "designerId": "9bbea6ec-dbfa-42e0-a553-fbb7330531a9"
+            "designerId": "b8197f28-0106-4c8f-920a-3ea231628706"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "loadPERules",
+                "implHandler": [
+                    "var peStore = Ext.getStore('PERuleDAO');",
+                    "var peProxy = peStore.getProxy();",
+                    "var peSpaceRuleUrl = \"http://localhost:8080/parking-engine/PERule/all\";",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "var urlRequest = peSpaceRuleUrl;",
+                    "peProxy.setUrl(urlRequest);",
+                    "peStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "\t\tthis.refreshMap();",
+                    "    },",
+                    "    scope: this",
+                    "});",
+                    "/*Accessing Information from Records:",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "     for(var i=0;i<records._records.length;i++){",
+                    "\t\t\t",
+                    "            MyApp.app.getController('MainViewController').peLoadedSpaces = [''];",
+                    "            var record = peStore.getAt(i);",
+                    "            var id =  record.get('id');",
+                    "            var startLat =  record.get('startLat');",
+                    "            var startLng =  record.get('startLng');",
+                    "            var endLat =  record.get('endLat');",
+                    "            var endLng =  record.get('endLng');",
+                    "\t\t\t",
+                    "            mainViewController.createPolyLines(startLat,startLng,endLat,endLng);",
+                    "",
+                    "*/"
+                ]
+            },
+            "designerId": "f9f7488f-a811-43e4-a9b6-6297f6e7cb07"
         }
     ]
 }

@@ -8,8 +8,8 @@
     "userConfig": {
         "autoLoad": false,
         "model": "PESpace",
-        "storeId": "ParkingEngineStore",
-        "designer|userClassName": "ParkingEngineStore"
+        "storeId": "PESpaceDAO",
+        "designer|userClassName": "PESpaceDAO"
     },
     "designerId": "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
     "cn": [
@@ -35,23 +35,6 @@
                     "designerId": "7cf6ef7d-d65a-4421-9c0f-4d413ca66a0e"
                 }
             ]
-        },
-        {
-            "type": "basiceventbinding",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onJsonstoreLoad",
-                "implHandler": [
-                    "",
-                    ""
-                ],
-                "name": "load"
-            },
-            "designerId": "f31b3e56-ff70-48d5-b0d0-4173b1187ca2"
         }
     ]
 }

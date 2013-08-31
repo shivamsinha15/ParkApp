@@ -111,6 +111,37 @@
                 "name": "id"
             },
             "designerId": "20692ba7-4624-4b9b-81f0-618527156c84"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "constructor",
+                "designer|params": [
+                    "config"
+                ],
+                "implHandler": [
+                    "this.initConfig(config);",
+                    "var me = this;",
+                    "me.callParent([config]);",
+                    "",
+                    "/* How to Initialize This Model If Required:",
+                    "         var peSpace = new MyApp.model.PESpace({",
+                    "             id: id,",
+                    "             startLat: startLat,",
+                    "             startLng: startLng,",
+                    "             endLat: endLat,",
+                    "             endLng: endLng",
+                    "         });",
+                    "",
+                    "*/"
+                ]
+            },
+            "designerId": "012539c8-70af-49ff-94e5-0142b197f81c"
         }
     ]
 }

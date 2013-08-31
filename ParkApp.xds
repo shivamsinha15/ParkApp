@@ -51,11 +51,11 @@
         },
         "bcd0259e-a90b-46e5-9f43-80e8bf47abb8": {
             "paths": [
-                "metadata/store/ParkingEngineStore",
-                "app/store/override/ParkingEngineStore.js",
-                "app/store/ParkingEngineStore.js"
+                "metadata/store/PESpaceDAO",
+                "app/store/override/PESpaceDAO.js",
+                "app/store/PESpaceDAO.js"
             ],
-            "className": "ParkingEngineStore"
+            "className": "PESpaceDAO"
         },
         "ce1d543f-562f-47f7-99a4-8d50809c71af": {
             "paths": [
@@ -64,6 +64,22 @@
                 "app/model/PESpace.js"
             ],
             "className": "PESpace"
+        },
+        "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d": {
+            "paths": [
+                "metadata/model/PERule",
+                "app/model/override/PERule.js",
+                "app/model/PERule.js"
+            ],
+            "className": "PERule"
+        },
+        "488b01c0-9af3-4c9f-9449-07d241348bf7": {
+            "paths": [
+                "metadata/store/PERuleDAO",
+                "app/store/override/PERuleDAO.js",
+                "app/store/PERuleDAO.js"
+            ],
+            "className": "PERuleDAO"
         }
     },
     "viewOrderMap": {
@@ -74,7 +90,8 @@
             "002e032a-bf86-4e30-b5a8-6341878c03a9"
         ],
         "model": [
-            "ce1d543f-562f-47f7-99a4-8d50809c71af"
+            "ce1d543f-562f-47f7-99a4-8d50809c71af",
+            "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d"
         ],
         "resource": [
             "c621e865-d2eb-4b18-a8a4-6e6738f5a2e3",
@@ -85,7 +102,8 @@
             "application"
         ],
         "store": [
-            "bcd0259e-a90b-46e5-9f43-80e8bf47abb8"
+            "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
+            "488b01c0-9af3-4c9f-9449-07d241348bf7"
         ]
     }
 }

@@ -2963,7 +2963,8 @@ Ext.define('MyApp.controller.MainViewController', {
         var nowMin = now.getMinutes();
 
 
-        this.populateMap();
+        this.loadParkingData();
+
     },
 
     getHours: function() {
@@ -3152,38 +3153,90 @@ Ext.define('MyApp.controller.MainViewController', {
         HourPickerSlot: hourPickerValue.text};
     },
 
-    populateMap: function() {
-        var peStore = Ext.getStore('ParkingEngineStore');
+    loadParkingData: function() {
+        var peStore = Ext.getStore('PESpaceDAO');
         var peProxy = peStore.getProxy();
         var peSpaceProxyUrl = "http://localhost:8080/parking-engine/PESpace/all";
-        var peSpaceRuleUrl = "http://localhost:8080/parking-engine/PERule/all";
-
         var urlRequest = peSpaceProxyUrl;
         peProxy.setUrl(urlRequest);
         peStore.load({
             callback: function(store, records, successful, operation, eOpts) {
-
-                for(var i=0;i<records._records.length;i++){
-
-                    //MyApp.app.getController('MainViewController').peLoadedSpaces = [''];
-                    var id = records._records[i].data.id;
-                    var startLat = records._records[i].data.startLat;
-                    var startLng = records._records[i].data.startLng;
-                    var endLat = records._records[i].data.endLat;
-                    var endLng = records._records[i].data.endLng;
-
-                    //var peSpace = new this.PESpace(id,startLat,startLng,endLat,endLng);   
-                    //MyApp.app.getController('MainViewController').peLoadedSpaces.push(peSpace);
-                    MyApp.app.getController('MainViewController').createPolyLines(startLat,startLng,endLat,endLng);
-
-                }
+                this.loadPERules();
             },
             scope: this
-        } );
+        });
+        /*Accessing Information from Records:
+        var mainViewController = MyApp.app.getController('MainViewController');
+
+        for(var i=0;i<records._records.length;i++){
+
+        var record = peStore.getAt(i);
+        var id =  record.get('id');
+        var startLat =  record.get('startLat');
+        var startLng =  record.get('startLng');
+        var endLat =  record.get('endLat');
+        var endLng =  record.get('endLng');
+
+        mainViewController.createPolyLines(startLat,startLng,endLat,endLng);
+
+        */
+    },
+
+    refreshMap: function() {
+        var peSpaceDAO = Ext.getStore('PESpaceDAO'); 
+        var peRuleDAO = Ext.getStore('PERuleDAO'); 
+
+        var peSpaces = peSpaceDAO.getData();
+        var peRules = peRuleDAO.getData();
+
+        var mainViewController = MyApp.app.getController('MainViewController');
+
+
+        for(var i=0;i<peSpaceDAO.getAllCount();i++){
+            var record = peSpaceDAO.getAt(i);
+            var id =  record.get('id');
+            var startLat =  record.get('startLat');
+            var startLng =  record.get('startLng');
+            var endLat =  record.get('endLat');
+            var endLng =  record.get('endLng');
+            mainViewController.createPolyLines(startLat,startLng,endLat,endLng);
+        }
 
 
 
 
+    },
+
+    loadPERules: function() {
+        var peStore = Ext.getStore('PERuleDAO');
+        var peProxy = peStore.getProxy();
+        var peSpaceRuleUrl = "http://localhost:8080/parking-engine/PERule/all";
+        var mainViewController = MyApp.app.getController('MainViewController');
+
+        var urlRequest = peSpaceRuleUrl;
+        peProxy.setUrl(urlRequest);
+        peStore.load({
+            callback: function(store, records, successful, operation, eOpts) {
+                this.refreshMap();
+            },
+            scope: this
+        });
+        /*Accessing Information from Records:
+        var mainViewController = MyApp.app.getController('MainViewController');
+
+        for(var i=0;i<records._records.length;i++){
+
+        MyApp.app.getController('MainViewController').peLoadedSpaces = [''];
+        var record = peStore.getAt(i);
+        var id =  record.get('id');
+        var startLat =  record.get('startLat');
+        var startLng =  record.get('startLng');
+        var endLat =  record.get('endLat');
+        var endLng =  record.get('endLng');
+
+        mainViewController.createPolyLines(startLat,startLng,endLat,endLng);
+
+        */
     }
 
 });

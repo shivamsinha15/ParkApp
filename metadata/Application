@@ -8,11 +8,13 @@
     "userConfig": {
         "models": [
             "GooglePlacesApi",
-            "PESpace"
+            "PESpace",
+            "PERule"
         ],
         "stores": [
             "MyDirectStore",
-            "ParkingEngineStore"
+            "PESpaceDAO",
+            "PERuleDAO"
         ],
         "controllers": [
             "MainViewController"

@@ -1,0 +1,98 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "PERule"
+    },
+    "designerId": "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "id"
+            },
+            "designerId": "26c2b2a7-9553-4fd7-98d8-76105855a51b"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "fromDay"
+            },
+            "designerId": "504d681f-497a-46e1-978a-f03ee1bb54ba"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "toDay"
+            },
+            "designerId": "fd6947a9-842d-4aee-b740-e2160e1dafc2"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "cost"
+            },
+            "designerId": "e2399d17-f13d-4156-97f5-1823b7ff32ad"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "fromTime"
+            },
+            "designerId": "3186988b-038b-46b9-ba47-0358a414fedc"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "toTime"
+            },
+            "designerId": "db0fc1d1-87fb-4e5f-aa15-394b8aed041b"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "timeLimit"
+            },
+            "designerId": "c16c6f12-458d-4a1c-b663-10692e3beba1"
+        }
+    ]
+}
