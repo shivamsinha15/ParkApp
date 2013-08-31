@@ -2896,11 +2896,16 @@ Ext.define('MyApp.controller.MainViewController', {
 
     },
 
-    createPolyLines: function(startLat, startLng, endLat, endLng) {
+    createPolyLines: function(startLat, startLng, endLat, endLng, occupied) {
         var polyLineCo = [ 
         new google.maps.LatLng(startLat,startLng),
         new google.maps.LatLng(endLat,endLng)
         ];
+
+        var strokeColor = "#FF0000";
+        if(occupied === 'true'){
+            strokeColor = "#009933";
+        }
 
         var lineSymbol = {
             path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
@@ -2908,7 +2913,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
         var polyLine = new google.maps.Polyline({
             path: polyLineCo,
-            strokeColor: "#FF0000",
+            strokeColor: strokeColor,
             strokeOpacity: 1.0,
             strokeWeight: 4,
             icons: [{
@@ -2941,7 +2946,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
         var mapOpts = {
-            zoom: 18,
+            zoom: 19,
             center: parraCoordinates,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -3199,7 +3204,8 @@ Ext.define('MyApp.controller.MainViewController', {
             var startLng =  record.get('startLng');
             var endLat =  record.get('endLat');
             var endLng =  record.get('endLng');
-            mainViewController.createPolyLines(startLat,startLng,endLat,endLng);
+            var occupied = record.get('occupied');
+            mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'');
         }
 
 

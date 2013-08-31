@@ -35,6 +35,9 @@ Ext.define('MyApp.model.PESpace', {
             },
             {
                 name: 'id'
+            },
+            {
+                name: 'occupied'
             }
         ]
     },

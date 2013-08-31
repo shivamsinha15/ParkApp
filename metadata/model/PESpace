@@ -42,6 +42,11 @@
             "group": "(Custom Properties)",
             "name": "endLng",
             "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "occupied",
+            "type": "string"
         }
     ],
     "cn": [
@@ -142,6 +147,18 @@
                 ]
             },
             "designerId": "012539c8-70af-49ff-94e5-0142b197f81c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "occupied"
+            },
+            "designerId": "8b9ed46a-6cd5-48de-bbdc-c836359e0df8"
         }
     ]
 }
