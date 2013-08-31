@@ -1,0 +1,57 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "autoLoad": false,
+        "model": "PESpace",
+        "storeId": "ParkingEngineStore",
+        "designer|userClassName": "ParkingEngineStore"
+    },
+    "designerId": "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://localhost:8080/parking-engine/PESpace/all"
+            },
+            "designerId": "8bd0b1b6-6777-45ad-a351-2a7b5073b411",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "7cf6ef7d-d65a-4421-9c0f-4d413ca66a0e"
+                }
+            ]
+        },
+        {
+            "type": "basiceventbinding",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onJsonstoreLoad",
+                "implHandler": [
+                    "",
+                    ""
+                ],
+                "name": "load"
+            },
+            "designerId": "f31b3e56-ff70-48d5-b0d0-4173b1187ca2"
+        }
+    ]
+}

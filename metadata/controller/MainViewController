@@ -15,6 +15,16 @@
             "group": "(Custom Properties)",
             "name": "setTime",
             "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "peLoadedSpaces",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "peLoadedRules",
+            "type": "string"
         }
     ],
     "cn": [
@@ -3143,26 +3153,7 @@
                     "var nowMin = now.getMinutes();",
                     "",
                     "",
-                    "",
-                    "",
-                    "var peSpaceStore = Ext.getStore('MyJsonStore');",
-                    "/*",
-                    "var tweetProxy = tweetStore.getProxy();",
-                    "var textFieldValue = textfield.getValue();",
-                    "var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';",
-                    "alert(urlRequest);",
-                    "tweetProxy.setUrl(urlRequest);",
-                    "tweetStore.load();",
-                    "var addressList = Ext.getCmp(\"AddressList\");",
-                    "addressList.refresh();",
-                    "*/",
-                    "peSpaceStore.load();",
-                    "",
-                    "",
-                    "/*",
-                    "this.createMarkers();",
-                    "this.createPolyLines();",
-                    "*/"
+                    "this.populateMap();"
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
@@ -3575,6 +3566,51 @@
                 ]
             },
             "designerId": "1b94260f-0aa8-4cee-af2d-fcdc12720c3a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "populateMap",
+                "implHandler": [
+                    "var peStore = Ext.getStore('ParkingEngineStore');",
+                    "var peProxy = peStore.getProxy();",
+                    "var peSpaceProxyUrl = \"http://localhost:8080/parking-engine/PESpace/all\";",
+                    "var peSpaceRuleUrl = \"http://localhost:8080/parking-engine/PERule/all\";",
+                    "",
+                    "var urlRequest = peSpaceProxyUrl;",
+                    "peProxy.setUrl(urlRequest);",
+                    "peStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "\t\t",
+                    "     for(var i=0;i<records._records.length;i++){",
+                    "\t\t\t",
+                    "            //MyApp.app.getController('MainViewController').peLoadedSpaces = [''];",
+                    "            var id = records._records[i].data.id;",
+                    "            var startLat = records._records[i].data.startLat;",
+                    "            var startLng = records._records[i].data.startLng;",
+                    "            var endLat = records._records[i].data.endLat;",
+                    "            var endLng = records._records[i].data.endLng;",
+                    "",
+                    "            //var peSpace = new this.PESpace(id,startLat,startLng,endLat,endLng);   ",
+                    "\t\t\t//MyApp.app.getController('MainViewController').peLoadedSpaces.push(peSpace);",
+                    "            MyApp.app.getController('MainViewController').createPolyLines(startLat,startLng,endLat,endLng);",
+                    "\t\t\t",
+                    "        }",
+                    "    },",
+                    "    scope: this",
+                    "} );",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            },
+            "designerId": "9bbea6ec-dbfa-42e0-a553-fbb7330531a9"
         }
     ]
 }

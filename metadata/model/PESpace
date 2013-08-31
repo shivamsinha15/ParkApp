@@ -6,10 +6,44 @@
     },
     "codeClass": null,
     "userConfig": {
+        "startLat": "",
+        "id": null,
+        "startLng": "",
+        "endLat": null,
         "idProperty": "PESpace",
         "designer|userClassName": "PESpace"
     },
+    "configAlternates": {
+        "id": "number"
+    },
     "designerId": "ce1d543f-562f-47f7-99a4-8d50809c71af",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "startLat",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "id",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "startLng",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "endLat",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "endLng",
+            "type": "string"
+        }
+    ],
     "cn": [
         {
             "type": "Ext.data.Field",
@@ -21,7 +55,14 @@
             "userConfig": {
                 "name": "startLat"
             },
-            "designerId": "834de380-b9f2-45c8-82aa-47f737d07d61"
+            "designerId": "834de380-b9f2-45c8-82aa-47f737d07d61",
+            "customConfigs": [
+                {
+                    "group": "(Custom Properties)",
+                    "name": "startLat",
+                    "type": "string"
+                }
+            ]
         },
         {
             "type": "Ext.data.Field",
@@ -58,6 +99,18 @@
                 "name": "endLng"
             },
             "designerId": "e393c64a-9203-4be5-bf08-ad9fe8635154"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "id"
+            },
+            "designerId": "20692ba7-4624-4b9b-81f0-618527156c84"
         }
     ]
 }

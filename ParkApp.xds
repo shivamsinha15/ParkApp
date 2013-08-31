@@ -51,11 +51,11 @@
         },
         "bcd0259e-a90b-46e5-9f43-80e8bf47abb8": {
             "paths": [
-                "metadata/store/MyJsonStore",
-                "app/store/override/MyJsonStore.js",
-                "app/store/MyJsonStore.js"
+                "metadata/store/ParkingEngineStore",
+                "app/store/override/ParkingEngineStore.js",
+                "app/store/ParkingEngineStore.js"
             ],
-            "className": "MyJsonStore"
+            "className": "ParkingEngineStore"
         },
         "ce1d543f-562f-47f7-99a4-8d50809c71af": {
             "paths": [

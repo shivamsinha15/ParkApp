@@ -25,7 +25,7 @@ Ext.application({
     ],
     stores: [
         'MyDirectStore',
-        'MyJsonStore'
+        'ParkingEngineStore'
     ],
     controllers: [
         'MainViewController'

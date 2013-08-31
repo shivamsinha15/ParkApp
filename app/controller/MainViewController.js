@@ -2963,26 +2963,7 @@ Ext.define('MyApp.controller.MainViewController', {
         var nowMin = now.getMinutes();
 
 
-
-
-        var peSpaceStore = Ext.getStore('MyJsonStore');
-        /*
-        var tweetProxy = tweetStore.getProxy();
-        var textFieldValue = textfield.getValue();
-        var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';
-        alert(urlRequest);
-        tweetProxy.setUrl(urlRequest);
-        tweetStore.load();
-        var addressList = Ext.getCmp("AddressList");
-        addressList.refresh();
-        */
-        peSpaceStore.load();
-
-
-        /*
-        this.createMarkers();
-        this.createPolyLines();
-        */
+        this.populateMap();
     },
 
     getHours: function() {
@@ -3169,6 +3150,40 @@ Ext.define('MyApp.controller.MainViewController', {
         return {
             MinutePickerSlot: minutePickerValue.text,
         HourPickerSlot: hourPickerValue.text};
+    },
+
+    populateMap: function() {
+        var peStore = Ext.getStore('ParkingEngineStore');
+        var peProxy = peStore.getProxy();
+        var peSpaceProxyUrl = "http://localhost:8080/parking-engine/PESpace/all";
+        var peSpaceRuleUrl = "http://localhost:8080/parking-engine/PERule/all";
+
+        var urlRequest = peSpaceProxyUrl;
+        peProxy.setUrl(urlRequest);
+        peStore.load({
+            callback: function(store, records, successful, operation, eOpts) {
+
+                for(var i=0;i<records._records.length;i++){
+
+                    //MyApp.app.getController('MainViewController').peLoadedSpaces = [''];
+                    var id = records._records[i].data.id;
+                    var startLat = records._records[i].data.startLat;
+                    var startLng = records._records[i].data.startLng;
+                    var endLat = records._records[i].data.endLat;
+                    var endLng = records._records[i].data.endLng;
+
+                    //var peSpace = new this.PESpace(id,startLat,startLng,endLat,endLng);   
+                    //MyApp.app.getController('MainViewController').peLoadedSpaces.push(peSpace);
+                    MyApp.app.getController('MainViewController').createPolyLines(startLat,startLng,endLat,endLng);
+
+                }
+            },
+            scope: this
+        } );
+
+
+
+
     }
 
 });

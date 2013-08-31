@@ -17,6 +17,8 @@ Ext.define('MyApp.model.PESpace', {
     extend: 'Ext.data.Model',
 
     config: {
+        startLat: '',
+        startLng: '',
         idProperty: 'PESpace',
         fields: [
             {
@@ -30,6 +32,9 @@ Ext.define('MyApp.model.PESpace', {
             },
             {
                 name: 'endLng'
+            },
+            {
+                name: 'id'
             }
         ]
     }
