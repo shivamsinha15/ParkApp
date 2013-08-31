@@ -1,0 +1,63 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "idProperty": "PESpace",
+        "designer|userClassName": "PESpace"
+    },
+    "designerId": "ce1d543f-562f-47f7-99a4-8d50809c71af",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startLat"
+            },
+            "designerId": "834de380-b9f2-45c8-82aa-47f737d07d61"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startLng"
+            },
+            "designerId": "0cf56776-93a1-4d53-b5d3-8dd93b2e5fd0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "endLat"
+            },
+            "designerId": "e60fb4e2-4aa1-4cd0-9826-3cc3eb63c73e"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "endLng"
+            },
+            "designerId": "e393c64a-9203-4be5-bf08-ad9fe8635154"
+        }
+    ]
+}

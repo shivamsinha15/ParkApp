@@ -143,26 +143,7 @@
                         "height": 999,
                         "id": "MyMap",
                         "itemId": "mymap",
-                        "width": 1071,
-                        "geo": [
-                            "var geo = Ext.create('Ext.util.Geolocation', {",
-                            "    autoUpdate: false,",
-                            "    listeners: {",
-                            "        locationupdate: function(geo) {",
-                            "            alert('New latitude: ' + geo.getLatitude());",
-                            "        },",
-                            "        locationerror: function(geo, bTimeout, bPermissionDenied, bLocationUnavailable, message) {",
-                            "            if(bTimeout){",
-                            "                alert('Timeout occurred.');",
-                            "            } else {",
-                            "                alert('Error occurred.');",
-                            "            }",
-                            "        }",
-                            "    }",
-                            "});",
-                            "",
-                            "geo.updateLocation();"
-                        ]
+                        "width": 1071
                     },
                     "designerId": "c5712d1a-df56-46c4-81e9-0b9a5f30db72",
                     "customConfigs": [
@@ -336,7 +317,7 @@
                         "id": "AddressList",
                         "itemId": "mylist",
                         "width": 899,
-                        "store": "MyDirectStore"
+                        "store": null
                     },
                     "designerId": "6bac2911-da06-41d2-95df-e4866749fd99",
                     "customConfigs": [

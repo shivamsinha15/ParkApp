@@ -86,8 +86,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                         height: 999,
                         id: 'MyMap',
                         itemId: 'mymap',
-                        width: 1071,
-                        geo: 'var geo = Ext.create(\'Ext.util.Geolocation\', {\n    autoUpdate: false,\n    listeners: {\n        locationupdate: function(geo) {\n            alert(\'New latitude: \' + geo.getLatitude());\n        },\n        locationerror: function(geo, bTimeout, bPermissionDenied, bLocationUnavailable, message) {\n            if(bTimeout){\n                alert(\'Timeout occurred.\');\n            } else {\n                alert(\'Error occurred.\');\n            }\n        }\n    }\n});\n\ngeo.updateLocation();'
+                        width: 1071
                     }
                 ]
             },
@@ -152,8 +151,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                             '<div style=\'margin-left:10px;\'>',
                             '    {formatted_address},{lng},{lat}',
                             '</div>'
-                        ],
-                        store: 'MyDirectStore'
+                        ]
                     }
                 ]
             },

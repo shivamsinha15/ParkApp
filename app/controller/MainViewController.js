@@ -2886,13 +2886,20 @@ Ext.define('MyApp.controller.MainViewController', {
     },
 
     getActualGoogleMap: function() {
-        return this.getMyMap().getMap();
+        /*
+        this.getMyMap().getMap();
+        Not using this, because it has a chance of being called from onload from the datastore 
+
+        */
+        return  Ext.getCmp('MyMap').getMap();
+
+
     },
 
-    createPolyLines: function() {
+    createPolyLines: function(startLat, startLng, endLat, endLng) {
         var polyLineCo = [ 
-        new google.maps.LatLng(-33.815675,151.005562),
-        new google.maps.LatLng(-33.815684,151.005603)
+        new google.maps.LatLng(startLat,startLng),
+        new google.maps.LatLng(endLat,endLng)
         ];
 
         var lineSymbol = {
@@ -2932,8 +2939,11 @@ Ext.define('MyApp.controller.MainViewController', {
     launch: function() {
         var senchaGoogleMap = this.getMyMap();    
 
+
         var mapOpts = {
-            zoom: 18        
+            zoom: 18,
+            center: parraCoordinates,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
         };
 
 
@@ -2943,14 +2953,9 @@ Ext.define('MyApp.controller.MainViewController', {
         };
 
 
-        //senchaGoogleMap.setMapCenter(parraCoordinates);
-
-
-        senchaGoogleMap.setUseCurrentLocation(true);
+        senchaGoogleMap.setMapCenter(parraCoordinates);
+        senchaGoogleMap.setUseCurrentLocation(false);
         senchaGoogleMap.setMapOptions(mapOpts);
-
-        this.createMarkers();
-        this.createPolyLines();
 
 
         var now = new Date();
@@ -2958,6 +2963,26 @@ Ext.define('MyApp.controller.MainViewController', {
         var nowMin = now.getMinutes();
 
 
+
+
+        var peSpaceStore = Ext.getStore('MyJsonStore');
+        /*
+        var tweetProxy = tweetStore.getProxy();
+        var textFieldValue = textfield.getValue();
+        var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';
+        alert(urlRequest);
+        tweetProxy.setUrl(urlRequest);
+        tweetStore.load();
+        var addressList = Ext.getCmp("AddressList");
+        addressList.refresh();
+        */
+        peSpaceStore.load();
+
+
+        /*
+        this.createMarkers();
+        this.createPolyLines();
+        */
     },
 
     getHours: function() {

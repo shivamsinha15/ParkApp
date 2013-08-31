@@ -7,10 +7,12 @@
     "codeClass": null,
     "userConfig": {
         "models": [
-            "GooglePlacesApi"
+            "GooglePlacesApi",
+            "PESpace"
         ],
         "stores": [
-            "MyDirectStore"
+            "MyDirectStore",
+            "MyJsonStore"
         ],
         "controllers": [
             "MainViewController"

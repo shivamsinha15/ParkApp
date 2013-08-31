@@ -3023,7 +3023,14 @@
             "userConfig": {
                 "fn": "getActualGoogleMap",
                 "implHandler": [
-                    "return this.getMyMap().getMap();"
+                    "/*",
+                    "this.getMyMap().getMap();",
+                    "Not using this, because it has a chance of being called from onload from the datastore ",
+                    "",
+                    "*/",
+                    "return  Ext.getCmp('MyMap').getMap();",
+                    "",
+                    ""
                 ]
             },
             "designerId": "9d3d94ce-556a-410c-8e6b-53ddbfeeb8f9"
@@ -3037,10 +3044,16 @@
             "codeClass": null,
             "userConfig": {
                 "fn": "createPolyLines",
+                "designer|params": [
+                    "startLat",
+                    "startLng",
+                    "endLat",
+                    "endLng"
+                ],
                 "implHandler": [
                     "var polyLineCo = [ ",
-                    "new google.maps.LatLng(-33.815675,151.005562),",
-                    "new google.maps.LatLng(-33.815684,151.005603)",
+                    "new google.maps.LatLng(startLat,startLng),",
+                    "new google.maps.LatLng(endLat,endLng)",
                     "];",
                     "",
                     "var lineSymbol = {",
@@ -3106,8 +3119,11 @@
                 "implHandler": [
                     "var senchaGoogleMap = this.getMyMap();    ",
                     "",
+                    "",
                     "var mapOpts = {",
-                    "    zoom: 18        ",
+                    "    zoom: 18,",
+                    "    center: parraCoordinates,",
+                    "    mapTypeId: google.maps.MapTypeId.ROADMAP",
                     "};",
                     "",
                     "",
@@ -3117,21 +3133,36 @@
                     "};",
                     "",
                     "",
-                    "//senchaGoogleMap.setMapCenter(parraCoordinates);",
-                    "",
-                    "",
-                    "senchaGoogleMap.setUseCurrentLocation(true);",
+                    "senchaGoogleMap.setMapCenter(parraCoordinates);",
+                    "senchaGoogleMap.setUseCurrentLocation(false);",
                     "senchaGoogleMap.setMapOptions(mapOpts);",
-                    "",
-                    "this.createMarkers();",
-                    "this.createPolyLines();",
                     "",
                     "",
                     "var now = new Date();",
                     "var nowHours = now.getHours();",
                     "var nowMin = now.getMinutes();",
                     "",
-                    ""
+                    "",
+                    "",
+                    "",
+                    "var peSpaceStore = Ext.getStore('MyJsonStore');",
+                    "/*",
+                    "var tweetProxy = tweetStore.getProxy();",
+                    "var textFieldValue = textfield.getValue();",
+                    "var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';",
+                    "alert(urlRequest);",
+                    "tweetProxy.setUrl(urlRequest);",
+                    "tweetStore.load();",
+                    "var addressList = Ext.getCmp(\"AddressList\");",
+                    "addressList.refresh();",
+                    "*/",
+                    "peSpaceStore.load();",
+                    "",
+                    "",
+                    "/*",
+                    "this.createMarkers();",
+                    "this.createPolyLines();",
+                    "*/"
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
@@ -3271,8 +3302,8 @@
                     "var timePicker = this.getTimePicker();",
                     "",
                     "/*timePicker.setValue({",
-                    "    HourPickerSlot: '20',",
-                    "    MinutePIckerSlot: '32' });",
+                    "HourPickerSlot: '20',",
+                    "MinutePIckerSlot: '32' });",
                     "*/",
                     "",
                     "",
@@ -3525,7 +3556,7 @@
                     "",
                     "",
                     "return {",
-                    "    MinutePickerSlot: hourPickerValue.text",
+                    "MinutePickerSlot: hourPickerValue.text",
                     "};",
                     "",
                     "*/",
@@ -3533,14 +3564,14 @@
                     "",
                     "",
                     "/*timePicker.setValue({",
-                    "    HourPickerSlot: '20',",
-                    "    MinutePIckerSlot: '32' });",
+                    "HourPickerSlot: '20',",
+                    "MinutePIckerSlot: '32' });",
                     "*/",
                     "",
                     "",
                     "return {",
                     "    MinutePickerSlot: minutePickerValue.text,",
-                    "    HourPickerSlot: hourPickerValue.text};"
+                    "HourPickerSlot: hourPickerValue.text};"
                 ]
             },
             "designerId": "1b94260f-0aa8-4cee-af2d-fcdc12720c3a"
