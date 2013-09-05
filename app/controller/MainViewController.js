@@ -238,11 +238,14 @@ Ext.define('MyApp.controller.MainViewController', {
 
     },
 
-    addMarker: function(name, latitude, longitude, icon_image, description) {
+    addMarker: function(name, latitude, longitude, description) {
+        var myIcon = {
+            url: "http://127.0.0.1/resources/img/parking-meter-export.png"
+        };
 
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(latitude,longitude),
-            icon: icon_image,
+            icon: myIcon,
             map: this.getActualGoogleMap(),
             clickable: true
         });
@@ -268,6 +271,8 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
         */
+
+
     },
 
     createMarkers: function() {
@@ -2946,7 +2951,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
         var mapOpts = {
-            zoom: 19,
+            zoom: 20,
             center: parraCoordinates,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -3159,12 +3164,12 @@ Ext.define('MyApp.controller.MainViewController', {
     },
 
     loadParkingData: function() {
-        var peStore = Ext.getStore('PESpaceDAO');
-        var peProxy = peStore.getProxy();
+        var peSpaceDAOStore = Ext.getStore('PESpaceDAO');
+        var peProxy = peSpaceDAOStore.getProxy();
         var peSpaceProxyUrl = "http://localhost:8080/parking-engine/PESpace/all";
         var urlRequest = peSpaceProxyUrl;
         peProxy.setUrl(urlRequest);
-        peStore.load({
+        peSpaceDAOStore.load({
             callback: function(store, records, successful, operation, eOpts) {
                 this.loadPERules();
             },
@@ -3189,10 +3194,12 @@ Ext.define('MyApp.controller.MainViewController', {
 
     refreshMap: function() {
         var peSpaceDAO = Ext.getStore('PESpaceDAO'); 
-        var peRuleDAO = Ext.getStore('PERuleDAO'); 
+        var peRuleDAO = Ext.getStore('PERuleDAO');
+        var peMeterDAO = Ext.getStore('PEMeterDAO');
 
         var peSpaces = peSpaceDAO.getData();
         var peRules = peRuleDAO.getData();
+        var peMeters = peMeterDAO.getData();
 
         var mainViewController = MyApp.app.getController('MainViewController');
 
@@ -3205,8 +3212,21 @@ Ext.define('MyApp.controller.MainViewController', {
             var endLat =  record.get('endLat');
             var endLng =  record.get('endLng');
             var occupied = record.get('occupied');
+            var ruleIds = record.get('ruleIds');
             mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'');
         }
+
+        for(var m=0;m<peMeterDAO.getAllCount();m++){
+            var mRecord = peMeterDAO.getAt(m);
+            var mId =  mRecord.get('id');
+            var mPointLat =  mRecord.get('pointLat');
+            var mPointLng =  mRecord.get('pointLng');
+            var mParkingSpaceIds =  mRecord.get('parkingSpaceIds');
+            var mParkingRuleIds =  mRecord.get('parkingRuleIds');
+            mainViewController.addMarker(mId,mPointLat,mPointLng,'SomeType Of Description');     
+        }
+
+
 
 
 
@@ -3223,7 +3243,7 @@ Ext.define('MyApp.controller.MainViewController', {
         peProxy.setUrl(urlRequest);
         peStore.load({
             callback: function(store, records, successful, operation, eOpts) {
-                this.refreshMap();
+                this.loadPEMeters();
             },
             scope: this
         });
@@ -3243,6 +3263,22 @@ Ext.define('MyApp.controller.MainViewController', {
         mainViewController.createPolyLines(startLat,startLng,endLat,endLng);
 
         */
+    },
+
+    loadPEMeters: function() {
+        var peMeterDAOStore = Ext.getStore('PEMeterDAO');
+        var peProxy = peMeterDAOStore.getProxy();
+        var peMeterRuleUrl = "http://localhost:8080/parking-engine/PEMeter/all";
+        var mainViewController = MyApp.app.getController('MainViewController');
+
+        var urlRequest = peMeterRuleUrl;
+        peProxy.setUrl(urlRequest);
+        peMeterDAOStore.load({
+            callback: function(store, records, successful, operation, eOpts) {
+                this.refreshMap();
+            },
+            scope: this
+        });
     }
 
 });

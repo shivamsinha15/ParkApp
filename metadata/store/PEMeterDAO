@@ -1,0 +1,39 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "model": "PEMeter",
+        "storeId": "PEMeterDAO",
+        "designer|userClassName": "PEMeterDAO"
+    },
+    "designerId": "ca65a8a4-d966-476a-96f8-ea60fcb46038",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.Ajax",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://localhost:8080/parking-engine/PEMeter/all"
+            },
+            "designerId": "c3b5600d-3840-475c-bbd5-80ab4456a11f",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "e8d11641-96bb-4646-8265-e62843afcaeb"
+                }
+            ]
+        }
+    ]
+}

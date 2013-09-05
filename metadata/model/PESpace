@@ -159,6 +159,18 @@
                 "name": "occupied"
             },
             "designerId": "8b9ed46a-6cd5-48de-bbdc-c836359e0df8"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "ruleIds"
+            },
+            "designerId": "e7962c25-781b-4e85-a898-e0f2aaad504e"
         }
     ]
 }

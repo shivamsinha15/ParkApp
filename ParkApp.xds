@@ -80,6 +80,22 @@
                 "app/store/PERuleDAO.js"
             ],
             "className": "PERuleDAO"
+        },
+        "ca65a8a4-d966-476a-96f8-ea60fcb46038": {
+            "paths": [
+                "metadata/store/PEMeterDAO",
+                "app/store/override/PEMeterDAO.js",
+                "app/store/PEMeterDAO.js"
+            ],
+            "className": "PEMeterDAO"
+        },
+        "5f51fa54-7949-4137-aebc-9e1124696bde": {
+            "paths": [
+                "metadata/model/PEMeter",
+                "app/model/override/PEMeter.js",
+                "app/model/PEMeter.js"
+            ],
+            "className": "PEMeter"
         }
     },
     "viewOrderMap": {
@@ -91,7 +107,8 @@
         ],
         "model": [
             "ce1d543f-562f-47f7-99a4-8d50809c71af",
-            "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d"
+            "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d",
+            "5f51fa54-7949-4137-aebc-9e1124696bde"
         ],
         "resource": [
             "c621e865-d2eb-4b18-a8a4-6e6738f5a2e3",
@@ -103,7 +120,8 @@
         ],
         "store": [
             "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
-            "488b01c0-9af3-4c9f-9449-07d241348bf7"
+            "488b01c0-9af3-4c9f-9449-07d241348bf7",
+            "ca65a8a4-d966-476a-96f8-ea60fcb46038"
         ]
     }
 }

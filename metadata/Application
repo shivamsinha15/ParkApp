@@ -9,12 +9,14 @@
         "models": [
             "GooglePlacesApi",
             "PESpace",
-            "PERule"
+            "PERule",
+            "PEMeter"
         ],
         "stores": [
             "MyDirectStore",
             "PESpaceDAO",
-            "PERuleDAO"
+            "PERuleDAO",
+            "PEMeterDAO"
         ],
         "controllers": [
             "MainViewController"
