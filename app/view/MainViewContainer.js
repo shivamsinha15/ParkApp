@@ -18,6 +18,8 @@ Ext.define('MyApp.view.MainViewContainer', {
 
     config: {
         id: 'MainViewContainer',
+        maxHeight: 500,
+        maxWidth: 300,
         ui: '',
         autoDestroy: false,
         layout: {
@@ -57,7 +59,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                 xtype: 'container',
                 id: 'MapContainer',
                 ui: '',
-                width: 1000,
+                width: 300,
                 autoDestroy: false,
                 hideOnMaskTap: false,
                 layout: {
@@ -83,10 +85,10 @@ Ext.define('MyApp.view.MainViewContainer', {
                     {
                         xtype: 'map',
                         docked: 'bottom',
-                        height: 999,
+                        height: 500,
                         id: 'MyMap',
                         itemId: 'mymap',
-                        width: 1071
+                        width: 500
                     }
                 ]
             },

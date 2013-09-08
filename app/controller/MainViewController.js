@@ -3166,9 +3166,14 @@ Ext.define('MyApp.controller.MainViewController', {
     loadParkingData: function() {
         var peSpaceDAOStore = Ext.getStore('PESpaceDAO');
         var peProxy = peSpaceDAOStore.getProxy();
-        var peSpaceProxyUrl = "http://localhost:8080/parking-engine/PESpace/all";
+        var peSpaceProxyUrl = "http://54.200.11.164/parking-engine/PESpace/alljsonp";
         var urlRequest = peSpaceProxyUrl;
         peProxy.setUrl(urlRequest);
+
+
+
+
+
         peSpaceDAOStore.load({
             callback: function(store, records, successful, operation, eOpts) {
                 this.loadPERules();
@@ -3236,7 +3241,7 @@ Ext.define('MyApp.controller.MainViewController', {
     loadPERules: function() {
         var peStore = Ext.getStore('PERuleDAO');
         var peProxy = peStore.getProxy();
-        var peSpaceRuleUrl = "http://localhost:8080/parking-engine/PERule/all";
+        var peSpaceRuleUrl = "http://54.200.11.164/parking-engine/PERule/alljsonp";
         var mainViewController = MyApp.app.getController('MainViewController');
 
         var urlRequest = peSpaceRuleUrl;
@@ -3268,7 +3273,7 @@ Ext.define('MyApp.controller.MainViewController', {
     loadPEMeters: function() {
         var peMeterDAOStore = Ext.getStore('PEMeterDAO');
         var peProxy = peMeterDAOStore.getProxy();
-        var peMeterRuleUrl = "http://localhost:8080/parking-engine/PEMeter/all";
+        var peMeterRuleUrl = "http://54.200.11.164/parking-engine/PEMeter/alljsonp";
         var mainViewController = MyApp.app.getController('MainViewController');
 
         var urlRequest = peMeterRuleUrl;

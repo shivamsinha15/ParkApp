@@ -25,8 +25,8 @@ Ext.define('MyApp.store.PESpaceDAO', {
         model: 'MyApp.model.PESpace',
         storeId: 'PESpaceDAO',
         proxy: {
-            type: 'ajax',
-            url: 'http://localhost:8080/parking-engine/PESpace/all',
+            type: 'jsonp',
+            url: 'http://54.200.11.164/parking-engine/PESpace/alljsonp',
             reader: {
                 type: 'json'
             }

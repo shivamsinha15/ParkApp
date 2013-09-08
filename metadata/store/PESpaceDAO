@@ -14,16 +14,16 @@
     "designerId": "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
     "cn": [
         {
-            "type": "Ext.data.proxy.Ajax",
+            "type": "Ext.data.proxy.JsonP",
             "reference": {
                 "name": "proxy",
                 "type": "object"
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://localhost:8080/parking-engine/PESpace/all"
+                "url": "http://54.200.11.164/parking-engine/PESpace/alljsonp"
             },
-            "designerId": "8bd0b1b6-6777-45ad-a351-2a7b5073b411",
+            "designerId": "853e9079-ec99-4e5c-bbdd-9d8f0d4d9af1",
             "cn": [
                 {
                     "type": "Ext.data.reader.Json",
@@ -32,7 +32,7 @@
                         "type": "object"
                     },
                     "codeClass": null,
-                    "designerId": "7cf6ef7d-d65a-4421-9c0f-4d413ca66a0e"
+                    "designerId": "3a9816a4-8274-4076-8aac-16c012e0e6dc"
                 }
             ]
         }

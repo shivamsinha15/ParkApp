@@ -13,16 +13,16 @@
     "designerId": "488b01c0-9af3-4c9f-9449-07d241348bf7",
     "cn": [
         {
-            "type": "Ext.data.proxy.Ajax",
+            "type": "Ext.data.proxy.JsonP",
             "reference": {
                 "name": "proxy",
                 "type": "object"
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://localhost:8080/parking-engine/PERule/all"
+                "url": "http://54.200.11.164/parking-engine/PERule/alljsonp"
             },
-            "designerId": "e93c115b-317c-4f45-8dc8-54fbd68bbe6f",
+            "designerId": "91934142-23cb-4ccb-8342-ea748025fba4",
             "cn": [
                 {
                     "type": "Ext.data.reader.Json",
@@ -31,7 +31,7 @@
                         "type": "object"
                     },
                     "codeClass": null,
-                    "designerId": "d50bc474-78d1-4f2a-97af-2f6fb7490946"
+                    "designerId": "085b7090-ff26-485c-9b2d-e57c02a31333"
                 }
             ]
         }

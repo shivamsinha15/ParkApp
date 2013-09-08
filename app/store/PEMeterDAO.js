@@ -24,8 +24,8 @@ Ext.define('MyApp.store.PEMeterDAO', {
         model: 'MyApp.model.PEMeter',
         storeId: 'PEMeterDAO',
         proxy: {
-            type: 'ajax',
-            url: 'http://localhost:8080/parking-engine/PEMeter/all',
+            type: 'jsonp',
+            url: 'http://54.200.11.164/parking-engine/PEMeter/alljsonp',
             reader: {
                 type: 'json'
             }

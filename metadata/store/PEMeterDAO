@@ -13,16 +13,16 @@
     "designerId": "ca65a8a4-d966-476a-96f8-ea60fcb46038",
     "cn": [
         {
-            "type": "Ext.data.proxy.Ajax",
+            "type": "Ext.data.proxy.JsonP",
             "reference": {
                 "name": "proxy",
                 "type": "object"
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://localhost:8080/parking-engine/PEMeter/all"
+                "url": "http://54.200.11.164/parking-engine/PEMeter/alljsonp"
             },
-            "designerId": "c3b5600d-3840-475c-bbd5-80ab4456a11f",
+            "designerId": "db5bf5bb-bb09-4aae-b60d-1788143044ad",
             "cn": [
                 {
                     "type": "Ext.data.reader.Json",
@@ -31,7 +31,7 @@
                         "type": "object"
                     },
                     "codeClass": null,
-                    "designerId": "e8d11641-96bb-4646-8265-e62843afcaeb"
+                    "designerId": "f00b0f6c-9624-46af-b896-d485848c7aff"
                 }
             ]
         }

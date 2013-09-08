@@ -8,6 +8,8 @@
     "userConfig": {
         "action": null,
         "id": "MainViewContainer",
+        "maxHeight": 500,
+        "maxWidth": 300,
         "ui": "",
         "designer|userClassName": "MainViewContainer",
         "designer|initialView": true,
@@ -98,7 +100,7 @@
             "userConfig": {
                 "id": "MapContainer",
                 "ui": "",
-                "width": 1000,
+                "width": 300,
                 "designer|displayName": "MapContainer",
                 "autoDestroy": false,
                 "hideOnMaskTap": false,
@@ -140,10 +142,10 @@
                     "userConfig": {
                         "action": null,
                         "docked": "bottom",
-                        "height": 999,
+                        "height": 500,
                         "id": "MyMap",
                         "itemId": "mymap",
-                        "width": 1071
+                        "width": 500
                     },
                     "designerId": "c5712d1a-df56-46c4-81e9-0b9a5f30db72",
                     "customConfigs": [
