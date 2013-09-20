@@ -3757,8 +3757,6 @@
             "userConfig": {
                 "fn": "dynamicallyAdjustComponentSize",
                 "implHandler": [
-                    "alert(window.innerHeight);",
-                    "alert(window.innerWidth);",
                     "",
                     "this.getTitleToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));",
                     "this.getTimeSlider().setSize(window.innerWidth,getValueFromPercentAge(1,window.innerHeight));",

@@ -3290,8 +3290,6 @@ Ext.define('MyApp.controller.MainViewController', {
     },
 
     dynamicallyAdjustComponentSize: function() {
-        alert(window.innerHeight);
-        alert(window.innerWidth);
 
         this.getTitleToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));
         this.getTimeSlider().setSize(window.innerWidth,getValueFromPercentAge(1,window.innerHeight));
