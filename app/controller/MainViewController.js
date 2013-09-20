@@ -2985,12 +2985,6 @@ Ext.define('MyApp.controller.MainViewController', {
         this.loadParkingData();
 
 
-        var task = Ext.create('Ext.util.DelayedTask', function () {
-            MyApp.app.getController('MainViewController').removePolyLinesFromMap();
-        });
-
-        task.delay(10000);
-
         window.setInterval(function(){
             MyApp.app.getController('MainViewController').refreshPESpaces();
         }, 20000);
