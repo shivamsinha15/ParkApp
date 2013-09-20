@@ -7,7 +7,13 @@
     "codeClass": null,
     "userConfig": {
         "setTime": "silderValue",
+        "createdPolyLines": [
+            "[]"
+        ],
         "designer|userClassName": "MainViewController"
+    },
+    "configAlternates": {
+        "createdPolyLines": "array"
     },
     "designerId": "002e032a-bf86-4e30-b5a8-6341878c03a9",
     "customConfigs": [
@@ -24,6 +30,11 @@
         {
             "group": "(Custom Properties)",
             "name": "peLoadedRules",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "createdPolyLines",
             "type": "string"
         }
     ],
@@ -3090,6 +3101,9 @@
                     "    }]",
                     "});",
                     "",
+                    "",
+                    "MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);",
+                    "",
                     "polyLine.setMap(this.getActualGoogleMap());",
                     "",
                     "",
@@ -3166,7 +3180,17 @@
                     "",
                     "this.dynamicallyAdjustComponentSize();",
                     "this.loadParkingData();",
-                    ""
+                    "",
+                    "",
+                    "var task = Ext.create('Ext.util.DelayedTask', function () {",
+                    "           MyApp.app.getController('MainViewController').removePolyLinesFromMap();",
+                    "        });",
+                    "",
+                    "task.delay(10000);",
+                    "",
+                    "window.setInterval(function(){",
+                    "  MyApp.app.getController('MainViewController').refreshPESpaces();",
+                    "}, 20000);"
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
@@ -3785,6 +3809,58 @@
                 "selector": "#TitleToolBar"
             },
             "designerId": "abc80c8d-a71a-4080-b19b-031088caefee"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "refreshPESpaces",
+                "implHandler": [
+                    "var peSpaceDAOStore = Ext.getStore('PESpaceDAO');",
+                    "var peProxy = peSpaceDAOStore.getProxy();",
+                    "var peSpaceProxyUrl = \"http://54.200.11.164/parking-engine/PESpace/alljsonp\";",
+                    "var urlRequest = peSpaceProxyUrl;",
+                    "peProxy.setUrl(urlRequest);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "peSpaceDAOStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "        this.removePolyLinesFromMap();",
+                    "        this.refreshMap();",
+                    "    },",
+                    "    scope: this",
+                    "});"
+                ]
+            },
+            "designerId": "a1a81c97-45a3-414b-800c-a41bc7f86f71"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "removePolyLinesFromMap",
+                "implHandler": [
+                    "var existingPolyLines =  MyApp.app.getController('MainViewController').config.createdPolyLines;",
+                    "",
+                    "for(var i=0;i<existingPolyLines.length;i++){",
+                    "    existingPolyLines[i].setMap(null);",
+                    "}",
+                    "",
+                    "existingPolyLines.splice(i,existingPolyLines.length);"
+                ]
+            },
+            "designerId": "f6ac52fc-342f-4402-8ef0-0404726d8226"
         }
     ]
 }

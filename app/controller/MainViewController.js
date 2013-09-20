@@ -18,6 +18,9 @@ Ext.define('MyApp.controller.MainViewController', {
 
     config: {
         setTime: 'silderValue',
+        createdPolyLines: [
+            
+        ],
 
         refs: {
             streetParkingPanel: '#StreetParkingPanel',
@@ -2927,6 +2930,9 @@ Ext.define('MyApp.controller.MainViewController', {
             }]
         });
 
+
+        MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);
+
         polyLine.setMap(this.getActualGoogleMap());
 
 
@@ -2978,6 +2984,16 @@ Ext.define('MyApp.controller.MainViewController', {
         this.dynamicallyAdjustComponentSize();
         this.loadParkingData();
 
+
+        var task = Ext.create('Ext.util.DelayedTask', function () {
+            MyApp.app.getController('MainViewController').removePolyLinesFromMap();
+        });
+
+        task.delay(10000);
+
+        window.setInterval(function(){
+            MyApp.app.getController('MainViewController').refreshPESpaces();
+        }, 20000);
     },
 
     getHours: function() {
@@ -3302,6 +3318,36 @@ Ext.define('MyApp.controller.MainViewController', {
         {
             return (totalSize/100)*percentageValue;
         }
+    },
+
+    refreshPESpaces: function() {
+        var peSpaceDAOStore = Ext.getStore('PESpaceDAO');
+        var peProxy = peSpaceDAOStore.getProxy();
+        var peSpaceProxyUrl = "http://54.200.11.164/parking-engine/PESpace/alljsonp";
+        var urlRequest = peSpaceProxyUrl;
+        peProxy.setUrl(urlRequest);
+
+
+
+
+
+        peSpaceDAOStore.load({
+            callback: function(store, records, successful, operation, eOpts) {
+                this.removePolyLinesFromMap();
+                this.refreshMap();
+            },
+            scope: this
+        });
+    },
+
+    removePolyLinesFromMap: function() {
+        var existingPolyLines =  MyApp.app.getController('MainViewController').config.createdPolyLines;
+
+        for(var i=0;i<existingPolyLines.length;i++){
+            existingPolyLines[i].setMap(null);
+        }
+
+        existingPolyLines.splice(i,existingPolyLines.length);
     }
 
 });
