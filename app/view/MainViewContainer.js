@@ -18,8 +18,7 @@ Ext.define('MyApp.view.MainViewContainer', {
 
     config: {
         id: 'MainViewContainer',
-        maxHeight: 500,
-        maxWidth: 300,
+        maxWidth: 1000,
         ui: '',
         autoDestroy: false,
         layout: {
@@ -29,12 +28,12 @@ Ext.define('MyApp.view.MainViewContainer', {
             {
                 xtype: 'titlebar',
                 docked: 'top',
-                height: 40,
+                height: 60,
+                id: 'TitleToolBar',
                 left: '',
-                title: 'Valet Parking',
+                title: 'Valet Park',
                 layout: {
                     align: 'start',
-                    pack: 'center',
                     type: 'hbox'
                 },
                 items: [
@@ -59,7 +58,6 @@ Ext.define('MyApp.view.MainViewContainer', {
                 xtype: 'container',
                 id: 'MapContainer',
                 ui: '',
-                width: 300,
                 autoDestroy: false,
                 hideOnMaskTap: false,
                 layout: {
@@ -85,7 +83,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                     {
                         xtype: 'map',
                         docked: 'bottom',
-                        height: 500,
+                        height: 200,
                         id: 'MyMap',
                         itemId: 'mymap',
                         width: 500

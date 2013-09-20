@@ -8,8 +8,8 @@
     "userConfig": {
         "action": null,
         "id": "MainViewContainer",
-        "maxHeight": 500,
-        "maxWidth": 300,
+        "maxHeight": null,
+        "maxWidth": 1000,
         "ui": "",
         "designer|userClassName": "MainViewContainer",
         "designer|initialView": true,
@@ -34,11 +34,11 @@
             "codeClass": null,
             "userConfig": {
                 "container|align": "start",
-                "container|pack": "center",
                 "docked": "top",
-                "height": 40,
+                "height": 60,
+                "id": "TitleToolBar",
                 "left": "",
-                "title": "Valet Parking"
+                "title": "Valet Park"
             },
             "designerId": "c0aa508f-979c-4fd8-b9a7-3c355dd6fb06",
             "cn": [
@@ -100,7 +100,7 @@
             "userConfig": {
                 "id": "MapContainer",
                 "ui": "",
-                "width": 300,
+                "width": null,
                 "designer|displayName": "MapContainer",
                 "autoDestroy": false,
                 "hideOnMaskTap": false,
@@ -142,7 +142,7 @@
                     "userConfig": {
                         "action": null,
                         "docked": "bottom",
-                        "height": 500,
+                        "height": 200,
                         "id": "MyMap",
                         "itemId": "mymap",
                         "width": 500

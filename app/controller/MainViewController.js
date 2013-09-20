@@ -34,7 +34,8 @@ Ext.define('MyApp.controller.MainViewController', {
             timePicker: '#TimePicker',
             timePickerPanel: '#TimePickerPanel',
             hourPickerSlot: '#HourPickerSlot',
-            minutePickerSlot: '#MinutePickerSlot'
+            minutePickerSlot: '#MinutePickerSlot',
+            titleToolBar: '#TitleToolBar'
         },
 
         control: {
@@ -2951,7 +2952,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
         var mapOpts = {
-            zoom: 20,
+            zoom: 19,
             center: parraCoordinates,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -2973,6 +2974,8 @@ Ext.define('MyApp.controller.MainViewController', {
         var nowMin = now.getMinutes();
 
 
+
+        this.dynamicallyAdjustComponentSize();
         this.loadParkingData();
 
     },
@@ -3284,6 +3287,23 @@ Ext.define('MyApp.controller.MainViewController', {
             },
             scope: this
         });
+    },
+
+    dynamicallyAdjustComponentSize: function() {
+        alert(window.innerHeight);
+        alert(window.innerWidth);
+
+        this.getTitleToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));
+        this.getTimeSlider().setSize(window.innerWidth,getValueFromPercentAge(1,window.innerHeight));
+        this.getBottomToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));
+        this.getMainViewContainer().setSize(window.innerWidth,window.innerHeight);
+        this.getMyMap().setSize(window.innerWidth,window.innerHeight);
+
+
+        function getValueFromPercentAge(percentageValue,totalSize)
+        {
+            return (totalSize/100)*percentageValue;
+        }
     }
 
 });

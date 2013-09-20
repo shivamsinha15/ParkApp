@@ -3141,7 +3141,7 @@
                     "",
                     "",
                     "var mapOpts = {",
-                    "    zoom: 20,",
+                    "    zoom: 19,",
                     "    center: parraCoordinates,",
                     "    mapTypeId: google.maps.MapTypeId.ROADMAP",
                     "};",
@@ -3163,6 +3163,8 @@
                     "var nowMin = now.getMinutes();",
                     "",
                     "",
+                    "",
+                    "this.dynamicallyAdjustComponentSize();",
                     "this.loadParkingData();",
                     ""
                 ]
@@ -3744,6 +3746,47 @@
                 ]
             },
             "designerId": "b3993e77-aad6-40fc-ad4b-03db30f7235c"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "dynamicallyAdjustComponentSize",
+                "implHandler": [
+                    "alert(window.innerHeight);",
+                    "alert(window.innerWidth);",
+                    "",
+                    "this.getTitleToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));",
+                    "this.getTimeSlider().setSize(window.innerWidth,getValueFromPercentAge(1,window.innerHeight));",
+                    "this.getBottomToolBar().setSize(window.innerWidth,getValueFromPercentAge(5,window.innerHeight));",
+                    "this.getMainViewContainer().setSize(window.innerWidth,window.innerHeight);",
+                    "this.getMyMap().setSize(window.innerWidth,window.innerHeight);",
+                    "",
+                    "",
+                    "function getValueFromPercentAge(percentageValue,totalSize)",
+                    "{",
+                    "    return (totalSize/100)*percentageValue;",
+                    "}"
+                ]
+            },
+            "designerId": "bfef5624-0963-4de2-b91f-27399743db98"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "titleToolBar",
+                "selector": "#TitleToolBar"
+            },
+            "designerId": "abc80c8d-a71a-4080-b19b-031088caefee"
         }
     ]
 }
