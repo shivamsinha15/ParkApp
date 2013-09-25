@@ -13,7 +13,7 @@
     "xdsBuild": 991,
     "schemaVersion": 1,
     "upgradeVersion": 210000000503,
-    "framework": "touch20",
+    "framework": "touch22",
     "topInstanceFileMap": {
         "79e64710-192a-404f-b450-5d800ef08f2c": {
             "paths": [

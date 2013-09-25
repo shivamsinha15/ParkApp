@@ -9,7 +9,7 @@
         "action": null,
         "id": "MainViewContainer",
         "maxHeight": null,
-        "maxWidth": 1000,
+        "maxWidth": null,
         "ui": "",
         "designer|userClassName": "MainViewContainer",
         "designer|initialView": true,
@@ -35,9 +35,9 @@
             "userConfig": {
                 "container|align": "start",
                 "docked": "top",
-                "height": 60,
                 "id": "TitleToolBar",
                 "left": "",
+                "minHeight": "60",
                 "title": "Valet Park"
             },
             "designerId": "c0aa508f-979c-4fd8-b9a7-3c355dd6fb06",
@@ -73,13 +73,12 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "action": "daySelectorButtonEvent",
-                        "id": "DaySelectorButton",
-                        "iconCls": "compose",
-                        "iconMask": true,
-                        "text": null
+                        "action": "onTimeButtonTap",
+                        "id": "TimeButton",
+                        "iconCls": "time",
+                        "text": ""
                     },
-                    "designerId": "f4379e22-d73f-416a-a0c4-d1f13c4519b5",
+                    "designerId": "92085b17-0d40-4637-846e-d9726d467a0e",
                     "customConfigs": [
                         {
                             "group": "(Custom Properties)",
@@ -98,40 +97,19 @@
             },
             "codeClass": null,
             "userConfig": {
+                "height": null,
                 "id": "MapContainer",
+                "maxWidth": null,
                 "ui": "",
                 "width": null,
                 "designer|displayName": "MapContainer",
                 "autoDestroy": false,
                 "hideOnMaskTap": false,
-                "layout": "card",
+                "layout": "fit",
                 "modal": false
             },
             "designerId": "fec3cfb9-11c3-455d-82fb-6a13a8c6e48f",
             "cn": [
-                {
-                    "type": "Ext.field.Slider",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "docked": "top",
-                        "height": 52,
-                        "id": "TimeSlider",
-                        "padding": "",
-                        "style": "background-color:black",
-                        "styleHtmlContent": true,
-                        "label": "",
-                        "labelWrap": true,
-                        "value": [
-                            0
-                        ],
-                        "maxValue": 1415
-                    },
-                    "designerId": "c32690ae-14ab-451a-adf2-731f86244688"
-                },
                 {
                     "type": "Ext.Map",
                     "reference": {
@@ -141,11 +119,11 @@
                     "codeClass": null,
                     "userConfig": {
                         "action": null,
-                        "docked": "bottom",
-                        "height": 200,
+                        "docked": null,
+                        "height": null,
                         "id": "MyMap",
                         "itemId": "mymap",
-                        "width": 500
+                        "width": null
                     },
                     "designerId": "c5712d1a-df56-46c4-81e9-0b9a5f30db72",
                     "customConfigs": [
@@ -187,7 +165,6 @@
                         "height": 37,
                         "width": 155,
                         "iconCls": "locate",
-                        "iconMask": true,
                         "text": "Current Location"
                     },
                     "designerId": "6c96eeba-8a78-402e-961f-6e88587521bb",
@@ -212,7 +189,6 @@
                         "height": 37,
                         "width": 155,
                         "iconCls": "search",
-                        "iconMask": true,
                         "text": "Search Location"
                     },
                     "designerId": "bd346352-70d7-4a83-82d8-955cf15fae3b",
@@ -359,102 +335,16 @@
             },
             "codeClass": null,
             "userConfig": {
-                "floatingCls": "200",
-                "height": 105,
-                "hidden": true,
-                "id": "DaySelectorPanel",
-                "itemId": "mypanel1",
-                "maxHeight": 100,
-                "maxWidth": 400,
-                "padding": "",
-                "width": 210,
-                "hideOnMaskTap": true
-            },
-            "designerId": "cad0e838-35ec-4eca-89ec-b30ec7e82c7c",
-            "cn": [
-                {
-                    "type": "Ext.field.Checkbox",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "action": "weekDayCheckBox",
-                        "docked": "top",
-                        "height": 45,
-                        "id": "Weekday",
-                        "width": 198,
-                        "label": "Weekdays",
-                        "labelWidth": "50%"
-                    },
-                    "designerId": "b662835c-18c3-483b-9653-57c2b6ddaf1f",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.field.Checkbox",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "action": "weekEndCheckBox",
-                        "docked": "bottom",
-                        "height": 45,
-                        "id": "Weekend",
-                        "width": 198,
-                        "label": "Weekend",
-                        "labelWidth": "50%"
-                    },
-                    "designerId": "f35089f2-1610-408f-ac58-b598380a9c2b",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "type": "basiceventbinding",
-                    "reference": {
-                        "name": "listeners",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "fn": "onDaySelectorPanelHide",
-                        "implHandler": [
-                            "//HasHideMaskOnTap"
-                        ],
-                        "name": "hide"
-                    },
-                    "designerId": "22802981-9b9f-4381-a59a-7271030517e6"
-                }
-            ]
-        },
-        {
-            "type": "Ext.Panel",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "docked": "top",
-                "height": 130,
+                "height": 245,
                 "hidden": true,
                 "id": "TimePickerPanel",
                 "padding": 0,
-                "width": 145,
+                "width": 245,
                 "autoDestroy": false
+            },
+            "configAlternates": {
+                "createAMPM": "array"
             },
             "designerId": "5e7307cf-7e07-45f0-877e-26de69197884",
             "cn": [
@@ -466,19 +356,24 @@
                     },
                     "codeClass": null,
                     "userConfig": {
-                        "height": 124,
+                        "bottom": null,
+                        "floatingCls": "top",
+                        "height": 150,
                         "hideAnimation": [
                             "{type:'popIn',duration: 200}"
                         ],
                         "id": "TimePicker",
                         "itemId": "mypicker",
-                        "maxHeight": 124,
-                        "maxWidth": 140,
+                        "margin": null,
+                        "maxHeight": null,
+                        "maxWidth": null,
                         "padding": 0,
                         "top": null,
-                        "width": 135,
+                        "ui": "",
+                        "width": 245,
                         "scrollable": false,
-                        "stretchX": true
+                        "stretchX": true,
+                        "stretchY": true
                     },
                     "designerId": "5acd1d56-1335-465b-886c-71e24f8ba7fb",
                     "cn": [
@@ -490,6 +385,8 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "docked": null,
+                                "iconAlign": "right",
                                 "text": "Done"
                             },
                             "designerId": "d60e8b8c-b267-428f-b2de-3880af79b3f5"
@@ -502,7 +399,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "text": "Cancel"
+                                "docked": null,
+                                "width": null,
+                                "iconCls": "refresh",
+                                "text": "Real Time"
                             },
                             "designerId": "ee59890b-2058-43a3-b2e7-aa8647dbb73a"
                         },
@@ -514,7 +414,10 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "bottom": null,
+                                "floatingCls": null,
                                 "id": "HourPickerSlot",
+                                "margin": "",
                                 "autoDestroy": false,
                                 "scrollToTopOnRefresh": false,
                                 "name": "HourPickerSlot",
@@ -546,31 +449,16 @@
                             },
                             "codeClass": null,
                             "userConfig": {
-                                "fn": "onMypickerPainted",
-                                "implHandler": [
-                                    "component.setCancelButton(false);",
-                                    "component.setDoneButton(false);",
-                                    ""
-                                ],
-                                "name": "painted"
-                            },
-                            "designerId": "13cdad8f-3c2f-4d1e-bd69-3236e1f67cb0"
-                        },
-                        {
-                            "type": "basiceventbinding",
-                            "reference": {
-                                "name": "listeners",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
                                 "fn": "onTimePickerInitialize",
                                 "implHandler": [
                                     "",
                                     "var hourPickerSlot = Ext.getCmp('HourPickerSlot');",
                                     "var minutePickerSlot = Ext.getCmp('MinutePickerSlot');",
-                                    "var hours = getHours();",
-                                    "var minutes = getMinutes();",
+                                    "var ampmPickerSlot = Ext.getCmp('AMPMPickerSlot');",
+                                    "",
+                                    "var hours = MyApp.app.getController('MainViewController').createHours();",
+                                    "var minutes = MyApp.app.getController('MainViewController').createMinutes();",
+                                    "var ampm = MyApp.app.getController('MainViewController').createAMPM();",
                                     "",
                                     "if(!hourPickerSlot.getData()){",
                                     "    hourPickerSlot.setData(hours);",
@@ -578,45 +466,98 @@
                                     "",
                                     "if(!minutePickerSlot.getData()){",
                                     "    minutePickerSlot.setData(minutes);",
-                                    "} ",
-                                    "",
-                                    "function getHours(){",
-                                    "    var chours = [];",
-                                    "    chours = createTimeArray(24);",
-                                    "    return chours;",
                                     "}",
                                     "",
-                                    "function getMinutes(){",
-                                    "    var cminutes = [];",
-                                    "    cminutes = createTimeArray(60);",
-                                    "    return cminutes;",
-                                    "}",
-                                    "",
-                                    "function createTimeArray(totalNumber){",
-                                    "    var timeArray = [];    ",
-                                    "",
-                                    "    for(var i=0; i< totalNumber; i++){",
-                                    "        if(i<10){",
-                                    "            timeArray.push(new timeObject('0'+ i, i));",
-                                    "        } else {",
-                                    "            timeArray.push(new timeObject(i,i));",
-                                    "        }   ",
-                                    "    }",
-                                    "    return timeArray;",
+                                    "if(!ampmPickerSlot.getData()){",
+                                    "    ampmPickerSlot.setData(ampm);",
                                     "}",
                                     "",
                                     "",
-                                    "function timeObject(text,value) {",
-                                    "    this.text = text;",
-                                    "    this.value = value;",
-                                    "}",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
                                     ""
                                 ],
                                 "name": "initialize"
                             },
                             "designerId": "72125f9e-44f5-46c3-be42-5297f538af05"
+                        },
+                        {
+                            "type": "Ext.Toolbar",
+                            "reference": {
+                                "name": "toolbar",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "docked": "top",
+                                "hidden": false,
+                                "id": "TimePanelToolBar"
+                            },
+                            "designerId": "0257f939-5491-4268-90af-3b464d4108bc"
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "AMPMPickerSlot",
+                                "name": "AMPMPickerSlot",
+                                "title": "AMPMPickerSlot"
+                            },
+                            "designerId": "d1861441-4652-43ce-ace8-8c7e26b5e96f"
                         }
                     ]
+                },
+                {
+                    "type": "Ext.field.Select",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "bottom",
+                        "floatingCls": null,
+                        "id": "DurationSelector",
+                        "width": null,
+                        "label": null,
+                        "labelWidth": 0,
+                        "options": [
+                            "[",
+                            "{text: 'All',  value: 'first'},",
+                            "{text: '15 Mintues', value: 'second'},",
+                            "{text: '1 Hour',  value: 'third'}",
+                            "]"
+                        ]
+                    },
+                    "designerId": "12d3ac6c-344e-4c8d-bc85-7c46c5b8e367"
+                },
+                {
+                    "type": "Ext.field.Select",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "bottom",
+                        "id": "DayTypeSelectorField",
+                        "width": null,
+                        "label": null,
+                        "labelWidth": 0,
+                        "options": [
+                            "[",
+                            "{text: 'Weekday',  value: 'Weekday'},",
+                            "{text: 'Weekend', value: 'Weekend'}",
+                            "]"
+                        ]
+                    },
+                    "designerId": "3204064c-c3ee-4663-b292-be02810c54e3"
                 }
             ]
         }

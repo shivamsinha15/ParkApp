@@ -6,7 +6,6 @@
     },
     "codeClass": null,
     "userConfig": {
-        "autoLoad": false,
         "model": "PESpace",
         "storeId": "PESpaceDAO",
         "designer|userClassName": "PESpaceDAO"
