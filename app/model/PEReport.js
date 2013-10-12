@@ -44,6 +44,10 @@ Ext.define('MyApp.model.PEReport', {
             },
             {
                 name: 'totalTime'
+            },
+            {
+                name: 'startTime',
+                type: 'date'
             }
         ]
     },
@@ -51,6 +55,7 @@ Ext.define('MyApp.model.PEReport', {
     constructor: function(startTime) {
         this.callParent();
         if (startTime) {
+            this.set('startTime', startTime);
             this.set('startHour', startTime.getHours());
             this.set('startMinute', startTime.getMinutes());
             this.set('dayOfWeek', startTime.getDay());
@@ -79,12 +84,12 @@ Ext.define('MyApp.model.PEReport', {
 
     convertToDateTime: function(timeString) {
         var timeRegex = /(\d\d?):(\d\d)/;
-        var today = new Date();  
+        var today = this.get('startTime');
         var match = timeRegex.exec(timeString);
         if(!match) return null;
         var hours = match[1]-0; 
         var minutes =  match[2]-0;
-        return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); 
+        return new Date(today.getFullYear(), today.getMonth(),today.getDate(),hours,minutes); 
     }
 
 });

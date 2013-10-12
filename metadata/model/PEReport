@@ -131,13 +131,14 @@
                     "startTime"
                 ],
                 "implHandler": [
-                    "        this.callParent();",
-                    "         if (startTime) {",
-                    "             this.set('startHour', startTime.getHours());",
-                    "             this.set('startMinute', startTime.getMinutes());",
-                    "             this.set('dayOfWeek', startTime.getDay());",
-                    "         }",
-                    "         return this;"
+                    "this.callParent();",
+                    "if (startTime) {",
+                    "    this.set('startTime', startTime);",
+                    "    this.set('startHour', startTime.getHours());",
+                    "    this.set('startMinute', startTime.getMinutes());",
+                    "    this.set('dayOfWeek', startTime.getDay());",
+                    "}",
+                    "return this;"
                 ]
             },
             "designerId": "fa1a92f6-f610-4d9b-89de-d3d7f282a9f4"
@@ -211,15 +212,28 @@
                 ],
                 "implHandler": [
                     "var timeRegex = /(\\d\\d?):(\\d\\d)/;",
-                    "var today = new Date();  ",
+                    "var today = this.get('startTime');",
                     "var match = timeRegex.exec(timeString);",
                     "if(!match) return null;",
                     "var hours = match[1]-0; ",
                     "var minutes =  match[2]-0;",
-                    "return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); "
+                    "return new Date(today.getFullYear(), today.getMonth(),today.getDate(),hours,minutes); "
                 ]
             },
             "designerId": "12961834-4d3b-4ce2-bf85-72cbf2c1bb33"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startTime",
+                "type": "date"
+            },
+            "designerId": "d10da7cb-00b0-4d6b-8190-68bf8c3f9b6f"
         }
     ]
 }

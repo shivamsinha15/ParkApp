@@ -322,7 +322,9 @@ Ext.define('MyApp.controller.MainViewController', {
         var actGoogMap = this.getActualGoogleMap();
         var tbody = peReport.innerHTML;
         var infowindow = new InfoBubble({
-            position: startLatLng
+            position: startLatLng,
+            maxWidth: 80,
+            maxHeight: 150
         });
 
         infowindow.addTab('Details',tbody);
@@ -342,7 +344,7 @@ Ext.define('MyApp.controller.MainViewController', {
                 if(peRule){
                     var fromTime = peRule.getFromTime().toTimeString();
                     var toTime = peRule.getToTime().toTimeString();
-                    infowindow.addTab(peRule.getFormattedTimeString(fromTime) + '-' + peRule.getFormattedTimeString(toTime),tbody);
+                    infowindow.addTab(peRule.getFormattedTimeString(fromTime) + '-' + peRule.getFormattedTimeString(toTime),this.getRuleReport(peRule));
                 }  
             }
         }
@@ -396,19 +398,6 @@ Ext.define('MyApp.controller.MainViewController', {
         MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);
         polyLine.setMap(this.getActualGoogleMap());
 
-    },
-
-    createPolyLineCo: function(Point2, Point1) {
-        var polyLineCo = [ 
-        new google.maps.LatLng(-33.815667,151.005576),
-        new google.maps.LatLng(-33.815675,151.005612)
-        ];
-
-        return polyLineCo;
-
-
-        var coPointOne = ["-33.815667","151.005576"];
-        var coPointTwo = ["-33.815667","151.005576"];
     },
 
     launch: function() {
@@ -603,7 +592,7 @@ Ext.define('MyApp.controller.MainViewController', {
             var ruleIds = record.get('ruleIds');
             var ruleIdAsArray = ruleIds.split(",");
             var peRulesForPESpace = getRulesFromRuleIds(ruleIdAsArray);
-            var peRepDescription = this.generateReport(peRulesForPESpace,online);
+            var peRepDescription = this.generateDetailsReport(peRulesForPESpace,online);
             mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',peRepDescription,peRulesForPESpace);
         }
 
@@ -760,10 +749,10 @@ Ext.define('MyApp.controller.MainViewController', {
 
             totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
             totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
-            alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
-            alert('totalRuleCost: ' + totalRuleCost);
+            //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
+            //alert('totalRuleCost: ' + totalRuleCost);
             peSpaceReport.addToTotalCost(totalRuleCost);
-            alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+            //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
 
         } else if(peRule.canBeAppliedInTheFuture(peSpaceReport)){
 
@@ -775,16 +764,16 @@ Ext.define('MyApp.controller.MainViewController', {
             startTime = peRule.getFromTime();
             totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
             totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
-            alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
-            alert('totalRuleCost: ' + totalRuleCost);
+            //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
+            //alert('totalRuleCost: ' + totalRuleCost);
             peSpaceReport.addToTotalCost(totalRuleCost);
-            alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+            //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
 
 
         }//END OF ELSE IF   
     },
 
-    generateReport: function(peRules, mode, peRep) {
+    generateDetailsReport: function(peRules, mode, peRep) {
 
         if(mode=='REALTIME'){
             peRep = Ext.create('MyApp.model.PEReport', new Date());    
@@ -814,13 +803,14 @@ Ext.define('MyApp.controller.MainViewController', {
             // creates a <table> element and a <tbody> element
             var tbl     = document.createElement("table");
             var tblBody = document.createElement("tbody");
+            //var br = document.createElement("br");
 
             createRow("Mode:",mode);
-            createRow("StartTime:",startTime);
-            createRow("EndTime:",endTime);
+            createRow("Start ParkingTime:",String(startTime).split("GMT")[0]);
+            createRow("End ParkingTime:",String(endTime).split("GMT")[0]);
             createRow("Day",day);
             createRow("RuleIds",ids);
-            createRow("TotalCost",totalCost);
+            createRow("TotalCost",'$'+totalCost);
             createRow("Re-New Tickets",reNew);
 
             function createRow(lhs,rhs){
@@ -834,6 +824,7 @@ Ext.define('MyApp.controller.MainViewController', {
             // put the <tbody> in the <table>
             tbl.appendChild(tblBody);
             // appends <table> into <body>
+            //--> if you wanted to adda a break body.appendChild(br);
             body.appendChild(tbl);
             // sets the border attribute of tbl to 2;
             tbl.setAttribute("border", "2");
@@ -842,6 +833,79 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
         return peRepDescription;
+    },
+
+    getRuleReport: function(peRule) {
+
+        // creates the reference for the body
+        var body = document.createElement("body");
+
+        // creates a <table> element and a <tbody> element
+        var tbl     = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+        //var br = document.createElement("br");
+
+        var toDay = peRule.get('toDay');
+        var fromDay = peRule.get('fromDay');
+        var sameDay = false;
+        if(toDay === fromDay){
+            sameDay = true;
+        }
+
+        /*
+
+        if(sameDay){
+        createRow("Day:",convertDayIntToString(toDay));
+        } else {
+        createRow("From Day:",convertDayIntToString(fromDay));
+        createRow("To Day:",convertDayIntToString(toDay));
+        }
+        */
+
+
+
+        createRow("StartTime:",String(peRule.getFromTime()).split('GMT')[0]);
+        createRow("EndTime:",String(peRule.getToTime()).split('GMT')[0]);
+        createRow("Cost/Hour","$"+peRule.get('cost'));
+        createRow("Max Time Limit",peRule.get('timeLimit'));
+
+
+        function createRow(lhs,rhs){
+            var row=tbl.insertRow(-1);
+            var cell1=row.insertCell(0);
+            var cell2=row.insertCell(1);
+            cell1.innerHTML=lhs;
+            cell2.innerHTML=rhs;
+        } 
+
+        // put the <tbody> in the <table>
+        tbl.appendChild(tblBody);
+        // appends <table> into <body>
+        //--> if you wanted to adda a break body.appendChild(br);
+        body.appendChild(tbl);
+        // sets the border attribute of tbl to 2;
+        tbl.setAttribute("border", "2");
+        return body;
+
+
+        function convertDayIntToString(dayInt){    
+            if(dayInt===0){
+                return "Sunday";   
+            } else if (dayInt===1){
+                return "Monday";
+            } else if (dayInt===2){
+                return "Tuesday";
+            } else if (dayInt===3){
+                return "Wednesday";
+            } else if (dayInt===4){
+                return "Thursday";
+            } else if (dayInt===5){
+                return "Friday";
+            } else if (dayInt===6){
+                return "Saturday";
+            }
+
+        }
     }
 
 });

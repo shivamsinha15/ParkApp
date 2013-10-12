@@ -65,7 +65,7 @@ Ext.define('MyApp.model.PERule', {
 
         if(validTimes){
             if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){
-                alert('PE Rule can be applied');
+                //alert('PE Rule can be applied');
                 this.set('appliedCurrently',true);
                 return true;   
             }
@@ -81,7 +81,7 @@ Ext.define('MyApp.model.PERule', {
         var validTimes = (peRuleStartTime && reportStartTime && reportMinEndTime);
         if(validTimes){
             if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){
-                alert('PE Rule can be applied in the Future');
+                //alert('PE Rule can be applied in the Future');
                 this.set('appliedFuture', true);
                 return true;   
             }
@@ -96,7 +96,7 @@ Ext.define('MyApp.model.PERule', {
         if(!match) return null;
         var hours = match[1]-0; 
         var minutes =  match[2]-0;
-        return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); 
+        return new Date(today.getFullYear(), today.getMonth(),today.getDate(),hours,minutes); 
 
     },
 
