@@ -23,7 +23,8 @@ Ext.application({
         'GooglePlacesApi',
         'PESpace',
         'PERule',
-        'PEMeter'
+        'PEMeter',
+        'PEReport'
     ],
     stores: [
         'MyDirectStore',

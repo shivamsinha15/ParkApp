@@ -25,7 +25,7 @@ Ext.define('MyApp.store.PERuleDAO', {
         storeId: 'PERuleDAO',
         proxy: {
             type: 'jsonp',
-            url: 'http://54.200.11.164/parking-engine/PERule/alljsonp',
+            url: 'http://localhost:8080/parking-engine/PERule/alljsonp',
             reader: {
                 type: 'json'
             }

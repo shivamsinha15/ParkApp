@@ -38,7 +38,72 @@ Ext.define('MyApp.model.PERule', {
             },
             {
                 name: 'timeLimit'
+            },
+            {
+                name: 'appliedCurrently'
+            },
+            {
+                name: 'appliedFuture'
             }
         ]
+    },
+
+    canBeAppliedCurrently: function(reportObject) {
+        var result = false;
+        var peRuleStartTime = this.getFromTime();
+        var peRuleEndTime = this.getToTime();  
+        var reportStartTime = reportObject.getStartTime();
+        var validTimes = (peRuleStartTime && peRuleEndTime && reportStartTime);
+
+        if(validTimes){
+            if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){
+                alert('PE Rule can be applied');
+                this.set('appliedCurrently',true);
+                return true;   
+            }
+        }    
+        return result;
+    },
+
+    canBeAppliedInTheFuture: function(reportObject) {
+        var result = false;
+        var peRuleStartTime = this.getFromTime();
+        var reportStartTime = reportObject.getStartTime();
+        var reportMinEndTime = reportObject.getMinEndTime();
+        var validTimes = (peRuleStartTime && reportStartTime && reportMinEndTime);
+        if(validTimes){
+            if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){
+                alert('PE Rule can be applied in the Future');
+                this.set('appliedFuture', true);
+                return true;   
+            }
+        }
+        return result;
+    },
+
+    parseTime: function(timeString) {
+        var timeRegex = /(\d\d?):(\d\d)/;
+        var today = new Date();  
+        var match = timeRegex.exec(timeString);
+        if(!match) return null;
+        var hours = match[1]-0; 
+        var minutes =  match[2]-0;
+        return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); 
+
+    },
+
+    getToTime: function() {
+        return this.parseTime(this.get('toTime'));
+    },
+
+    getFromTime: function() {
+        return this.parseTime(this.get('fromTime'));
+    },
+
+    getFormattedTimeString: function(toTimeString) {
+        var timeStringArray = toTimeString.split(":");
+        var timeFormatted = timeStringArray[0] + ":" + timeStringArray[1];
+        return timeFormatted;
     }
+
 });

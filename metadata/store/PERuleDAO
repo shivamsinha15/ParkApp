@@ -20,7 +20,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://54.200.11.164/parking-engine/PERule/alljsonp"
+                "url": "http://localhost:8080/parking-engine/PERule/alljsonp"
             },
             "designerId": "91934142-23cb-4ccb-8342-ea748025fba4",
             "cn": [

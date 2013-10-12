@@ -1,0 +1,225 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "PEReport"
+    },
+    "designerId": "fd27c368-df8f-4df4-8e09-044eeb9e81c8",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startHour"
+            },
+            "designerId": "9c770350-bb67-484c-b8fc-33df899a0114"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "startMinute"
+            },
+            "designerId": "b2ede4c8-03b0-4893-82fa-bcfbd45a9a93"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "dayOfWeek"
+            },
+            "designerId": "5116a9a7-5f55-464c-a067-bc286f447ce8"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "minEndHour"
+            },
+            "designerId": "e5947524-3b7a-44cf-9ac7-302c0b2cb025"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "minEndMinute"
+            },
+            "designerId": "f0bdd71d-757f-4a3d-812c-45fc6c2104be"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "maxEndHour"
+            },
+            "designerId": "247db5d7-7acf-4d6b-a454-5be00c85eee8"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "maxEndMinute"
+            },
+            "designerId": "b88e01a3-1bfe-4ff8-94cb-eb0cb6945781"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "totalCost"
+            },
+            "designerId": "5b400e7e-de66-48af-9d07-e2b5b95b44ea"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "totalTime"
+            },
+            "designerId": "fc949cbe-9191-4bca-97f4-c752c0190763"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "constructor",
+                "designer|params": [
+                    "startTime"
+                ],
+                "implHandler": [
+                    "        this.callParent();",
+                    "         if (startTime) {",
+                    "             this.set('startHour', startTime.getHours());",
+                    "             this.set('startMinute', startTime.getMinutes());",
+                    "             this.set('dayOfWeek', startTime.getDay());",
+                    "         }",
+                    "         return this;"
+                ]
+            },
+            "designerId": "fa1a92f6-f610-4d9b-89de-d3d7f282a9f4"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "addToTotalCost",
+                "designer|params": [
+                    "incrementTotalCost"
+                ],
+                "implHandler": [
+                    "var totalCostDTO;",
+                    "if(this.get('totalCost')){",
+                    "     totalCostDTO = this.get('totalCost') + incrementTotalCost;",
+                    "} else {",
+                    "     totalCostDTO = incrementTotalCost;",
+                    "}",
+                    "this.set('totalCost', totalCostDTO);    ",
+                    ""
+                ]
+            },
+            "designerId": "25350d51-dee3-45e3-a01c-9698a89a7240"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getStartTime",
+                "implHandler": [
+                    "  return this.convertToDateTime(this.get('startHour')+ \":\"+this.get('startMinute'));"
+                ]
+            },
+            "designerId": "f323c227-513a-44d3-bf05-d36e1ae72452"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getMinEndTime",
+                "implHandler": [
+                    "return this.convertToDateTime(this.get('minEndHour')+ \":\"+this.get('minEndMinute'));"
+                ]
+            },
+            "designerId": "5194040a-1d87-4ba6-8f3f-50b30fccf6f5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "convertToDateTime",
+                "designer|params": [
+                    "timeString"
+                ],
+                "implHandler": [
+                    "var timeRegex = /(\\d\\d?):(\\d\\d)/;",
+                    "var today = new Date();  ",
+                    "var match = timeRegex.exec(timeString);",
+                    "if(!match) return null;",
+                    "var hours = match[1]-0; ",
+                    "var minutes =  match[2]-0;",
+                    "return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); "
+                ]
+            },
+            "designerId": "12961834-4d3b-4ce2-bf85-72cbf2c1bb33"
+        }
+    ]
+}

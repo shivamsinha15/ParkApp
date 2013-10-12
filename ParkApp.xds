@@ -96,6 +96,20 @@
                 "app/model/PEMeter.js"
             ],
             "className": "PEMeter"
+        },
+        "fd27c368-df8f-4df4-8e09-044eeb9e81c8": {
+            "paths": [
+                "metadata/model/PEReport",
+                "app/model/override/PEReport.js",
+                "app/model/PEReport.js"
+            ],
+            "className": "PEReport"
+        },
+        "7f7afd86-72f3-492e-8254-c7393a608138": {
+            "paths": [
+                "metadata/resource/js"
+            ],
+            "className": "js"
         }
     },
     "viewOrderMap": {
@@ -108,12 +122,14 @@
         "model": [
             "ce1d543f-562f-47f7-99a4-8d50809c71af",
             "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d",
-            "5f51fa54-7949-4137-aebc-9e1124696bde"
+            "5f51fa54-7949-4137-aebc-9e1124696bde",
+            "fd27c368-df8f-4df4-8e09-044eeb9e81c8"
         ],
         "resource": [
             "c621e865-d2eb-4b18-a8a4-6e6738f5a2e3",
             "3300eac4-8766-4e15-9101-7b668fa2448d",
-            "209c9c71-f74f-4fee-9b90-2fe618f44e55"
+            "209c9c71-f74f-4fee-9b90-2fe618f44e55",
+            "7f7afd86-72f3-492e-8254-c7393a608138"
         ],
         "app": [
             "application"

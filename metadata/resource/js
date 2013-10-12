@@ -1,0 +1,14 @@
+{
+    "type": "jsresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "js",
+        "url": "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js",
+        "id": "infobubble"
+    },
+    "designerId": "7f7afd86-72f3-492e-8254-c7393a608138"
+}

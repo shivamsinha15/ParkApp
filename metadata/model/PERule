@@ -93,6 +93,166 @@
                 "name": "timeLimit"
             },
             "designerId": "c16c6f12-458d-4a1c-b663-10692e3beba1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "canBeAppliedCurrently",
+                "designer|params": [
+                    "reportObject"
+                ],
+                "implHandler": [
+                    "var result = false;",
+                    "var peRuleStartTime = this.getFromTime();",
+                    "var peRuleEndTime = this.getToTime();  ",
+                    "var reportStartTime = reportObject.getStartTime();",
+                    "var validTimes = (peRuleStartTime && peRuleEndTime && reportStartTime);",
+                    "",
+                    "if(validTimes){",
+                    "    if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){",
+                    "        alert('PE Rule can be applied');",
+                    "        this.set('appliedCurrently',true);",
+                    "        return true;   ",
+                    "    }",
+                    "}    ",
+                    "return result;"
+                ]
+            },
+            "designerId": "5272fb41-5b53-4842-b9db-0b7816a984c5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "canBeAppliedInTheFuture",
+                "designer|params": [
+                    "reportObject"
+                ],
+                "implHandler": [
+                    "var result = false;",
+                    "var peRuleStartTime = this.getFromTime();",
+                    "var reportStartTime = reportObject.getStartTime();",
+                    "var reportMinEndTime = reportObject.getMinEndTime();",
+                    "var validTimes = (peRuleStartTime && reportStartTime && reportMinEndTime);",
+                    "if(validTimes){",
+                    "    if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){",
+                    "        alert('PE Rule can be applied in the Future');",
+                    "        this.set('appliedFuture', true);",
+                    "        return true;   ",
+                    "    }",
+                    "}",
+                    "return result;"
+                ]
+            },
+            "designerId": "e6a549a3-bdba-4be6-92d5-5d3799f45fc1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "parseTime",
+                "designer|params": [
+                    "timeString"
+                ],
+                "implHandler": [
+                    "var timeRegex = /(\\d\\d?):(\\d\\d)/;",
+                    "var today = new Date();  ",
+                    "var match = timeRegex.exec(timeString);",
+                    "if(!match) return null;",
+                    "var hours = match[1]-0; ",
+                    "var minutes =  match[2]-0;",
+                    "return new Date(today.getFullYear(), today.getMonth(),today.getDay(),hours,minutes); ",
+                    ""
+                ]
+            },
+            "designerId": "ecc0b820-00f7-4fd2-8867-98afc9a678e5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getToTime",
+                "implHandler": [
+                    "return this.parseTime(this.get('toTime'));"
+                ]
+            },
+            "designerId": "e7724256-8c76-4157-b6ca-f88bb27ab2b9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getFromTime",
+                "implHandler": [
+                    " return this.parseTime(this.get('fromTime'));"
+                ]
+            },
+            "designerId": "7b9ab3f3-2f8f-429b-9c8a-7f9551f8c87a"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "appliedCurrently"
+            },
+            "designerId": "8ce840a3-c239-4d2e-834a-e07fab690ecc"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "appliedFuture"
+            },
+            "designerId": "8ff0160a-6a60-4a5e-a639-7e8bae15f161"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getFormattedTimeString",
+                "designer|params": [
+                    "toTimeString"
+                ],
+                "implHandler": [
+                    "var timeStringArray = toTimeString.split(\":\");",
+                    "var timeFormatted = timeStringArray[0] + \":\" + timeStringArray[1];",
+                    "return timeFormatted;"
+                ]
+            },
+            "designerId": "a978fa3e-e49b-40c4-8fac-1ea963ee475c"
         }
     ]
 }

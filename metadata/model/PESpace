@@ -113,7 +113,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "id"
+                "name": "id",
+                "type": null
             },
             "designerId": "20692ba7-4624-4b9b-81f0-618527156c84"
         },
@@ -135,13 +136,13 @@
                     "me.callParent([config]);",
                     "",
                     "/* How to Initialize This Model If Required:",
-                    "         var peSpace = new MyApp.model.PESpace({",
-                    "             id: id,",
-                    "             startLat: startLat,",
-                    "             startLng: startLng,",
-                    "             endLat: endLat,",
-                    "             endLng: endLng",
-                    "         });",
+                    "var peSpace = new MyApp.model.PESpace({",
+                    "id: id,",
+                    "startLat: startLat,",
+                    "startLng: startLng,",
+                    "endLat: endLat,",
+                    "endLng: endLng",
+                    "});",
                     "",
                     "*/"
                 ]
@@ -168,9 +169,22 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "ruleIds"
+                "name": "ruleIds",
+                "type": "string"
             },
             "designerId": "e7962c25-781b-4e85-a898-e0f2aaad504e"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "address"
+            },
+            "designerId": "9aae6248-89d7-4f8b-94b1-1af59e3bbb31"
         }
     ]
 }

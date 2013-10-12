@@ -20,7 +20,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://54.200.11.164/parking-engine/PEMeter/alljsonp"
+                "url": "http://localhost:8080/parking-engine/PEMeter/alljsonp"
             },
             "designerId": "db5bf5bb-bb09-4aae-b60d-1788143044ad",
             "cn": [
