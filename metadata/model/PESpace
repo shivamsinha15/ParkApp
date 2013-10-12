@@ -157,7 +157,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "name": "occupied"
+                "name": "occupied",
+                "type": "boolean"
             },
             "designerId": "8b9ed46a-6cd5-48de-bbdc-c836359e0df8"
         },

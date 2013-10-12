@@ -48,6 +48,9 @@ Ext.define('MyApp.model.PEReport', {
             {
                 name: 'startTime',
                 type: 'date'
+            },
+            {
+                name: 'mode'
             }
         ]
     },
@@ -79,6 +82,13 @@ Ext.define('MyApp.model.PEReport', {
     },
 
     getMinEndTime: function() {
+        var minEndHour = this.get('minEndHour') - 0;
+        var minEndMin = this.get('minEndMinute')- 0;
+
+        if(minEndHour===0 && minEndMin===0){
+            return 0;
+        }
+
         return this.convertToDateTime(this.get('minEndHour')+ ":"+this.get('minEndMinute'));
     },
 
@@ -89,6 +99,13 @@ Ext.define('MyApp.model.PEReport', {
         if(!match) return null;
         var hours = match[1]-0; 
         var minutes =  match[2]-0;
+
+        //For All Times:
+        if((hours===0)&&(minutes===0)){
+            return 0;
+        }
+
+
         return new Date(today.getFullYear(), today.getMonth(),today.getDate(),hours,minutes); 
     }
 

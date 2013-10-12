@@ -61,15 +61,27 @@ Ext.define('MyApp.model.PERule', {
         var peRuleStartTime = this.getFromTime();
         var peRuleEndTime = this.getToTime();  
         var reportStartTime = reportObject.getStartTime();
+        var reportMinEndTime = reportObject.getMinEndTime();
         var validTimes = (peRuleStartTime && peRuleEndTime && reportStartTime);
 
-        if(validTimes){
+        var validDay = this.validDay(reportObject.get('dayOfWeek'));
+
+        //All Times
+        if(reportMinEndTime === 0 && validDay){
+            this.set('appliedCurrently',true);
+            return true;   
+        }
+
+        if(validTimes && validDay){
             if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){
                 //alert('PE Rule can be applied');
                 this.set('appliedCurrently',true);
                 return true;   
             }
         }    
+
+
+
         return result;
     },
 
@@ -79,13 +91,24 @@ Ext.define('MyApp.model.PERule', {
         var reportStartTime = reportObject.getStartTime();
         var reportMinEndTime = reportObject.getMinEndTime();
         var validTimes = (peRuleStartTime && reportStartTime && reportMinEndTime);
-        if(validTimes){
+
+        var validDay = this.validDay(reportObject.get('dayOfWeek'));
+
+        //All Times
+        if((reportMinEndTime === 0)&& validDay){
+            this.set('appliedCurrently',true);
+            return true;   
+        }
+
+
+        if(validTimes && validDay){
             if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){
                 //alert('PE Rule can be applied in the Future');
                 this.set('appliedFuture', true);
                 return true;   
             }
         }
+
         return result;
     },
 
@@ -112,6 +135,25 @@ Ext.define('MyApp.model.PERule', {
         var timeStringArray = toTimeString.split(":");
         var timeFormatted = timeStringArray[0] + ":" + timeStringArray[1];
         return timeFormatted;
+    },
+
+    validDay: function(peReportDayAsInt) {
+        var validDay = false;
+
+        var peFromDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('fromDay'));
+        var peToDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('toDay'));
+
+
+        if(peReportDayAsInt>=peFromDayAsInt && peReportDayAsInt<=peToDayAsInt){
+            validDay = true;
+        }
+
+        //SpecialCase for SUNDAY: Since rules will generally be written Mon-Sunday or Sat-Sunday
+        if(peReportDayAsInt===0 &&(peReportDayAsInt===peToDayAsInt)){
+            validDay = true;
+        }
+
+        return validDay;
     }
 
 });

@@ -37,7 +37,8 @@ Ext.define('MyApp.model.PESpace', {
                 name: 'id'
             },
             {
-                name: 'occupied'
+                name: 'occupied',
+                type: 'boolean'
             },
             {
                 name: 'ruleIds',

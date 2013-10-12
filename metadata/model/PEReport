@@ -193,6 +193,13 @@
             "userConfig": {
                 "fn": "getMinEndTime",
                 "implHandler": [
+                    "var minEndHour = this.get('minEndHour') - 0;",
+                    "var minEndMin = this.get('minEndMinute')- 0;",
+                    "",
+                    "if(minEndHour===0 && minEndMin===0){",
+                    "   return 0;",
+                    "}",
+                    "",
                     "return this.convertToDateTime(this.get('minEndHour')+ \":\"+this.get('minEndMinute'));"
                 ]
             },
@@ -217,6 +224,13 @@
                     "if(!match) return null;",
                     "var hours = match[1]-0; ",
                     "var minutes =  match[2]-0;",
+                    "",
+                    "//For All Times:",
+                    "if((hours===0)&&(minutes===0)){",
+                    "\treturn 0;",
+                    "}",
+                    "",
+                    "",
                     "return new Date(today.getFullYear(), today.getMonth(),today.getDate(),hours,minutes); "
                 ]
             },
@@ -234,6 +248,18 @@
                 "type": "date"
             },
             "designerId": "d10da7cb-00b0-4d6b-8190-68bf8c3f9b6f"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "mode"
+            },
+            "designerId": "87c4cecd-fdaa-43c3-a687-3b11d34da2cb"
         }
     ]
 }

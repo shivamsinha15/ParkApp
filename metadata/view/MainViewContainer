@@ -336,7 +336,7 @@
             "codeClass": null,
             "userConfig": {
                 "docked": "top",
-                "height": 245,
+                "height": 250,
                 "hidden": true,
                 "id": "TimePickerPanel",
                 "padding": 0,
@@ -360,7 +360,7 @@
                         "floatingCls": "top",
                         "height": 150,
                         "hideAnimation": [
-                            "{type:'popIn',duration: 200}"
+                            "{type:'pop',duration: 200}"
                         ],
                         "id": "TimePicker",
                         "itemId": "mypicker",
@@ -523,19 +523,20 @@
                     "userConfig": {
                         "docked": "bottom",
                         "floatingCls": null,
-                        "id": "DurationSelector",
+                        "id": "DayTypeSelectorField",
+                        "maxHeight": 100,
                         "width": null,
                         "label": null,
                         "labelWidth": 0,
                         "options": [
                             "[",
-                            "{text: 'All',  value: 'first'},",
-                            "{text: '15 Mintues', value: 'second'},",
-                            "{text: '1 Hour',  value: 'third'}",
+                            "{text: 'Weekday',  value: 'Weekday'},",
+                            "{text: 'Saturday', value: 'Saturday'},",
+                            "{text: 'Sunday', value: 'Sunday'}",
                             "]"
                         ]
                     },
-                    "designerId": "12d3ac6c-344e-4c8d-bc85-7c46c5b8e367"
+                    "designerId": "3204064c-c3ee-4663-b292-be02810c54e3"
                 },
                 {
                     "type": "Ext.field.Select",
@@ -546,18 +547,25 @@
                     "codeClass": null,
                     "userConfig": {
                         "docked": "bottom",
-                        "id": "DayTypeSelectorField",
+                        "floatingCls": null,
+                        "id": "DurationSelector",
+                        "maxHeight": "40%",
                         "width": null,
                         "label": null,
                         "labelWidth": 0,
                         "options": [
                             "[",
-                            "{text: 'Weekday',  value: 'Weekday'},",
-                            "{text: 'Weekend', value: 'Weekend'}",
+                            "{text: 'All',  value: '0'},",
+                            "{text: '15 Mintues', value: '0.25'},",
+                            "{text: '30 Mintues', value: '0.5'},",
+                            "{text: '1 Hour',  value: '1'},",
+                            "{text: '2 Hours',  value: '2'},",
+                            "{text: '3 Hours',  value: '3'},",
+                            "{text: '>=4 Hours',  value: '4'}",
                             "]"
                         ]
                     },
-                    "designerId": "3204064c-c3ee-4663-b292-be02810c54e3"
+                    "designerId": "12d3ac6c-344e-4c8d-bc85-7c46c5b8e367"
                 }
             ]
         }

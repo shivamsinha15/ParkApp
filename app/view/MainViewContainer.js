@@ -137,7 +137,7 @@ Ext.define('MyApp.view.MainViewContainer', {
             {
                 xtype: 'panel',
                 docked: 'top',
-                height: 245,
+                height: 250,
                 hidden: true,
                 id: 'TimePickerPanel',
                 padding: 0,
@@ -149,7 +149,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                         floatingCls: 'top',
                         height: 150,
                         hideAnimation: {
-                            type: 'popIn',
+                            type: 'pop',
                             duration: 200
                         },
                         id: 'TimePicker',
@@ -236,27 +236,8 @@ Ext.define('MyApp.view.MainViewContainer', {
                     {
                         xtype: 'selectfield',
                         docked: 'bottom',
-                        id: 'DurationSelector',
-                        labelWidth: 0,
-                        options: [
-                            {
-                                text: 'All',
-                                value: 'first'
-                            },
-                            {
-                                text: '15 Mintues',
-                                value: 'second'
-                            },
-                            {
-                                text: '1 Hour',
-                                value: 'third'
-                            }
-                        ]
-                    },
-                    {
-                        xtype: 'selectfield',
-                        docked: 'bottom',
                         id: 'DayTypeSelectorField',
+                        maxHeight: 100,
                         labelWidth: 0,
                         options: [
                             {
@@ -264,8 +245,49 @@ Ext.define('MyApp.view.MainViewContainer', {
                                 value: 'Weekday'
                             },
                             {
-                                text: 'Weekend',
-                                value: 'Weekend'
+                                text: 'Saturday',
+                                value: 'Saturday'
+                            },
+                            {
+                                text: 'Sunday',
+                                value: 'Sunday'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'selectfield',
+                        docked: 'bottom',
+                        id: 'DurationSelector',
+                        maxHeight: '40%',
+                        labelWidth: 0,
+                        options: [
+                            {
+                                text: 'All',
+                                value: '0'
+                            },
+                            {
+                                text: '15 Mintues',
+                                value: '0.25'
+                            },
+                            {
+                                text: '30 Mintues',
+                                value: '0.5'
+                            },
+                            {
+                                text: '1 Hour',
+                                value: '1'
+                            },
+                            {
+                                text: '2 Hours',
+                                value: '2'
+                            },
+                            {
+                                text: '3 Hours',
+                                value: '3'
+                            },
+                            {
+                                text: '>=4 Hours',
+                                value: '4'
                             }
                         ]
                     }

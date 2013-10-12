@@ -323,7 +323,7 @@ Ext.define('MyApp.controller.MainViewController', {
         var tbody = peReport.innerHTML;
         var infowindow = new InfoBubble({
             position: startLatLng,
-            maxWidth: 80,
+            maxWidth: 150,
             maxHeight: 150
         });
 
@@ -577,9 +577,6 @@ Ext.define('MyApp.controller.MainViewController', {
         var peMeters = peMeterDAO.getData();
 
         var mainViewController = MyApp.app.getController('MainViewController');
-        var offline = 'OFFLINE';
-        var online = 'REALTIME';
-
 
         for(var i=0;i<peSpaceDAO.getAllCount();i++){
             var record = peSpaceDAO.getAt(i);
@@ -592,8 +589,8 @@ Ext.define('MyApp.controller.MainViewController', {
             var ruleIds = record.get('ruleIds');
             var ruleIdAsArray = ruleIds.split(",");
             var peRulesForPESpace = getRulesFromRuleIds(ruleIdAsArray);
-            var peRepDescription = this.generateDetailsReport(peRulesForPESpace,online);
-            mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',peRepDescription,peRulesForPESpace);
+            var generatedReport = this.generateDetailsReport(peRulesForPESpace,occupied);
+            mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules);
         }
 
         for(var m=0;m<peMeterDAO.getAllCount();m++){
@@ -730,7 +727,7 @@ Ext.define('MyApp.controller.MainViewController', {
         return data_AMPM;
     },
 
-    checkAndApplyRule: function(peRule, peSpaceReport) {
+    checkAndApplyRule: function(peRule, peSpaceReport, appliedRules) {
 
         var totalRuleTimeInHours;
         var totalRuleCost;
@@ -739,57 +736,74 @@ Ext.define('MyApp.controller.MainViewController', {
 
         if(peRule.canBeAppliedCurrently(peSpaceReport)){
             endTime = peSpaceReport.getMinEndTime();
-            if(peSpaceReport.getMinEndTime()>peRule.getToTime()){
-                endTime = peRule.getToTime();
-            }
-            startTime = peSpaceReport.getStartTime();
-            if(peSpaceReport.getStartTime()<peRule.getFromTime()){
-                startTime = peRule.getFromTime();
-            }
+            if(endTime !== 0){  
+                if(peSpaceReport.getMinEndTime()>peRule.getToTime()){
+                    endTime = peRule.getToTime();
+                }
+                startTime = peSpaceReport.getStartTime();
+                if(peSpaceReport.getStartTime()<peRule.getFromTime()){
+                    startTime = peRule.getFromTime();
+                }
 
-            totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
-            totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
-            //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
-            //alert('totalRuleCost: ' + totalRuleCost);
-            peSpaceReport.addToTotalCost(totalRuleCost);
-            //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+                totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
+                totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
+                //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
+                //alert('totalRuleCost: ' + totalRuleCost);
+                peSpaceReport.addToTotalCost(totalRuleCost);
+                //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+            }
+            appliedRules.push(peRule);
 
         } else if(peRule.canBeAppliedInTheFuture(peSpaceReport)){
 
             endTime = peSpaceReport.getMinEndTime();
-            if(peSpaceReport.getMinEndTime()>peRule.getToTime()){
-                endTime = peRule.getToTime();
-            }
+            if(endTime !== 0){
+                if(peSpaceReport.getMinEndTime()>peRule.getToTime()){
+                    endTime = peRule.getToTime();
+                }
 
-            startTime = peRule.getFromTime();
-            totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
-            totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
-            //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
-            //alert('totalRuleCost: ' + totalRuleCost);
-            peSpaceReport.addToTotalCost(totalRuleCost);
-            //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+                startTime = peRule.getFromTime();
+                totalRuleTimeInHours = (endTime - startTime)/1000/60/60;
+                totalRuleCost = totalRuleTimeInHours * peRule.get('cost');
+                //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);
+                //alert('totalRuleCost: ' + totalRuleCost);
+                peSpaceReport.addToTotalCost(totalRuleCost);
+                //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));
+            }
+            appliedRules.push(peRule);
 
 
         }//END OF ELSE IF   
     },
 
-    generateDetailsReport: function(peRules, mode, peRep) {
+    generateDetailsReport: function(peRules, occupied) {
+        var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;
 
-        if(mode=='REALTIME'){
+
+        if(!peRep){
             peRep = Ext.create('MyApp.model.PEReport', new Date());    
-            peRep.set('startHour','16');
-            peRep.set('startMinute','30');
-            peRep.set('minEndHour','18');
-            peRep.set('minEndMinute','30');
+            // peRep.set('startHour','16');
+            // peRep.set('startMinute','30');
+            peRep.set('minEndHour','0');
+            peRep.set('minEndMinute','0');
+            peRep.set('mode','REALTIME');
         }
 
+        var mode = peRep.get('mode');
         var ruleIds = [];
+        var appliedPERules = [];
 
         for(var i=0; i < peRules.length; i++){
             var peRule = peRules[i];
             if(peRule){
-                ruleIds.push(peRule.getId());
-                this.checkAndApplyRule(peRule,peRep);  
+                this.checkAndApplyRule(peRule,peRep,appliedPERules);  
+            }  
+        }
+
+        for(var u=0; u < appliedPERules.length; u++){
+            var appliedPeRule = peRules[u];
+            if(appliedPeRule){
+                ruleIds.push(appliedPeRule.getId());
             }  
         }
 
@@ -807,11 +821,39 @@ Ext.define('MyApp.controller.MainViewController', {
 
             createRow("Mode:",mode);
             createRow("Start ParkingTime:",String(startTime).split("GMT")[0]);
-            createRow("End ParkingTime:",String(endTime).split("GMT")[0]);
+            var allTimes = false;
+            if(endTime === 0){
+                allTimes = true;
+            }
+
+            if(!allTimes){
+                createRow("End ParkingTime:",String(endTime).split("GMT")[0]); 
+                createRow("TotalCost",'$'+totalCost);
+                createRow("Re-New Tickets",reNew);
+            } else {
+                createRow("End ParkingTime:","Time Duration NOT Selected"); 
+            }
+
+            if(mode === "REALTIME")
+            {
+                var peSpaceStatus = "Available";
+                if(occupied){
+                    peSpaceStatus = "Not Available";
+                }
+                createRow("Current Status",peSpaceStatus);
+
+            } else {
+
+
+
+            }
             createRow("Day",day);
-            createRow("RuleIds",ids);
-            createRow("TotalCost",'$'+totalCost);
-            createRow("Re-New Tickets",reNew);
+
+            if(ids.length > 0){
+                createRow("RuleIds",ids);
+            } else {
+                createRow("RuleIds","Free PARKING");
+            }
 
             function createRow(lhs,rhs){
                 var row=tbl.insertRow(-1);
@@ -828,11 +870,19 @@ Ext.define('MyApp.controller.MainViewController', {
             body.appendChild(tbl);
             // sets the border attribute of tbl to 2;
             tbl.setAttribute("border", "2");
+
             return body;
         }
 
 
-        return peRepDescription;
+
+        var generatedReport = {
+            peRepDescription: peRepDescription,
+            appliedPERules: appliedPERules
+        };
+
+
+        return generatedReport;
     },
 
     getRuleReport: function(peRule) {
@@ -886,25 +936,41 @@ Ext.define('MyApp.controller.MainViewController', {
         // sets the border attribute of tbl to 2;
         tbl.setAttribute("border", "2");
         return body;
+    },
 
+    convertDayIntToString: function(dayInt) {
+        if(dayInt===0){
+            return "Sunday";   
+        } else if (dayInt===1){
+            return "Monday";
+        } else if (dayInt===2){
+            return "Tuesday";
+        } else if (dayInt===3){
+            return "Wednesday";
+        } else if (dayInt===4){
+            return "Thursday";
+        } else if (dayInt===5){
+            return "Friday";
+        } else if (dayInt===6){
+            return "Saturday";
+        }
+    },
 
-        function convertDayIntToString(dayInt){    
-            if(dayInt===0){
-                return "Sunday";   
-            } else if (dayInt===1){
-                return "Monday";
-            } else if (dayInt===2){
-                return "Tuesday";
-            } else if (dayInt===3){
-                return "Wednesday";
-            } else if (dayInt===4){
-                return "Thursday";
-            } else if (dayInt===5){
-                return "Friday";
-            } else if (dayInt===6){
-                return "Saturday";
-            }
-
+    convertDayStringToInt: function(dayAsString) {
+        if(dayAsString==="Sunday"){
+            return 0;   
+        } else if (dayAsString==="Monday"){
+            return 1;
+        } else if (dayAsString==="Tuesday"){
+            return 2;
+        } else if (dayAsString==="Wednesday"){
+            return 3;
+        } else if (dayAsString==="Thursday"){
+            return 4;
+        } else if (dayAsString==="Friday"){
+            return 5;
+        } else if (dayAsString==="Saturday"){
+            return 6;
         }
     }
 
