@@ -253,6 +253,41 @@
                 ]
             },
             "designerId": "a978fa3e-e49b-40c4-8fac-1ea963ee475c"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "fromTimeHour",
+                "type": "int"
+            },
+            "designerId": "066b3b63-7c60-4466-bdcc-8104329b7c66",
+            "cn": [
+                {
+                    "type": "fixedfunction",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "fn": "convert",
+                        "designer|params": [
+                            "v",
+                            "rec"
+                        ],
+                        "implHandler": [
+                            "return rec.get('fromTime').split(':')[0] - 0;",
+                            ""
+                        ]
+                    },
+                    "designerId": "90b26ef3-2b22-4f0a-8e69-95a7ad1a8e7c"
+                }
+            ]
         }
     ]
 }

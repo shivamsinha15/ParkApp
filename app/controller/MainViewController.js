@@ -327,6 +327,15 @@ Ext.define('MyApp.controller.MainViewController', {
 
         infowindow.addTab('Details',tbody);
 
+        var tempStore = Ext.create('Ext.data.Store', {
+            model: 'MyApp.model.PERule'  
+        });
+
+        tempStore.add(peRules);
+        tempStore.sort('fromTimeHour', 'ASC');
+        peRules = tempStore.getData().items;
+
+
         if(peRules){
             for(var i=0; i < peRules.length; i++){
                 var peRule = peRules[i];
@@ -337,6 +346,11 @@ Ext.define('MyApp.controller.MainViewController', {
                 }  
             }
         }
+
+
+
+
+
 
         /*    
         var infowindow = new InfoBox({

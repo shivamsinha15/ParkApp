@@ -44,6 +44,14 @@ Ext.define('MyApp.model.PERule', {
             },
             {
                 name: 'appliedFuture'
+            },
+            {
+                convert: function(v, rec) {
+                    return rec.get('fromTime').split(':')[0] - 0;
+
+                },
+                name: 'fromTimeHour',
+                type: 'int'
             }
         ]
     },
