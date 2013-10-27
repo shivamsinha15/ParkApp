@@ -51,6 +51,10 @@ Ext.define('MyApp.model.PEReport', {
             },
             {
                 name: 'mode'
+            },
+            {
+                name: 'endTime',
+                type: 'date'
             }
         ]
     },
@@ -78,7 +82,8 @@ Ext.define('MyApp.model.PEReport', {
     },
 
     getStartTime: function() {
-        return this.convertToDateTime(this.get('startHour')+ ":"+this.get('startMinute'));
+        return this.get('startTime');
+        //return this.convertToDateTime(this.get('startHour')+ ":"+this.get('startMinute'));
     },
 
     getMinEndTime: function() {
@@ -89,7 +94,8 @@ Ext.define('MyApp.model.PEReport', {
             return 0;
         }
 
-        return this.convertToDateTime(this.get('minEndHour')+ ":"+this.get('minEndMinute'));
+        return this.get('endTime');
+        //return this.convertToDateTime(this.get('minEndHour')+ ":"+this.get('minEndMinute'));
     },
 
     convertToDateTime: function(timeString) {

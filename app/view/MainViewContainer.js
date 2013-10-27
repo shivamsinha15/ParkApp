@@ -47,8 +47,23 @@ Ext.define('MyApp.view.MainViewContainer', {
                     {
                         xtype: 'button',
                         action: 'onTimeButtonTap',
+                        hidden: true,
                         id: 'TimeButton',
                         iconCls: 'time',
+                        text: ''
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onTimeSliderButtonTap',
+                        id: 'SliderButton',
+                        iconCls: 'arrow_down'
+                    },
+                    {
+                        xtype: 'button',
+                        align: 'right',
+                        action: 'onRefreshTapEvent',
+                        id: 'RefreshButton',
+                        iconCls: 'refresh',
                         text: ''
                     }
                 ]
@@ -85,6 +100,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                         xtype: 'button',
                         action: 'currentLocationButton',
                         height: 37,
+                        id: 'CurrentLocation',
                         width: 155,
                         iconCls: 'locate',
                         text: 'Current Location'
@@ -93,6 +109,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                         xtype: 'button',
                         action: 'searchLocationButtonEvent',
                         height: 37,
+                        id: 'SearchLocation',
                         width: 155,
                         iconCls: 'search',
                         text: 'Search Location'
@@ -106,16 +123,20 @@ Ext.define('MyApp.view.MainViewContainer', {
                 html: '',
                 id: 'SearchLocationPanel',
                 hideOnMaskTap: false,
+                layout: {
+                    type: 'vbox'
+                },
                 modal: false,
                 items: [
                     {
                         xtype: 'searchfield',
                         action: 'searchLocationFieldEvent',
                         border: '',
+                        docked: 'top',
                         id: 'SearchLocationField',
                         itemId: 'mysearchfield',
-                        label: '',
-                        labelWidth: '0%',
+                        label: 'From',
+                        labelWidth: '20%',
                         name: '',
                         autoComplete: true
                     },
@@ -128,16 +149,24 @@ Ext.define('MyApp.view.MainViewContainer', {
                         width: 899,
                         itemTpl: [
                             '<div style=\'margin-left:10px;\'>',
-                            '    {formatted_address},{lng},{lat}',
+                            '    {formatted_address},{geo_location}',
                             '</div>'
                         ]
+                    },
+                    {
+                        xtype: 'searchfield',
+                        docked: 'top',
+                        id: 'ToSearchLocationField',
+                        itemId: 'mysearchfield2',
+                        label: 'To',
+                        labelWidth: '20%'
                     }
                 ]
             },
             {
                 xtype: 'panel',
                 docked: 'top',
-                height: 250,
+                height: 242,
                 hidden: true,
                 id: 'TimePickerPanel',
                 padding: 0,
@@ -148,22 +177,25 @@ Ext.define('MyApp.view.MainViewContainer', {
                         xtype: 'picker',
                         floatingCls: 'top',
                         height: 150,
-                        hideAnimation: {
-                            type: 'pop',
-                            duration: 200
-                        },
                         id: 'TimePicker',
                         itemId: 'mypicker',
                         padding: 0,
                         ui: '',
                         width: 245,
+                        autoDestroy: false,
                         scrollable: false,
                         stretchX: true,
                         stretchY: true,
                         doneButton: {
-                            iconAlign: 'right'
+                            action: 'onDoneButtonTap',
+                            hidden: true,
+                            iconAlign: 'right',
+                            text: 'DefaultDone'
                         },
                         cancelButton: {
+                            action: 'onRealTimeButtonTap',
+                            hidden: true,
+                            id: 'DefaultCancel',
                             iconCls: 'refresh',
                             text: 'Real Time'
                         },
@@ -188,10 +220,37 @@ Ext.define('MyApp.view.MainViewContainer', {
                             {
                                 xtype: 'pickerslot',
                                 id: 'AMPMPickerSlot',
+                                autoDestroy: false,
                                 name: 'AMPMPickerSlot',
                                 title: 'AMPMPickerSlot'
                             }
                         ],
+                        toolbar: {
+                            xtype: 'toolbar',
+                            docked: 'top',
+                            hidden: false,
+                            id: 'TimePanelToolBar',
+                            autoDestroy: false,
+                            items: [
+                                {
+                                    xtype: 'button',
+                                    action: 'onDoneButtonTap',
+                                    id: 'Done',
+                                    text: 'Done'
+                                },
+                                {
+                                    xtype: 'spacer'
+                                },
+                                {
+                                    xtype: 'button',
+                                    action: 'onRealTimeButtonTap',
+                                    id: 'RealTime',
+                                    iconAlign: 'right',
+                                    iconCls: 'refresh',
+                                    text: 'RealTime'
+                                }
+                            ]
+                        },
                         listeners: [
                             {
                                 fn: function(component, eOpts) {
@@ -203,6 +262,9 @@ Ext.define('MyApp.view.MainViewContainer', {
                                     var hours = MyApp.app.getController('MainViewController').createHours();
                                     var minutes = MyApp.app.getController('MainViewController').createMinutes();
                                     var ampm = MyApp.app.getController('MainViewController').createAMPM();
+
+                                    this.setDoneButton(false);
+                                    this.setCancelButton(false);
 
                                     if(!hourPickerSlot.getData()){
                                         hourPickerSlot.setData(hours);
@@ -219,19 +281,10 @@ Ext.define('MyApp.view.MainViewContainer', {
 
 
 
-
-
-
                                 },
                                 event: 'initialize'
                             }
-                        ],
-                        toolbar: {
-                            xtype: 'toolbar',
-                            docked: 'top',
-                            hidden: false,
-                            id: 'TimePanelToolBar'
-                        }
+                        ]
                     },
                     {
                         xtype: 'selectfield',
@@ -263,35 +316,42 @@ Ext.define('MyApp.view.MainViewContainer', {
                         options: [
                             {
                                 text: 'All',
-                                value: '0'
+                                value: 0
                             },
                             {
                                 text: '15 Mintues',
-                                value: '0.25'
+                                value: 15
                             },
                             {
                                 text: '30 Mintues',
-                                value: '0.5'
+                                value: 30
                             },
                             {
                                 text: '1 Hour',
-                                value: '1'
+                                value: 60
                             },
                             {
                                 text: '2 Hours',
-                                value: '2'
+                                value: 120
                             },
                             {
                                 text: '3 Hours',
-                                value: '3'
+                                value: 180
                             },
                             {
                                 text: '>=4 Hours',
-                                value: '4'
+                                value: 240
                             }
                         ]
                     }
                 ]
+            },
+            {
+                xtype: 'sliderfield',
+                height: 60,
+                hidden: true,
+                id: 'TimeSlider',
+                maxValue: 253
             }
         ],
         listeners: [
@@ -300,21 +360,86 @@ Ext.define('MyApp.view.MainViewContainer', {
                 buffer: 1500,
                 event: 'keyup',
                 delegate: '#SearchLocationField'
+            },
+            {
+                fn: 'onAddressListSelect',
+                event: 'select',
+                delegate: '#AddressList'
+            },
+            {
+                fn: 'onToSearchLocationFieldKeyup',
+                event: 'keyup',
+                delegate: '#ToSearchLocationField'
             }
         ]
     },
 
     onSearchLocationFieldKeyup: function(textfield, e, eOpts) {
 
-        var tweetStore = Ext.getStore('MyDirectStore');
-        var tweetProxy = tweetStore.getProxy();
-        var textFieldValue = textfield.getValue();
-        var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';
-        alert(urlRequest);
-        tweetProxy.setUrl(urlRequest);
-        tweetStore.load();
-        var addressList = Ext.getCmp("AddressList");
-        addressList.refresh();
+        var address = textfield.getValue() + ' Sydney' + ' Australia';
+
+
+
+        var addressArray = [];
+        geoSearchForAllLocations();
+
+        // To ensure that we have current location displayed in the list view;
+        function geoSearchForAllLocations(){
+            var curr = "curr";
+            var Curr = "Curr";
+
+            var fromSearchField = Ext.getCmp('SearchLocationField').getValue();
+            var toSearchField = Ext.getCmp('ToSearchLocationField').getValue();
+
+            var currfromSearchField = fromSearchField.indexOf(curr);
+            var CurrfromSearchField = fromSearchField.indexOf(Curr);
+            var currToSearchField = toSearchField.indexOf(curr);
+            var CurrToSearchField = toSearchField.indexOf(Curr);
+
+            var containsCurrentLocation = false;
+
+            if((currfromSearchField != -1) || (CurrfromSearchField != -1) || (currToSearchField != -1) || (CurrToSearchField != -1)){
+                containsCurrentLocation = true;
+            }
+
+            if(containsCurrentLocation){
+                //This has a call back to MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);
+                MyApp.app.getController('MainViewController').addCurrentLocation(address,'SearchLocationField');
+            } else {
+                MyApp.app.getController('MainViewController').showAddress(address,addressArray,'SearchLocationField');   
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+    },
+
+    onAddressListSelect: function(dataview, record, eOpts) {
+        var searchFieldId = record.getData().search_field;
+        var recordData = record.getData();
+        Ext.getCmp(searchFieldId).setValue(recordData.formatted_address);
+
+        if("SearchLocationField" === searchFieldId){
+            MyApp.app.getController('MainViewController').config.globalFromCoordinates = recordData.geo_location;
+        } else {
+            MyApp.app.getController('MainViewController').config.globalToCoordinates = recordData.geo_location;
+        }
+        MyApp.app.getController('MainViewController').clearAddressList();
+    },
+
+    onToSearchLocationFieldKeyup: function(textfield, e, eOpts) {
+        var address = textfield.getValue() + ' Sydney' + ' Australia';
+        var addressArray = [];
+        MyApp.app.getController('MainViewController').showAddress(address,addressArray,'ToSearchLocationField');
+
     }
 
 });

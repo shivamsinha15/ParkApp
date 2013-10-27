@@ -178,7 +178,8 @@
             "userConfig": {
                 "fn": "getStartTime",
                 "implHandler": [
-                    "  return this.convertToDateTime(this.get('startHour')+ \":\"+this.get('startMinute'));"
+                    "return this.get('startTime');",
+                    "//return this.convertToDateTime(this.get('startHour')+ \":\"+this.get('startMinute'));"
                 ]
             },
             "designerId": "f323c227-513a-44d3-bf05-d36e1ae72452"
@@ -197,10 +198,11 @@
                     "var minEndMin = this.get('minEndMinute')- 0;",
                     "",
                     "if(minEndHour===0 && minEndMin===0){",
-                    "   return 0;",
+                    "    return 0;",
                     "}",
                     "",
-                    "return this.convertToDateTime(this.get('minEndHour')+ \":\"+this.get('minEndMinute'));"
+                    "return this.get('endTime');",
+                    "//return this.convertToDateTime(this.get('minEndHour')+ \":\"+this.get('minEndMinute'));"
                 ]
             },
             "designerId": "5194040a-1d87-4ba6-8f3f-50b30fccf6f5"
@@ -227,7 +229,7 @@
                     "",
                     "//For All Times:",
                     "if((hours===0)&&(minutes===0)){",
-                    "\treturn 0;",
+                    "    return 0;",
                     "}",
                     "",
                     "",
@@ -260,6 +262,19 @@
                 "name": "mode"
             },
             "designerId": "87c4cecd-fdaa-43c3-a687-3b11d34da2cb"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "endTime",
+                "type": "date"
+            },
+            "designerId": "2c91f291-90c6-4abc-97b9-42ce9cbb9281"
         }
     ]
 }

@@ -74,11 +74,57 @@
                     "codeClass": null,
                     "userConfig": {
                         "action": "onTimeButtonTap",
+                        "hidden": true,
                         "id": "TimeButton",
                         "iconCls": "time",
                         "text": ""
                     },
                     "designerId": "92085b17-0d40-4637-846e-d9726d467a0e",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onTimeSliderButtonTap",
+                        "id": "SliderButton",
+                        "iconCls": "arrow_down",
+                        "text": null
+                    },
+                    "designerId": "e0f41225-e7ce-4495-990d-de18c8034187",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "align": "right",
+                        "action": "onRefreshTapEvent",
+                        "id": "RefreshButton",
+                        "iconCls": "refresh",
+                        "text": ""
+                    },
+                    "designerId": "270f70f6-2ba5-4a1c-b1ec-e3e6592daac0",
                     "customConfigs": [
                         {
                             "group": "(Custom Properties)",
@@ -163,6 +209,7 @@
                         "action": "currentLocationButton",
                         "docked": null,
                         "height": 37,
+                        "id": "CurrentLocation",
                         "width": 155,
                         "iconCls": "locate",
                         "text": "Current Location"
@@ -187,6 +234,7 @@
                         "action": "searchLocationButtonEvent",
                         "docked": null,
                         "height": 37,
+                        "id": "SearchLocation",
                         "width": 155,
                         "iconCls": "search",
                         "text": "Search Location"
@@ -217,6 +265,7 @@
                 "id": "SearchLocationPanel",
                 "width": null,
                 "hideOnMaskTap": false,
+                "layout": "vbox",
                 "modal": false
             },
             "designerId": "a90a1b60-8d1e-4fef-af50-45c86dffbe8f",
@@ -238,12 +287,14 @@
                     "userConfig": {
                         "action": "searchLocationFieldEvent",
                         "border": "",
+                        "docked": "top",
                         "id": "SearchLocationField",
                         "itemId": "mysearchfield",
-                        "label": "",
-                        "labelWidth": "0%",
+                        "label": "From",
+                        "labelWidth": "20%",
                         "name": "",
-                        "autoComplete": true
+                        "autoComplete": true,
+                        "placeHolder": null
                     },
                     "designerId": "464d0734-accb-483b-8211-53b7c7733e01",
                     "customConfigs": [
@@ -265,15 +316,50 @@
                                 "fn": "onSearchLocationFieldKeyup",
                                 "implHandler": [
                                     "",
-                                    "var tweetStore = Ext.getStore('MyDirectStore');",
-                                    "var tweetProxy = tweetStore.getProxy();",
-                                    "var textFieldValue = textfield.getValue();",
-                                    "var urlRequest = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query='+textFieldValue+'+Sydney&sensor=true&key=AIzaSyDh_RPGaZuLP8-bEBlIjLq98Vj91SEnaZM';",
-                                    "alert(urlRequest);",
-                                    "tweetProxy.setUrl(urlRequest);",
-                                    "tweetStore.load();",
-                                    "var addressList = Ext.getCmp(\"AddressList\");",
-                                    "addressList.refresh();"
+                                    "var address = textfield.getValue() + ' Sydney' + ' Australia';",
+                                    "",
+                                    "",
+                                    "",
+                                    "var addressArray = [];",
+                                    "geoSearchForAllLocations();",
+                                    "",
+                                    "// To ensure that we have current location displayed in the list view;",
+                                    " function geoSearchForAllLocations(){",
+                                    "       var curr = \"curr\";",
+                                    "        var Curr = \"Curr\";",
+                                    "",
+                                    "        var fromSearchField = Ext.getCmp('SearchLocationField').getValue();",
+                                    "        var toSearchField = Ext.getCmp('ToSearchLocationField').getValue();",
+                                    "",
+                                    "        var currfromSearchField = fromSearchField.indexOf(curr);",
+                                    "        var CurrfromSearchField = fromSearchField.indexOf(Curr);",
+                                    "        var currToSearchField = toSearchField.indexOf(curr);",
+                                    "        var CurrToSearchField = toSearchField.indexOf(Curr);",
+                                    "",
+                                    "        var containsCurrentLocation = false;",
+                                    "",
+                                    "        if((currfromSearchField != -1) || (CurrfromSearchField != -1) || (currToSearchField != -1) || (CurrToSearchField != -1)){",
+                                    "            containsCurrentLocation = true;",
+                                    "        }",
+                                    "",
+                                    "        if(containsCurrentLocation){",
+                                    "            //This has a call back to MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);",
+                                    "            MyApp.app.getController('MainViewController').addCurrentLocation(address,'SearchLocationField');",
+                                    "        } else {",
+                                    "            MyApp.app.getController('MainViewController').showAddress(address,addressArray,'SearchLocationField');   ",
+                                    "        }",
+                                    "",
+                                    "    }",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    ""
                                 ],
                                 "buffer": 1500,
                                 "name": "keyup"
@@ -316,12 +402,74 @@
                             "userConfig": {
                                 "implHandler": [
                                     "<div style='margin-left:10px;'>",
-                                    "    {formatted_address},{lng},{lat}",
+                                    "    {formatted_address},{geo_location}",
                                     "</div>"
                                 ],
                                 "designer|displayName": "itemTpl"
                             },
                             "designerId": "d4292e09-c35a-4f70-a863-f168ccfa0e38"
+                        },
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onAddressListSelect",
+                                "implHandler": [
+                                    "var searchFieldId = record.getData().search_field;",
+                                    "var recordData = record.getData();",
+                                    "Ext.getCmp(searchFieldId).setValue(recordData.formatted_address);",
+                                    "",
+                                    "if(\"SearchLocationField\" === searchFieldId){",
+                                    "\tMyApp.app.getController('MainViewController').config.globalFromCoordinates = recordData.geo_location;",
+                                    "} else {",
+                                    "    MyApp.app.getController('MainViewController').config.globalToCoordinates = recordData.geo_location;",
+                                    "}",
+                                    "MyApp.app.getController('MainViewController').clearAddressList();"
+                                ],
+                                "name": "select"
+                            },
+                            "designerId": "daa1c0f6-2e81-4db3-85cf-587627e99731"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.field.Search",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "top",
+                        "id": "ToSearchLocationField",
+                        "itemId": "mysearchfield2",
+                        "label": "To",
+                        "labelWidth": "20%"
+                    },
+                    "designerId": "87627f09-c8bf-4189-a6c3-8b6b800a9a12",
+                    "cn": [
+                        {
+                            "type": "basiceventbinding",
+                            "reference": {
+                                "name": "listeners",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "fn": "onToSearchLocationFieldKeyup",
+                                "implHandler": [
+                                    "var address = textfield.getValue() + ' Sydney' + ' Australia';",
+                                    "var addressArray = [];",
+                                    "MyApp.app.getController('MainViewController').showAddress(address,addressArray,'ToSearchLocationField');",
+                                    ""
+                                ],
+                                "name": "keyup"
+                            },
+                            "designerId": "8c56edd8-e6ea-47ba-bb18-359d922c2eae"
                         }
                     ]
                 }
@@ -336,7 +484,7 @@
             "codeClass": null,
             "userConfig": {
                 "docked": "top",
-                "height": 250,
+                "height": 242,
                 "hidden": true,
                 "id": "TimePickerPanel",
                 "padding": 0,
@@ -359,9 +507,6 @@
                         "bottom": null,
                         "floatingCls": "top",
                         "height": 150,
-                        "hideAnimation": [
-                            "{type:'pop',duration: 200}"
-                        ],
                         "id": "TimePicker",
                         "itemId": "mypicker",
                         "margin": null,
@@ -371,6 +516,8 @@
                         "top": null,
                         "ui": "",
                         "width": 245,
+                        "autoDestroy": false,
+                        "defaults": null,
                         "scrollable": false,
                         "stretchX": true,
                         "stretchY": true
@@ -385,11 +532,22 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "action": "onDoneButtonTap",
                                 "docked": null,
+                                "hidden": true,
+                                "id": null,
+                                "itemId": null,
                                 "iconAlign": "right",
-                                "text": "Done"
+                                "text": "DefaultDone"
                             },
-                            "designerId": "d60e8b8c-b267-428f-b2de-3880af79b3f5"
+                            "designerId": "d60e8b8c-b267-428f-b2de-3880af79b3f5",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "action",
+                                    "type": "string"
+                                }
+                            ]
                         },
                         {
                             "type": "Ext.Button",
@@ -399,12 +557,22 @@
                             },
                             "codeClass": null,
                             "userConfig": {
+                                "action": "onRealTimeButtonTap",
                                 "docked": null,
+                                "hidden": true,
+                                "id": "DefaultCancel",
                                 "width": null,
                                 "iconCls": "refresh",
                                 "text": "Real Time"
                             },
-                            "designerId": "ee59890b-2058-43a3-b2e7-aa8647dbb73a"
+                            "designerId": "ee59890b-2058-43a3-b2e7-aa8647dbb73a",
+                            "customConfigs": [
+                                {
+                                    "group": "(Custom Properties)",
+                                    "name": "action",
+                                    "type": "string"
+                                }
+                            ]
                         },
                         {
                             "type": "Ext.picker.Slot",
@@ -442,6 +610,91 @@
                             "designerId": "d1ee9ed5-9afe-4f2b-90bc-5836508f577b"
                         },
                         {
+                            "type": "Ext.Toolbar",
+                            "reference": {
+                                "name": "toolbar",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "docked": "top",
+                                "hidden": false,
+                                "id": "TimePanelToolBar",
+                                "autoDestroy": false
+                            },
+                            "designerId": "0257f939-5491-4268-90af-3b464d4108bc",
+                            "cn": [
+                                {
+                                    "type": "Ext.Button",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "action": "onDoneButtonTap",
+                                        "id": "Done",
+                                        "text": "Done"
+                                    },
+                                    "designerId": "c008ab7e-9e29-492b-a05a-a162a39c7436",
+                                    "customConfigs": [
+                                        {
+                                            "group": "(Custom Properties)",
+                                            "name": "action",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "Ext.Spacer",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "designerId": "6a90376a-4043-4802-851b-739a2bc82cbd"
+                                },
+                                {
+                                    "type": "Ext.Button",
+                                    "reference": {
+                                        "name": "items",
+                                        "type": "array"
+                                    },
+                                    "codeClass": null,
+                                    "userConfig": {
+                                        "action": "onRealTimeButtonTap",
+                                        "id": "RealTime",
+                                        "iconAlign": "right",
+                                        "iconCls": "refresh",
+                                        "text": "RealTime"
+                                    },
+                                    "designerId": "afce256d-365d-4a98-ab47-e18b470afd06",
+                                    "customConfigs": [
+                                        {
+                                            "group": "(Custom Properties)",
+                                            "name": "action",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "AMPMPickerSlot",
+                                "autoDestroy": false,
+                                "name": "AMPMPickerSlot",
+                                "title": "AMPMPickerSlot"
+                            },
+                            "designerId": "d1861441-4652-43ce-ace8-8c7e26b5e96f"
+                        },
+                        {
                             "type": "basiceventbinding",
                             "reference": {
                                 "name": "listeners",
@@ -460,6 +713,9 @@
                                     "var minutes = MyApp.app.getController('MainViewController').createMinutes();",
                                     "var ampm = MyApp.app.getController('MainViewController').createAMPM();",
                                     "",
+                                    "this.setDoneButton(false);",
+                                    "this.setCancelButton(false);",
+                                    "",
                                     "if(!hourPickerSlot.getData()){",
                                     "    hourPickerSlot.setData(hours);",
                                     "} ",
@@ -474,42 +730,11 @@
                                     "",
                                     "",
                                     "",
-                                    "",
-                                    "",
-                                    "",
                                     ""
                                 ],
                                 "name": "initialize"
                             },
-                            "designerId": "72125f9e-44f5-46c3-be42-5297f538af05"
-                        },
-                        {
-                            "type": "Ext.Toolbar",
-                            "reference": {
-                                "name": "toolbar",
-                                "type": "object"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "docked": "top",
-                                "hidden": false,
-                                "id": "TimePanelToolBar"
-                            },
-                            "designerId": "0257f939-5491-4268-90af-3b464d4108bc"
-                        },
-                        {
-                            "type": "Ext.picker.Slot",
-                            "reference": {
-                                "name": "slots",
-                                "type": "array"
-                            },
-                            "codeClass": null,
-                            "userConfig": {
-                                "id": "AMPMPickerSlot",
-                                "name": "AMPMPickerSlot",
-                                "title": "AMPMPickerSlot"
-                            },
-                            "designerId": "d1861441-4652-43ce-ace8-8c7e26b5e96f"
+                            "designerId": "35478440-09e9-4472-99ed-edf12590bd02"
                         }
                     ]
                 },
@@ -555,19 +780,36 @@
                         "labelWidth": 0,
                         "options": [
                             "[",
-                            "{text: 'All',  value: '0'},",
-                            "{text: '15 Mintues', value: '0.25'},",
-                            "{text: '30 Mintues', value: '0.5'},",
-                            "{text: '1 Hour',  value: '1'},",
-                            "{text: '2 Hours',  value: '2'},",
-                            "{text: '3 Hours',  value: '3'},",
-                            "{text: '>=4 Hours',  value: '4'}",
+                            "{text: 'All',  value: 0},",
+                            "{text: '15 Mintues', value: 15},",
+                            "{text: '30 Mintues', value: 30},",
+                            "{text: '1 Hour',  value: 60},",
+                            "{text: '2 Hours',  value: 120},",
+                            "{text: '3 Hours',  value: 180},",
+                            "{text: '>=4 Hours',  value: 240}",
                             "]"
                         ]
                     },
                     "designerId": "12d3ac6c-344e-4c8d-bc85-7c46c5b8e367"
                 }
             ]
+        },
+        {
+            "type": "Ext.field.Slider",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "height": 60,
+                "hidden": true,
+                "id": "TimeSlider",
+                "style": null,
+                "label": null,
+                "maxValue": 253
+            },
+            "designerId": "e9396a95-2955-4e0b-93b9-0970ec7a0bb2"
         }
     ]
 }

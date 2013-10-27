@@ -20,7 +20,7 @@
             },
             "codeClass": null,
             "userConfig": {
-                "url": "http://localhost:8080/parking-engine/PESpace/alljsonp"
+                "url": "http://54.200.11.164/parking-engine/PESpace/alljsonp"
             },
             "designerId": "853e9079-ec99-4e5c-bbdd-9d8f0d4d9af1",
             "cn": [

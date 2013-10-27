@@ -6,7 +6,6 @@
     },
     "codeClass": null,
     "userConfig": {
-        "setTime": "silderValue",
         "createdPolyLines": [
             "[]"
         ],
@@ -14,15 +13,13 @@
     },
     "configAlternates": {
         "createdPolyLines": "array",
-        "globalPeReport": "object"
+        "globalPeReport": "object",
+        "globalFromCoordinates": "object",
+        "globalToCoordinates": "object",
+        "directionsRenderer": "object"
     },
     "designerId": "002e032a-bf86-4e30-b5a8-6341878c03a9",
     "customConfigs": [
-        {
-            "group": "(Custom Properties)",
-            "name": "setTime",
-            "type": "string"
-        },
         {
             "group": "(Custom Properties)",
             "name": "peLoadedSpaces",
@@ -41,6 +38,26 @@
         {
             "group": "(Custom Properties)",
             "name": "globalPeReport",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "globalFromCoordinates",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "globalToCoordinates",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "directionsRenderer",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "trafficLayer",
             "type": "string"
         }
     ],
@@ -68,7 +85,6 @@
             "userConfig": {
                 "fn": "onCurrentLocationTap",
                 "implHandler": [
-                    "alert(\"Current Location\");",
                     "var senchaGoogleMap = this.getMyMap();",
                     "senchaGoogleMap.setUseCurrentLocation(true);"
                 ],
@@ -127,10 +143,18 @@
             "userConfig": {
                 "fn": "onSearchLocationTap",
                 "implHandler": [
+                    "var activeId = Ext.getCmp('MainViewContainer').getActiveItem().getId();",
+                    "if(activeId === 'SearchLocationPanel'){",
                     "",
-                    "this.getMainViewContainer().animateActiveItem(1, {type: \"slide\", direction: \"left\"});",
-                    "Ext.getStore('MyDirectStore').load();",
-                    "this.getBackButton().show();"
+                    "    var start = MyApp.app.getController('MainViewController').config.globalFromCoordinates;",
+                    "    var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;",
+                    "",
+                    "    this.addDirections(start,end);",
+                    "    this.changeView(0); ",
+                    "} else {",
+                    "    this.changeView(1);",
+                    "}",
+                    ""
                 ],
                 "name": "tap",
                 "designer|targetType": "Ext.Button",
@@ -161,11 +185,7 @@
             "userConfig": {
                 "fn": "onBackButtonTap",
                 "implHandler": [
-                    "",
-                    "this.getMainViewContainer().animateActiveItem(0, {type: \"slide\", direction: \"right\"});",
-                    "this.getBackButton().hide();",
-                    "",
-                    ""
+                    "this.changeView(0);"
                 ],
                 "name": "tap",
                 "designer|targetType": "Ext.Button",
@@ -198,93 +218,6 @@
                 "selector": "#SearchLocationField"
             },
             "designerId": "60e3a331-0a7d-4b22-968f-1a248a852308"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onListItemSingletap",
-                "implHandler": [
-                    "this.getMainViewContainer().animateActiveItem(0, {type: \"slide\", direction: \"right\"});",
-                    "this.getBackButton().hide();",
-                    "var senchaGoogleMap = this.getMyMap();",
-                    "senchaGoogleMap.setUseCurrentLocation(false);",
-                    "",
-                    "var lat = record.get('lat');",
-                    "var lng = record.get('lng');    ",
-                    "",
-                    "var coordinates = {",
-                    "    latitude: lat, ",
-                    "    longitude: lng",
-                    "};",
-                    "",
-                    "",
-                    "senchaGoogleMap.setMapCenter(coordinates);",
-                    "",
-                    "var mapOpts = {",
-                    "    zoom: 18        ",
-                    "};",
-                    "",
-                    "senchaGoogleMap.setMapOptions(mapOpts);",
-                    "var actualGoogleMap = this.getActualGoogleMap();//senchaGoogleMap.getMap();",
-                    "",
-                    "",
-                    "var myLatlng = new google.maps.LatLng(-33.817924,151.003346);",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "this.createMarkers();",
-                    "this.createPolyLines();",
-                    "",
-                    "",
-                    "/* This shit works",
-                    "marker2Content = '<div style=\"width:450px; line-height:9px; font:Arial, Helvetica, sans-serif small; margin:0px; padding:0px;\"><br /><strong>Meter Number:</strong> AI01 - 1 spaces<br /><br /><span style=\"color:#333;\">Church & Aird Streets Parramatta</span> <br /><br /><span style=\"font-size:11px;\">Monday to Friday: 8am - 6pm - 30min P - $1.60 Per half hour : : 6pm - 10pm - 4P - $1.10 Per hour</span><br /><br /><span style=\"font-size:11px;\">Saturday: 8am - 4pm - 30min P - $0.50 Per Half hour : : 4pm - 10pm - 4P - $1.10 Per hour</span> <br /><br /><strong>Other Parking restrictions</strong><br /><br /><span style=\"font-size:11px;\">Disabled Parking: 2 Hour Parking Mon-Fri (8am - 6pm) Sat(8am - 4pm)<br /><br /> 15 Minutes Free Meter Parking <br /><br /> </span><br /></div>';",
-                    "",
-                    "marker2.info  = new google.maps.InfoWindow({",
-                    "content: marker2Content",
-                    "});",
-                    "",
-                    "google.maps.event.addListener(marker2, 'click', function() {",
-                    "marker2.info.open(actualGoogleMap, marker2);",
-                    "});",
-                    "*/",
-                    "",
-                    "",
-                    "",
-                    "/*",
-                    "",
-                    "Example of a static marker:",
-                    "",
-                    "var marker2 = new google.maps.Marker({",
-                    "position: myLatlng,",
-                    "map: actualGoogleMap,",
-                    "title:\"Hello World!\"",
-                    "});",
-                    "",
-                    "",
-                    "Map Events:",
-                    "https://developers.google.com/maps/documentation/javascript/events?hl=en",
-                    "Need to add Info windows:",
-                    "https://developers.google.com/maps/documentation/javascript/overlays#InfoWindows",
-                    "",
-                    "",
-                    "Click To Add Markers:",
-                    "google.maps.event.addListener(actualGoogleMap, 'click', function(event) {",
-                    "addMarker(event.latLng);",
-                    "});",
-                    "",
-                    "*/"
-                ],
-                "name": "itemsingletap",
-                "designer|targetType": "Ext.dataview.List",
-                "designer|controlQuery": "[action=addressListEvent]"
-            },
-            "designerId": "e25b5a96-d86e-4146-ae20-7628610bfa7a"
         },
         {
             "type": "controllerref",
@@ -320,8 +253,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "ref": "daySelectorPanel",
-                "selector": "#DaySelectorPanel"
+                "ref": "dayTypeSelectorField",
+                "selector": "#DayTypeSelectorField"
             },
             "designerId": "5706d7c6-1115-4e53-a106-947391925b1b"
         },
@@ -491,8 +424,8 @@
                     "var tbody = peReport.innerHTML;",
                     "var infowindow = new InfoBubble({",
                     "    position: startLatLng,",
-                    "    maxWidth: 150,",
-                    "    maxHeight: 150",
+                    "    maxWidth: 170,",
+                    "    maxHeight: 180",
                     "});",
                     "",
                     "infowindow.addTab('Details',tbody);",
@@ -606,14 +539,22 @@
                     "var nowMin = now.getMinutes();",
                     "",
                     "",
-                    "",
                     "this.dynamicallyAdjustComponentSize();",
                     "this.loadParkingData();",
                     "",
+                    "var defaultValues = {",
+                    "    HourPickerSlot: '1',",
+                    "    MinutePickerSlot: '00',",
+                    "    AMPMPickerSlot: 'PM'",
+                    "};",
                     "",
+                    "Ext.getCmp('TimePicker').setDefaults(defaultValues); ",
+                    "Ext.getCmp('TimePicker').getValues();",
                     "window.setInterval(function(){",
                     "    MyApp.app.getController('MainViewController').refreshPESpaces();",
-                    "}, 20000);"
+                    "}, 20000);",
+                    "",
+                    ""
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
@@ -626,128 +567,39 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "onWeekdayCheckboxfieldCheck",
-                "implHandler": [
-                    "var weekEndCheckBox = this.getWeekEnd();",
-                    "",
-                    "if(weekEndCheckBox.isChecked()){",
-                    "    weekEndCheckBox.uncheck();",
-                    "} "
-                ],
-                "name": "check",
-                "designer|targetType": "Ext.field.Checkbox",
-                "designer|controlQuery": "[action=weekDayCheckBox]"
-            },
-            "designerId": "512d071d-27ae-4b64-969d-e45b46bb3dce"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onWeekendCheckboxfieldCheck",
-                "implHandler": [
-                    "var weekDayCheckBox = this.getWeekDay();",
-                    "",
-                    "if(weekDayCheckBox.isChecked()){",
-                    "    weekDayCheckBox.uncheck();",
-                    "} "
-                ],
-                "name": "check",
-                "designer|targetType": "Ext.field.Checkbox",
-                "designer|controlQuery": "[action=weekEndCheckBox]"
-            },
-            "designerId": "fc326a22-14d5-45f0-ac68-228d64d73190"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onWeekdayCheckboxfieldUncheck",
-                "implHandler": [
-                    "var weekEndCheckBox = this.getWeekEnd();",
-                    "",
-                    "if(!weekEndCheckBox.isChecked()){",
-                    "    weekEndCheckBox.check();",
-                    "} "
-                ],
-                "name": "uncheck",
-                "designer|targetType": "Ext.field.Checkbox",
-                "designer|controlQuery": "[action=weekDayCheckBox]"
-            },
-            "designerId": "efd23953-c9f9-425d-8186-69bc28bac2a5"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onWeekendCheckboxfieldUncheck",
-                "implHandler": [
-                    "var weekDayCheckBox = this.getWeekDay();",
-                    "",
-                    "if(!weekDayCheckBox.isChecked()){",
-                    "    weekDayCheckBox.check();",
-                    "} "
-                ],
-                "name": "uncheck",
-                "designer|targetType": "Ext.field.Checkbox",
-                "designer|controlQuery": "[action=weekEndCheckBox]"
-            },
-            "designerId": "e87b6e84-1665-4799-b620-d4cbb6e73f1b"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
                 "fn": "onSliderfieldDrag",
                 "implHandler": [
-                    "var timePickerPanel = this.getTimePickerPanel();",
+                    "var sliderPanel = this.getSliderPanel();",
                     "var hideAnimation =  {    ",
                     "    type: 'slide',",
                     "    direction: 'up',",
                     "    duration: 300",
                     "};           ",
                     "",
-                    "timePickerPanel.showBy(thumb);",
+                    "",
+                    "sliderPanel.setHTML(sliderfield.getValue());",
+                    "sliderPanel.showBy(thumb);",
+                    "",
+                    "/*",
                     "var timePickerValObj = this.getTimePickerValueObj(sliderfield.getValue());",
                     "",
                     "var timePicker = this.getTimePicker();",
-                    "",
-                    "/*timePicker.setValue({",
-                    "HourPickerSlot: '20',",
-                    "MinutePIckerSlot: '32' });",
-                    "*/",
                     "",
                     "",
                     "timePicker.setValue(timePickerValObj);",
                     "",
                     "Ext.Anim.run(timePickerPanel, 'fade', {",
-                    "    duration: 10000,",
-                    "    easing: 'ease-out'",
+                    "duration: 10000,",
+                    "easing: 'ease-out'",
                     "});",
                     "",
                     "var task = Ext.create('Ext.util.DelayedTask', function() {",
-                    "    timePickerPanel.hide();",
+                    "timePickerPanel.hide();",
                     "});",
                     "task.delay(10000);",
                     "",
                     "",
-                    ""
+                    "*/"
                 ],
                 "name": "drag",
                 "designer|targetType": "Ext.field.Slider",
@@ -767,12 +619,23 @@
                 "implHandler": [
                     "var data_hours = [];",
                     "",
-                    "   for(i=1; i<13; i++) {",
-                    "      data_hours.push({",
-                    "        text: i,",
-                    "        value: i",
-                    "      });",
-                    "    } ",
+                    "for(i=1; i<13; i++) {",
+                    "    if(i<10){",
+                    "",
+                    "        data_hours.push({",
+                    "            text: '0'+String(i),",
+                    "            value: '0'+String(i)",
+                    "        });    ",
+                    "",
+                    "    } else {",
+                    "",
+                    "        data_hours.push({",
+                    "            text: i,",
+                    "            value: i",
+                    "        });",
+                    "",
+                    "    }",
+                    "} ",
                     "",
                     "return data_hours;"
                 ]
@@ -792,17 +655,21 @@
                     "data_minuts = [];",
                     "",
                     "data_minuts.push({",
-                    "      text: '00',",
-                    "      value: '00'",
-                    "    });",
-                    "    var val = 5;",
-                    "    for(i=0; i<11; i++) {",
-                    "      data_minuts.push({",
+                    "    text: '00',",
+                    "    value: '00'",
+                    "});",
+                    "data_minuts.push({",
+                    "    text: '05',",
+                    "    value: '05'",
+                    "});",
+                    "var val = 10;",
+                    "for(i=0; i<10; i++) {",
+                    "    data_minuts.push({",
                     "        text: val,",
                     "        value: val",
-                    "      });",
-                    "      val = val + 5;",
-                    "    }",
+                    "    });",
+                    "    val = val + 5;",
+                    "}",
                     "",
                     "return data_minuts;"
                 ]
@@ -1316,8 +1183,8 @@
                     "",
                     "if(!peRep){",
                     "    peRep = Ext.create('MyApp.model.PEReport', new Date());    ",
-                    "   // peRep.set('startHour','16');",
-                    "   // peRep.set('startMinute','30');",
+                    "    // peRep.set('startHour','16');",
+                    "    // peRep.set('startMinute','30');",
                     "    peRep.set('minEndHour','0');",
                     "    peRep.set('minEndMinute','0');",
                     "    peRep.set('mode','REALTIME');",
@@ -1362,7 +1229,11 @@
                     "",
                     "    if(!allTimes){",
                     "        createRow(\"End ParkingTime:\",String(endTime).split(\"GMT\")[0]); ",
-                    "        createRow(\"TotalCost\",'$'+totalCost);",
+                    "        if(ids.length>0){",
+                    "            createRow(\"TotalCost\",'$'+totalCost);",
+                    "        } else {",
+                    "            createRow(\"TotalCost\",\"Free PARKING\");",
+                    "        }",
                     "        createRow(\"Re-New Tickets\",reNew);",
                     "    } else {",
                     "        createRow(\"End ParkingTime:\",\"Time Duration NOT Selected\"); ",
@@ -1382,9 +1253,9 @@
                     "",
                     "    }",
                     "    createRow(\"Day\",day);",
-                    "    ",
+                    "",
                     "    if(ids.length > 0){",
-                    "\t\tcreateRow(\"RuleIds\",ids);",
+                    "        createRow(\"RuleIds\",ids);",
                     "    } else {",
                     "        createRow(\"RuleIds\",\"Free PARKING\");",
                     "    }",
@@ -1551,6 +1422,573 @@
                 ]
             },
             "designerId": "d156c07c-4aec-405c-9973-6c62c14805e2"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "doneButton",
+                "selector": "#Done"
+            },
+            "designerId": "893bccf4-128f-467b-af02-f2564393de0f"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "realTimeButton",
+                "selector": "#RealTime"
+            },
+            "designerId": "ba904bfa-1f45-462d-a089-0ea3fc13c6df"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onDoneButtonTap",
+                "implHandler": [
+                    "var timePickerPanel = this.getTimePickerPanel();",
+                    "",
+                    "",
+                    "",
+                    "var dayType = this.getDayTypeSelectorField().getValue();",
+                    "var duration = this.getDurationSelector().getValue();",
+                    "",
+                    "//10:30 AM converting to 24Hour Time.",
+                    "var timePickerValues = this.getTimePicker().getValues();",
+                    "var min;",
+                    "var hour;",
+                    "var ampm;",
+                    "",
+                    "",
+                    "",
+                    "if(timePickerValues){",
+                    "    min = timePickerValues.MinutePickerSlot;",
+                    "    hour = timePickerValues.HourPickerSlot;",
+                    "    ampm = timePickerValues.AMPMPickerSlot;",
+                    "}",
+                    "",
+                    "",
+                    "",
+                    "var timeString = hour + \":\" + min +\" \"+ampm;",
+                    "var startTimeDate = this.convertTo24HourTime(timeString);",
+                    "",
+                    "//SET global PEReport",
+                    "peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    ",
+                    "",
+                    "",
+                    "//Set Duration",
+                    "if(duration===0){",
+                    "    peRep.set('minEndHour','0');",
+                    "    peRep.set('minEndMinute','0');",
+                    "} else {",
+                    "    var endTime = new Date(startTimeDate.getTime() + duration*60000);",
+                    "    peRep.set('endTime',endTime);",
+                    "    peRep.set('minEndHour',endTime.getHours());",
+                    "    peRep.set('minEndMinute',endTime.getMinutes());",
+                    "",
+                    "}",
+                    "peRep.set('mode','OFFLINE');",
+                    "",
+                    "if(!timePickerPanel.isHidden()){",
+                    "    this.getTimePickerPanel().setHidden(true);",
+                    "} ",
+                    "",
+                    "MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
+                    "this.refreshMap();"
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "[action=onDoneButtonTap]"
+            },
+            "designerId": "61e76c25-ea77-493e-814b-0bce966009e8"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onRealTimeButtonTap",
+                "implHandler": [
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "[action=onRealTimeButtonTap]"
+            },
+            "designerId": "755ecf0d-9090-44ee-8488-9e3e93611ac9"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "amPMPickerSlot",
+                "selector": "#AMPMPickerSlot"
+            },
+            "designerId": "a750c1ee-e240-4ff9-98ff-75367e05fde1"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "durationSelector",
+                "selector": "#DurationSelector"
+            },
+            "designerId": "00d9cb93-9acd-46c7-bea0-79c88f3980cf"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "convertTo24HourTime",
+                "designer|params": [
+                    "timeString"
+                ],
+                "implHandler": [
+                    "// Time String has to be the following format: \"10:30 AM\"",
+                    "",
+                    "var today = new Date();",
+                    "today = this.nextDay(today.getDay());",
+                    "var time = am_pm_to_hours(timeString).split(\":\");",
+                    "",
+                    "return new Date(today.getFullYear(),(today.getMonth()),today.getDate(),time[0],time[1]); ",
+                    "",
+                    "",
+                    "",
+                    "function am_pm_to_hours(time) {",
+                    "    var hours = Number(time.match(/^(\\d+)/)[1]);",
+                    "    var minutes = Number(time.match(/:(\\d+)/)[1]);",
+                    "    var AMPM = time.match(/\\s(.*)$/)[1];",
+                    "    if (AMPM == \"PM\" && hours < 12) hours = hours + 12;",
+                    "    if (AMPM == \"AM\" && hours == 12) hours = hours - 12;",
+                    "    var sHours = hours.toString();",
+                    "    var sMinutes = minutes.toString();",
+                    "    if (hours < 10) sHours = \"0\" + sHours;",
+                    "    if (minutes < 10) sMinutes = \"0\" + sMinutes;",
+                    "    return (sHours +':'+sMinutes);",
+                    "}"
+                ]
+            },
+            "designerId": "2d728f71-4e71-4a90-b8d0-463a1db60c84"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "nextDay",
+                "designer|params": [
+                    "x"
+                ],
+                "implHandler": [
+                    "var now = new Date();",
+                    "var day = now.getDay();",
+                    "",
+                    "//If next day OR today",
+                    "now.setDate(now.getDate()-1);",
+                    "",
+                    "//http://stackoverflow.com/questions/1579010/get-next-date-from-weekday-in-javascript",
+                    "now.setDate(now.getDate() + (x+(7-now.getDay())) % 7);",
+                    "return now;"
+                ]
+            },
+            "designerId": "8a8cf74a-6b49-46ad-a129-ac7b2ad2addf"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onSliderButtonTap",
+                "implHandler": [
+                    "var timeSlider = this.getTimeSlider();",
+                    "",
+                    "if(timeSlider.isHidden()){",
+                    "    Ext.getCmp('SliderButton').setIconCls('arrow_up');",
+                    "    timeSlider.setHidden(false);",
+                    "} else {",
+                    "    Ext.getCmp('SliderButton').setIconCls('arrow_down');",
+                    "    timeSlider.setHidden(true);",
+                    "}",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "[action=onTimeSliderButtonTap]"
+            },
+            "designerId": "dda00aea-9ce3-4e69-90d9-c30a92ce6835"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "sliderPanel",
+                "selector": "#SliderPanel"
+            },
+            "designerId": "33d70957-acb1-48e8-bf66-70a0fdd984f5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "clearAddressList",
+                "implHandler": [
+                    "var searchLocationPanel = Ext.getCmp('SearchLocationPanel');",
+                    "",
+                    "var addressList = Ext.getCmp('AddressList');",
+                    "searchLocationPanel.remove(addressList,true);",
+                    "",
+                    "/*Note destorying the list component was the only way to completely remove the contents",
+                    "of the list. If the list does not exist then it is create during",
+                    "MyApp.app.getController('MainViewController').showAddress */"
+                ]
+            },
+            "designerId": "c48b23c9-7ce3-4602-abbf-91325be7de18"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "showAddress",
+                "designer|params": [
+                    "address",
+                    "addressArray",
+                    "searchFieldId"
+                ],
+                "implHandler": [
+                    "var geocoder = new google.maps.Geocoder();",
+                    "geocoder.geocode( { 'address': address}, function(results, status) {",
+                    "if (status == google.maps.GeocoderStatus.OK) {",
+                    "    ",
+                    "    for (var i=0;i<results.length;i++)",
+                    "    { ",
+                    "        var formattedAddress = results[i].formatted_address;",
+                    "        var geoLocation = results[i].geometry.location;",
+                    "",
+                    "        if(i>10){",
+                    "            break;   ",
+                    "        }",
+                    "",
+                    "        var resultAddress = ",
+                    "        {",
+                    "            formatted_address: formattedAddress,",
+                    "            geo_location: geoLocation,",
+                    "            search_field: searchFieldId",
+                    "        };",
+                    "",
+                    "        addressArray.push(resultAddress);",
+                    "    }",
+                    "",
+                    "    showAddressCallBack(addressArray);",
+                    "",
+                    "} else {",
+                    "    alert('Geocode was not successful for the following reason: ' + status);",
+                    "}",
+                    "});",
+                    "",
+                    "function showAddressCallBack(addressArray){",
+                    "var addressList = Ext.getCmp('AddressList');",
+                    "if(addressList){",
+                    "    MyApp.app.getController('MainViewController').clearAddressList();",
+                    "",
+                    "} ",
+                    "",
+                    "var newAddressList =  Ext.create('Ext.List',{",
+                    "    action: 'addressListEvent',",
+                    "    height: 753,",
+                    "    id: 'AddressList',",
+                    "    itemId: 'mylist',",
+                    "    width: 899,",
+                    "    itemTpl: [",
+                    "    '<div style=\\'margin-left:10px;\\'>',",
+                    "    '    {formatted_address},{geo_location}',",
+                    "    '</div>'",
+                    "    ]",
+                    "}",
+                    ");",
+                    "",
+                    "newAddressList.setData(addressArray);",
+                    "Ext.getCmp('SearchLocationPanel').add(newAddressList);",
+                    "",
+                    "}"
+                ]
+            },
+            "designerId": "1a026bde-0d55-4d74-ba7a-190bd99eb35d"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "changeView",
+                "designer|params": [
+                    "activeItem"
+                ],
+                "implHandler": [
+                    "",
+                    "if(activeItem===1){",
+                    "    this.getMainViewContainer().animateActiveItem(1, {type: \"slide\", direction: \"left\"});",
+                    "    this.getBackButton().setHidden(false);",
+                    "    Ext.getCmp('SliderButton').setHidden(true);",
+                    "    Ext.getCmp('CurrentLocation').setHidden(true);",
+                    "",
+                    "",
+                    "} else {",
+                    "",
+                    "    this.getMainViewContainer().animateActiveItem(0, {type: \"slide\", direction: \"right\"});",
+                    "    this.getBackButton().setHidden(true);",
+                    "    Ext.getCmp('SliderButton').setHidden(false);",
+                    "    Ext.getCmp('CurrentLocation').setHidden(false);",
+                    "    Ext.getCmp('SearchLocation').setHidden(false);",
+                    "",
+                    "",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "3fe85b22-8915-491a-b18e-df38e7b9feb1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "addDirections",
+                "designer|params": [
+                    "start",
+                    "end"
+                ],
+                "implHandler": [
+                    "var directionsDisplay = this.getDirectionsRenderer();",
+                    "var directionsService = new google.maps.DirectionsService();",
+                    "var map = this.getActualGoogleMap();",
+                    "directionsDisplay.setMap(map);",
+                    "",
+                    "var trafficLayer = this.getTrafficLayer();",
+                    "trafficLayer.setMap(map);",
+                    "",
+                    "var request = {",
+                    "    origin:start,",
+                    "    destination:end,",
+                    "    travelMode: google.maps.TravelMode.DRIVING,",
+                    "\tdurationInTraffic: true",
+                    "};",
+                    "",
+                    "directionsService.route(request, function(result, status){directionServiceCallBack(result, status);});",
+                    "",
+                    "",
+                    "function directionServiceCallBack(result, status) {",
+                    "    if (status == google.maps.DirectionsStatus.OK) {",
+                    "        directionsDisplay.setDirections(result);",
+                    "    }",
+                    "}                        "
+                ]
+            },
+            "designerId": "7e9e1893-a873-4453-9b5c-210d920715ed"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "addCurrentLocation",
+                "designer|params": [
+                    "address",
+                    "searchFieldId"
+                ],
+                "implHandler": [
+                    "var initialLocation;",
+                    "var siberia = new google.maps.LatLng(60, 105);",
+                    "var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);",
+                    "var browserSupportFlag =  false;",
+                    "",
+                    "//var map = this.getActualGoogleMap();",
+                    "",
+                    "if(navigator.geolocation) {",
+                    "    browserSupportFlag = true;",
+                    "    navigator.geolocation.getCurrentPosition(function(position) {",
+                    "      initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);",
+                    "\t\tsuccess(initialLocation);",
+                    "       // map.setCenter(initialLocation);",
+                    "    }, function() {",
+                    "      handleNoGeolocation(browserSupportFlag);",
+                    "    });",
+                    "  }",
+                    "  // Browser doesn't support Geolocation",
+                    "  else {",
+                    "    browserSupportFlag = false;",
+                    "    handleNoGeolocation(browserSupportFlag);",
+                    "  }",
+                    "",
+                    "  function handleNoGeolocation(errorFlag) {",
+                    "    if (errorFlag === true) {",
+                    "      alert(\"Geolocation service failed.\");",
+                    "      initialLocation = newyork;",
+                    "    } else {",
+                    "      alert(\"Your browser doesn't support geolocation. We've placed you in Siberia.\");",
+                    "      initialLocation = siberia;",
+                    "    }",
+                    "    //map.setCenter(initialLocation);",
+                    "  }",
+                    "",
+                    "//Called Via Call Back function",
+                    "function success(currentLocation){",
+                    "     var currentLocationAddress = ",
+                    "        {",
+                    "            formatted_address: \"Current Location\",",
+                    "            geo_location: currentLocation,",
+                    "            search_field: \"SearchLocationField\"",
+                    "        };",
+                    "    var addressArray = [];",
+                    "    addressArray.push(currentLocationAddress);",
+                    "    MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "968ef355-8e7e-4507-98ea-3bd6185a9d02"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getDirectionsRenderer",
+                "implHandler": [
+                    "//Must be a singleton",
+                    "var directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;",
+                    "",
+                    "if(directionsDisplay){",
+                    "    return directionsDisplay;",
+                    "} else {",
+                    "    //Initialize  ",
+                    "    MyApp.app.getController('MainViewController').config.directionsRenderer =  new google.maps.DirectionsRenderer();",
+                    "    directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;",
+                    "}    ",
+                    "",
+                    "",
+                    "return directionsDisplay;"
+                ]
+            },
+            "designerId": "fb6333b3-064a-4ae3-885d-65469ff65b2b"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onRefreshTap",
+                "implHandler": [
+                    "this.getDirectionsRenderer().setMap(null);",
+                    "this.getTrafficLayer().setMap(null);"
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "[action=onRefreshTapEvent]"
+            },
+            "designerId": "c0ce0c62-18cb-490a-9d3b-44f80c0c695e"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "refreshButton",
+                "selector": "#RefreshButton"
+            },
+            "designerId": "434f2f01-fdef-47a0-b53d-876cb508b250"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getTrafficLayer",
+                "implHandler": [
+                    "//Must be a singleton",
+                    "var trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;",
+                    "",
+                    "if(trafficLayer){",
+                    "    return trafficLayer;",
+                    "} else {",
+                    "    //Initialize  ",
+                    "    MyApp.app.getController('MainViewController').config.trafficLayer = new google.maps.TrafficLayer();",
+                    "    trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;",
+                    "}    ",
+                    "",
+                    "",
+                    "return trafficLayer;",
+                    "",
+                    ""
+                ]
+            },
+            "designerId": "586f13f3-0821-48e7-a1ae-91594f7936b7"
         }
     ]
 }

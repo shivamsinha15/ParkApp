@@ -1,0 +1,46 @@
+Ext.application({
+    name : ('SF' || 'SenchaFiddle'),
+    
+    launch : function() {
+        //Setup
+        var test1 = Ext.create('Test', {id:"1"}); 
+        var test2 = Ext.create('Test', {id:"2"});  
+        var test3 = Ext.create('Test', {id:"3"});  
+        //test1.getString();
+        
+        var arrayOfTest = [];
+            arrayOfTest.push(test1);
+          arrayOfTest.push(test2);
+            arrayOfTest.push(test3);
+        
+  for (var i = 0; i < arrayOfTest.length; i++) {
+         arrayOfTest[i].getString();
+        //Do something
+    }
+        
+          
+          } //EOLAUNCH
+});
+
+Ext.define('Test', {
+    extend: 'Ext.data.Model',
+    config: {
+        fields: [
+            {name: 'id'}
+        ]
+    },
+
+    getString: function() {
+        var result = this.addTwo('test');
+         alert(result);
+    },
+
+    addTwo: function(stringss) {
+        return stringss + this.get('id');
+    }
+
+});
+
+Ext.Loader.setConfig({
+    enabled : true
+});

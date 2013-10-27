@@ -17,7 +17,6 @@ Ext.define('MyApp.controller.MainViewController', {
     extend: 'Ext.app.Controller',
 
     config: {
-        setTime: 'silderValue',
         createdPolyLines: [
             
         ],
@@ -32,13 +31,19 @@ Ext.define('MyApp.controller.MainViewController', {
             searchLocationField: '#SearchLocationField',
             myMap: '#MyMap',
             weekDay: '#Weekday',
-            daySelectorPanel: '#DaySelectorPanel',
+            dayTypeSelectorField: '#DayTypeSelectorField',
             weekEnd: '#Weekend',
             timePicker: '#TimePicker',
             timePickerPanel: '#TimePickerPanel',
             hourPickerSlot: '#HourPickerSlot',
             minutePickerSlot: '#MinutePickerSlot',
-            titleToolBar: '#TitleToolBar'
+            titleToolBar: '#TitleToolBar',
+            doneButton: '#Done',
+            realTimeButton: '#RealTime',
+            amPMPickerSlot: '#AMPMPickerSlot',
+            durationSelector: '#DurationSelector',
+            sliderPanel: '#SliderPanel',
+            refreshButton: '#RefreshButton'
         },
 
         control: {
@@ -51,185 +56,83 @@ Ext.define('MyApp.controller.MainViewController', {
             "[action=backButtonEvent]": {
                 tap: 'onBackButtonTap'
             },
-            "[action=addressListEvent]": {
-                itemsingletap: 'onListItemSingletap'
-            },
-            "[action=weekDayCheckBox]": {
-                check: 'onWeekdayCheckboxfieldCheck',
-                uncheck: 'onWeekdayCheckboxfieldUncheck'
-            },
-            "[action=weekEndCheckBox]": {
-                check: 'onWeekendCheckboxfieldCheck',
-                uncheck: 'onWeekendCheckboxfieldUncheck'
-            },
             "sliderfield": {
                 drag: 'onSliderfieldDrag'
             },
             "[action=onTimeButtonTap]": {
                 tap: 'onTimeButtonTap'
+            },
+            "[action=onDoneButtonTap]": {
+                tap: 'onDoneButtonTap'
+            },
+            "[action=onRealTimeButtonTap]": {
+                tap: 'onRealTimeButtonTap'
+            },
+            "[action=onTimeSliderButtonTap]": {
+                tap: 'onSliderButtonTap'
+            },
+            "[action=onRefreshTapEvent]": {
+                tap: 'onRefreshTap'
             }
         }
     },
 
     onCurrentLocationTap: function(button, e, eOpts) {
-        alert("Current Location");
         var senchaGoogleMap = this.getMyMap();
         senchaGoogleMap.setUseCurrentLocation(true);
     },
 
     onSearchLocationTap: function(button, e, eOpts) {
+        var activeId = Ext.getCmp('MainViewContainer').getActiveItem().getId();
+        if(activeId === 'SearchLocationPanel'){
 
-        this.getMainViewContainer().animateActiveItem(1, {type: "slide", direction: "left"});
-        Ext.getStore('MyDirectStore').load();
-        this.getBackButton().show();
+            var start = MyApp.app.getController('MainViewController').config.globalFromCoordinates;
+            var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;
+
+            this.addDirections(start,end);
+            this.changeView(0); 
+        } else {
+            this.changeView(1);
+        }
+
     },
 
     onBackButtonTap: function(button, e, eOpts) {
-
-        this.getMainViewContainer().animateActiveItem(0, {type: "slide", direction: "right"});
-        this.getBackButton().hide();
-
-
-    },
-
-    onListItemSingletap: function(dataview, index, target, record, e, eOpts) {
-        this.getMainViewContainer().animateActiveItem(0, {type: "slide", direction: "right"});
-        this.getBackButton().hide();
-        var senchaGoogleMap = this.getMyMap();
-        senchaGoogleMap.setUseCurrentLocation(false);
-
-        var lat = record.get('lat');
-        var lng = record.get('lng');    
-
-        var coordinates = {
-            latitude: lat, 
-            longitude: lng
-        };
-
-
-        senchaGoogleMap.setMapCenter(coordinates);
-
-        var mapOpts = {
-            zoom: 18        
-        };
-
-        senchaGoogleMap.setMapOptions(mapOpts);
-        var actualGoogleMap = this.getActualGoogleMap();//senchaGoogleMap.getMap();
-
-
-        var myLatlng = new google.maps.LatLng(-33.817924,151.003346);
-
-
-
-
-        this.createMarkers();
-        this.createPolyLines();
-
-
-        /* This shit works
-        marker2Content = '<div style="width:450px; line-height:9px; font:Arial, Helvetica, sans-serif small; margin:0px; padding:0px;"><br /><strong>Meter Number:</strong> AI01 - 1 spaces<br /><br /><span style="color:#333;">Church & Aird Streets Parramatta</span> <br /><br /><span style="font-size:11px;">Monday to Friday: 8am - 6pm - 30min P - $1.60 Per half hour : : 6pm - 10pm - 4P - $1.10 Per hour</span><br /><br /><span style="font-size:11px;">Saturday: 8am - 4pm - 30min P - $0.50 Per Half hour : : 4pm - 10pm - 4P - $1.10 Per hour</span> <br /><br /><strong>Other Parking restrictions</strong><br /><br /><span style="font-size:11px;">Disabled Parking: 2 Hour Parking Mon-Fri (8am - 6pm) Sat(8am - 4pm)<br /><br /> 15 Minutes Free Meter Parking <br /><br /> </span><br /></div>';
-
-        marker2.info  = new google.maps.InfoWindow({
-        content: marker2Content
-        });
-
-        google.maps.event.addListener(marker2, 'click', function() {
-        marker2.info.open(actualGoogleMap, marker2);
-        });
-        */
-
-
-
-        /*
-
-        Example of a static marker:
-
-        var marker2 = new google.maps.Marker({
-        position: myLatlng,
-        map: actualGoogleMap,
-        title:"Hello World!"
-        });
-
-
-        Map Events:
-        https://developers.google.com/maps/documentation/javascript/events?hl=en
-        Need to add Info windows:
-        https://developers.google.com/maps/documentation/javascript/overlays#InfoWindows
-
-
-        Click To Add Markers:
-        google.maps.event.addListener(actualGoogleMap, 'click', function(event) {
-        addMarker(event.latLng);
-        });
-
-        */
-    },
-
-    onWeekdayCheckboxfieldCheck: function(checkboxfield, e, eOpts) {
-        var weekEndCheckBox = this.getWeekEnd();
-
-        if(weekEndCheckBox.isChecked()){
-            weekEndCheckBox.uncheck();
-        } 
-    },
-
-    onWeekendCheckboxfieldCheck: function(checkboxfield, e, eOpts) {
-        var weekDayCheckBox = this.getWeekDay();
-
-        if(weekDayCheckBox.isChecked()){
-            weekDayCheckBox.uncheck();
-        } 
-    },
-
-    onWeekdayCheckboxfieldUncheck: function(checkboxfield, e, eOpts) {
-        var weekEndCheckBox = this.getWeekEnd();
-
-        if(!weekEndCheckBox.isChecked()){
-            weekEndCheckBox.check();
-        } 
-    },
-
-    onWeekendCheckboxfieldUncheck: function(checkboxfield, e, eOpts) {
-        var weekDayCheckBox = this.getWeekDay();
-
-        if(!weekDayCheckBox.isChecked()){
-            weekDayCheckBox.check();
-        } 
+        this.changeView(0);
     },
 
     onSliderfieldDrag: function(sliderfield, sl, thumb, e, eOpts) {
-        var timePickerPanel = this.getTimePickerPanel();
+        var sliderPanel = this.getSliderPanel();
         var hideAnimation =  {    
             type: 'slide',
             direction: 'up',
             duration: 300
         };           
 
-        timePickerPanel.showBy(thumb);
+
+        sliderPanel.setHTML(sliderfield.getValue());
+        sliderPanel.showBy(thumb);
+
+        /*
         var timePickerValObj = this.getTimePickerValueObj(sliderfield.getValue());
 
         var timePicker = this.getTimePicker();
-
-        /*timePicker.setValue({
-        HourPickerSlot: '20',
-        MinutePIckerSlot: '32' });
-        */
 
 
         timePicker.setValue(timePickerValObj);
 
         Ext.Anim.run(timePickerPanel, 'fade', {
-            duration: 10000,
-            easing: 'ease-out'
+        duration: 10000,
+        easing: 'ease-out'
         });
 
         var task = Ext.create('Ext.util.DelayedTask', function() {
-            timePickerPanel.hide();
+        timePickerPanel.hide();
         });
         task.delay(10000);
 
 
-
+        */
     },
 
     onTimeButtonTap: function(button, e, eOpts) {
@@ -240,6 +143,80 @@ Ext.define('MyApp.controller.MainViewController', {
         } else {
             this.getTimePickerPanel().setHidden(true);
         }
+    },
+
+    onDoneButtonTap: function(button, e, eOpts) {
+        var timePickerPanel = this.getTimePickerPanel();
+
+
+
+        var dayType = this.getDayTypeSelectorField().getValue();
+        var duration = this.getDurationSelector().getValue();
+
+        //10:30 AM converting to 24Hour Time.
+        var timePickerValues = this.getTimePicker().getValues();
+        var min;
+        var hour;
+        var ampm;
+
+
+
+        if(timePickerValues){
+            min = timePickerValues.MinutePickerSlot;
+            hour = timePickerValues.HourPickerSlot;
+            ampm = timePickerValues.AMPMPickerSlot;
+        }
+
+
+
+        var timeString = hour + ":" + min +" "+ampm;
+        var startTimeDate = this.convertTo24HourTime(timeString);
+
+        //SET global PEReport
+        peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    
+
+
+        //Set Duration
+        if(duration===0){
+            peRep.set('minEndHour','0');
+            peRep.set('minEndMinute','0');
+        } else {
+            var endTime = new Date(startTimeDate.getTime() + duration*60000);
+            peRep.set('endTime',endTime);
+            peRep.set('minEndHour',endTime.getHours());
+            peRep.set('minEndMinute',endTime.getMinutes());
+
+        }
+        peRep.set('mode','OFFLINE');
+
+        if(!timePickerPanel.isHidden()){
+            this.getTimePickerPanel().setHidden(true);
+        } 
+
+        MyApp.app.getController('MainViewController').config.globalPeReport = peRep;
+        this.refreshMap();
+    },
+
+    onRealTimeButtonTap: function(button, e, eOpts) {
+
+    },
+
+    onSliderButtonTap: function(button, e, eOpts) {
+        var timeSlider = this.getTimeSlider();
+
+        if(timeSlider.isHidden()){
+            Ext.getCmp('SliderButton').setIconCls('arrow_up');
+            timeSlider.setHidden(false);
+        } else {
+            Ext.getCmp('SliderButton').setIconCls('arrow_down');
+            timeSlider.setHidden(true);
+        }
+
+    },
+
+    onRefreshTap: function(button, e, eOpts) {
+        this.getDirectionsRenderer().setMap(null);
+        this.getTrafficLayer().setMap(null);
     },
 
     addMarker: function(name, latitude, longitude, description) {
@@ -323,8 +300,8 @@ Ext.define('MyApp.controller.MainViewController', {
         var tbody = peReport.innerHTML;
         var infowindow = new InfoBubble({
             position: startLatLng,
-            maxWidth: 150,
-            maxHeight: 150
+            maxWidth: 170,
+            maxHeight: 180
         });
 
         infowindow.addTab('Details',tbody);
@@ -427,24 +404,43 @@ Ext.define('MyApp.controller.MainViewController', {
         var nowMin = now.getMinutes();
 
 
-
         this.dynamicallyAdjustComponentSize();
         this.loadParkingData();
 
+        var defaultValues = {
+            HourPickerSlot: '1',
+            MinutePickerSlot: '00',
+            AMPMPickerSlot: 'PM'
+        };
 
+        Ext.getCmp('TimePicker').setDefaults(defaultValues); 
+        Ext.getCmp('TimePicker').getValues();
         window.setInterval(function(){
             MyApp.app.getController('MainViewController').refreshPESpaces();
         }, 20000);
+
+
     },
 
     createHours: function() {
         var data_hours = [];
 
         for(i=1; i<13; i++) {
-            data_hours.push({
-                text: i,
-                value: i
-            });
+            if(i<10){
+
+                data_hours.push({
+                    text: '0'+String(i),
+                    value: '0'+String(i)
+                });    
+
+            } else {
+
+                data_hours.push({
+                    text: i,
+                    value: i
+                });
+
+            }
         } 
 
         return data_hours;
@@ -457,8 +453,12 @@ Ext.define('MyApp.controller.MainViewController', {
             text: '00',
             value: '00'
         });
-        var val = 5;
-        for(i=0; i<11; i++) {
+        data_minuts.push({
+            text: '05',
+            value: '05'
+        });
+        var val = 10;
+        for(i=0; i<10; i++) {
             data_minuts.push({
                 text: val,
                 value: val
@@ -828,7 +828,11 @@ Ext.define('MyApp.controller.MainViewController', {
 
             if(!allTimes){
                 createRow("End ParkingTime:",String(endTime).split("GMT")[0]); 
-                createRow("TotalCost",'$'+totalCost);
+                if(ids.length>0){
+                    createRow("TotalCost",'$'+totalCost);
+                } else {
+                    createRow("TotalCost","Free PARKING");
+                }
                 createRow("Re-New Tickets",reNew);
             } else {
                 createRow("End ParkingTime:","Time Duration NOT Selected"); 
@@ -972,6 +976,244 @@ Ext.define('MyApp.controller.MainViewController', {
         } else if (dayAsString==="Saturday"){
             return 6;
         }
+    },
+
+    convertTo24HourTime: function(timeString) {
+        // Time String has to be the following format: "10:30 AM"
+
+        var today = new Date();
+        today = this.nextDay(today.getDay());
+        var time = am_pm_to_hours(timeString).split(":");
+
+        return new Date(today.getFullYear(),(today.getMonth()),today.getDate(),time[0],time[1]); 
+
+
+
+        function am_pm_to_hours(time) {
+            var hours = Number(time.match(/^(\d+)/)[1]);
+            var minutes = Number(time.match(/:(\d+)/)[1]);
+            var AMPM = time.match(/\s(.*)$/)[1];
+            if (AMPM == "PM" && hours < 12) hours = hours + 12;
+            if (AMPM == "AM" && hours == 12) hours = hours - 12;
+            var sHours = hours.toString();
+            var sMinutes = minutes.toString();
+            if (hours < 10) sHours = "0" + sHours;
+            if (minutes < 10) sMinutes = "0" + sMinutes;
+            return (sHours +':'+sMinutes);
+        }
+    },
+
+    nextDay: function(x) {
+        var now = new Date();
+        var day = now.getDay();
+
+        //If next day OR today
+        now.setDate(now.getDate()-1);
+
+        //http://stackoverflow.com/questions/1579010/get-next-date-from-weekday-in-javascript
+        now.setDate(now.getDate() + (x+(7-now.getDay())) % 7);
+        return now;
+    },
+
+    clearAddressList: function() {
+        var searchLocationPanel = Ext.getCmp('SearchLocationPanel');
+
+        var addressList = Ext.getCmp('AddressList');
+        searchLocationPanel.remove(addressList,true);
+
+        /*Note destorying the list component was the only way to completely remove the contents
+        of the list. If the list does not exist then it is create during
+        MyApp.app.getController('MainViewController').showAddress */
+    },
+
+    showAddress: function(address, addressArray, searchFieldId) {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+
+            for (var i=0;i<results.length;i++)
+            { 
+                var formattedAddress = results[i].formatted_address;
+                var geoLocation = results[i].geometry.location;
+
+                if(i>10){
+                    break;   
+                }
+
+                var resultAddress = 
+                {
+                    formatted_address: formattedAddress,
+                    geo_location: geoLocation,
+                    search_field: searchFieldId
+                };
+
+                addressArray.push(resultAddress);
+            }
+
+            showAddressCallBack(addressArray);
+
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+
+    function showAddressCallBack(addressArray){
+        var addressList = Ext.getCmp('AddressList');
+        if(addressList){
+            MyApp.app.getController('MainViewController').clearAddressList();
+
+        } 
+
+        var newAddressList =  Ext.create('Ext.List',{
+            action: 'addressListEvent',
+            height: 753,
+            id: 'AddressList',
+            itemId: 'mylist',
+            width: 899,
+            itemTpl: [
+            '<div style=\'margin-left:10px;\'>',
+            '    {formatted_address},{geo_location}',
+            '</div>'
+            ]
+        }
+        );
+
+        newAddressList.setData(addressArray);
+        Ext.getCmp('SearchLocationPanel').add(newAddressList);
+
+    }
+    },
+
+    changeView: function(activeItem) {
+
+        if(activeItem===1){
+            this.getMainViewContainer().animateActiveItem(1, {type: "slide", direction: "left"});
+            this.getBackButton().setHidden(false);
+            Ext.getCmp('SliderButton').setHidden(true);
+            Ext.getCmp('CurrentLocation').setHidden(true);
+
+
+        } else {
+
+            this.getMainViewContainer().animateActiveItem(0, {type: "slide", direction: "right"});
+            this.getBackButton().setHidden(true);
+            Ext.getCmp('SliderButton').setHidden(false);
+            Ext.getCmp('CurrentLocation').setHidden(false);
+            Ext.getCmp('SearchLocation').setHidden(false);
+
+
+        }
+
+    },
+
+    addDirections: function(start, end) {
+        var directionsDisplay = this.getDirectionsRenderer();
+        var directionsService = new google.maps.DirectionsService();
+        var map = this.getActualGoogleMap();
+        directionsDisplay.setMap(map);
+
+        var trafficLayer = this.getTrafficLayer();
+        trafficLayer.setMap(map);
+
+        var request = {
+            origin:start,
+            destination:end,
+            travelMode: google.maps.TravelMode.DRIVING,
+            durationInTraffic: true
+        };
+
+        directionsService.route(request, function(result, status){directionServiceCallBack(result, status);});
+
+
+        function directionServiceCallBack(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+            }
+        }                        
+    },
+
+    addCurrentLocation: function(address, searchFieldId) {
+        var initialLocation;
+        var siberia = new google.maps.LatLng(60, 105);
+        var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+        var browserSupportFlag =  false;
+
+        //var map = this.getActualGoogleMap();
+
+        if(navigator.geolocation) {
+            browserSupportFlag = true;
+            navigator.geolocation.getCurrentPosition(function(position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                success(initialLocation);
+                // map.setCenter(initialLocation);
+            }, function() {
+                handleNoGeolocation(browserSupportFlag);
+            });
+        }
+        // Browser doesn't support Geolocation
+        else {
+            browserSupportFlag = false;
+            handleNoGeolocation(browserSupportFlag);
+        }
+
+        function handleNoGeolocation(errorFlag) {
+            if (errorFlag === true) {
+                alert("Geolocation service failed.");
+                initialLocation = newyork;
+            } else {
+                alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+                initialLocation = siberia;
+            }
+            //map.setCenter(initialLocation);
+        }
+
+        //Called Via Call Back function
+        function success(currentLocation){
+            var currentLocationAddress = 
+            {
+                formatted_address: "Current Location",
+                geo_location: currentLocation,
+                search_field: "SearchLocationField"
+            };
+            var addressArray = [];
+            addressArray.push(currentLocationAddress);
+            MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);
+        }
+
+    },
+
+    getDirectionsRenderer: function() {
+        //Must be a singleton
+        var directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;
+
+        if(directionsDisplay){
+            return directionsDisplay;
+        } else {
+            //Initialize  
+            MyApp.app.getController('MainViewController').config.directionsRenderer =  new google.maps.DirectionsRenderer();
+            directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;
+        }    
+
+
+        return directionsDisplay;
+    },
+
+    getTrafficLayer: function() {
+        //Must be a singleton
+        var trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;
+
+        if(trafficLayer){
+            return trafficLayer;
+        } else {
+            //Initialize  
+            MyApp.app.getController('MainViewController').config.trafficLayer = new google.maps.TrafficLayer();
+            trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;
+        }    
+
+
+        return trafficLayer;
+
+
     }
 
 });
