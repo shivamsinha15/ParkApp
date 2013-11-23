@@ -20,54 +20,11 @@ Ext.define('MyApp.view.MainViewContainer', {
         id: 'MainViewContainer',
         ui: '',
         autoDestroy: false,
+        hideOnMaskTap: false,
         layout: {
             type: 'card'
         },
         items: [
-            {
-                xtype: 'titlebar',
-                docked: 'top',
-                id: 'TitleToolBar',
-                left: '',
-                minHeight: '60',
-                title: 'Valet Park',
-                layout: {
-                    align: 'start',
-                    type: 'hbox'
-                },
-                items: [
-                    {
-                        xtype: 'button',
-                        action: 'backButtonEvent',
-                        hidden: true,
-                        id: 'BackButton',
-                        ui: 'back',
-                        text: 'Back'
-                    },
-                    {
-                        xtype: 'button',
-                        action: 'onTimeButtonTap',
-                        hidden: true,
-                        id: 'TimeButton',
-                        iconCls: 'time',
-                        text: ''
-                    },
-                    {
-                        xtype: 'button',
-                        action: 'onTimeSliderButtonTap',
-                        id: 'SliderButton',
-                        iconCls: 'arrow_down'
-                    },
-                    {
-                        xtype: 'button',
-                        align: 'right',
-                        action: 'onRefreshTapEvent',
-                        id: 'RefreshButton',
-                        iconCls: 'refresh',
-                        text: ''
-                    }
-                ]
-            },
             {
                 xtype: 'container',
                 id: 'MapContainer',
@@ -100,6 +57,7 @@ Ext.define('MyApp.view.MainViewContainer', {
                         xtype: 'button',
                         action: 'currentLocationButton',
                         height: 37,
+                        hidden: false,
                         id: 'CurrentLocation',
                         width: 155,
                         iconCls: 'locate',
@@ -109,10 +67,29 @@ Ext.define('MyApp.view.MainViewContainer', {
                         xtype: 'button',
                         action: 'searchLocationButtonEvent',
                         height: 37,
+                        hidden: false,
                         id: 'SearchLocation',
                         width: 155,
                         iconCls: 'search',
                         text: 'Search Location'
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onPayButtonEvent',
+                        hidden: true,
+                        id: 'PayButton',
+                        ui: 'action',
+                        width: 100,
+                        text: 'Pay'
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'backButtonEvent',
+                        hidden: true,
+                        id: 'CancelButton',
+                        ui: 'action',
+                        width: 100,
+                        text: 'Cancel'
                     }
                 ]
             },
@@ -160,6 +137,44 @@ Ext.define('MyApp.view.MainViewContainer', {
                         itemId: 'mysearchfield2',
                         label: 'To',
                         labelWidth: '20%'
+                    }
+                ]
+            },
+            {
+                xtype: 'panel',
+                hidden: true,
+                id: 'TimeSliderPanel',
+                maxHeight: 30
+            },
+            {
+                xtype: 'sliderfield',
+                height: 90,
+                hidden: true,
+                id: 'TimeSlider',
+                style: 'background-color:#2E2E2E;',
+                maxValue: 288
+            },
+            {
+                xtype: 'panel',
+                height: 85,
+                id: 'ToolTip',
+                style: '',
+                width: 200,
+                layout: {
+                    type: 'vbox'
+                },
+                items: [
+                    {
+                        xtype: 'label',
+                        id: 'DayLabel',
+                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center;',
+                        styleHtmlContent: true
+                    },
+                    {
+                        xtype: 'label',
+                        id: 'TimeLabel',
+                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center;',
+                        styleHtmlContent: true
                     }
                 ]
             },
@@ -347,11 +362,155 @@ Ext.define('MyApp.view.MainViewContainer', {
                 ]
             },
             {
-                xtype: 'sliderfield',
-                height: 60,
-                hidden: true,
-                id: 'TimeSlider',
-                maxValue: 253
+                xtype: 'toolbar',
+                docked: 'top',
+                height: '',
+                id: 'TitleToolBar',
+                title: 'Valet Park',
+                items: [
+                    {
+                        xtype: 'button',
+                        action: 'backButtonEvent',
+                        hidden: true,
+                        id: 'BackButton',
+                        ui: 'back',
+                        text: 'Back'
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onTimeButtonTap',
+                        hidden: true,
+                        id: 'TimeButton',
+                        iconCls: 'time',
+                        text: ''
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onTimeSliderButtonTap',
+                        docked: 'left',
+                        id: 'SliderButton',
+                        ui: 'small',
+                        iconCls: 'arrow_down'
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onRefreshTapEvent',
+                        docked: 'left',
+                        id: 'RefreshButton',
+                        ui: 'small',
+                        iconCls: 'refresh',
+                        text: ''
+                    },
+                    {
+                        xtype: 'button',
+                        action: 'onPayButtonScreenTap',
+                        docked: 'right',
+                        id: 'PayButtonScreen',
+                        minWidth: 15,
+                        ui: 'small',
+                        width: 54,
+                        iconCls: 'info',
+                        text: ''
+                    }
+                ]
+            },
+            {
+                xtype: 'panel',
+                hidden: false,
+                id: 'ParkDurationPanel',
+                ui: 'dark',
+                scrollable: false,
+                items: [
+                    {
+                        xtype: 'picker',
+                        bottom: 100,
+                        height: 243,
+                        id: 'DurationPicker',
+                        ui: 'dark',
+                        stretchX: true,
+                        stretchY: true,
+                        useTitles: true,
+                        toolbar: {
+                            xtype: 'toolbar',
+                            docked: 'top',
+                            hidden: true
+                        },
+                        slots: [
+                            {
+                                xtype: 'pickerslot',
+                                id: 'HourDurationPicker',
+                                itemId: 'mypickerslot9',
+                                autoDestroy: false,
+                                align: 'center',
+                                name: 'HourPickerSlot',
+                                title: 'Hours'
+                            },
+                            {
+                                xtype: 'pickerslot',
+                                id: 'MinuteDurationPicker',
+                                align: 'center',
+                                name: 'MinutePickerSlot',
+                                title: 'Minutes'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'textfield',
+                        centered: false,
+                        docked: 'bottom',
+                        id: 'CVVTextField',
+                        label: 'CVV',
+                        labelWidth: '33%',
+                        placeHolder: 'XXX'
+                    },
+                    {
+                        xtype: 'selectfield',
+                        centered: false,
+                        docked: 'bottom',
+                        id: 'CreditCardType',
+                        label: 'Type:',
+                        labelWidth: '33%',
+                        options: [
+                            {
+                                text: 'Master Card',
+                                value: 'Master Card'
+                            },
+                            {
+                                text: 'Visa',
+                                value: 'Visa'
+                            },
+                            {
+                                text: 'American Express',
+                                value: 'American Express'
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'textfield',
+                        docked: 'bottom',
+                        id: 'CreditCardTextField',
+                        label: 'CreditCard:',
+                        labelWidth: '33%',
+                        placeHolder: 'XXXX XXXX XXXX XXXX'
+                    },
+                    {
+                        xtype: 'textfield',
+                        disabled: true,
+                        docked: 'bottom',
+                        id: 'AmountTextField',
+                        label: 'Amount:',
+                        labelWidth: '33%'
+                    },
+                    {
+                        xtype: 'textfield',
+                        centered: false,
+                        docked: 'bottom',
+                        id: 'NameTextField',
+                        label: 'Name:',
+                        labelWidth: '33%',
+                        placeHolder: 'First & Last Name'
+                    }
+                ]
             }
         ],
         listeners: [

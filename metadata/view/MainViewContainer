@@ -14,6 +14,7 @@
         "designer|userClassName": "MainViewContainer",
         "designer|initialView": true,
         "autoDestroy": false,
+        "hideOnMaskTap": false,
         "layout": "card"
     },
     "designerId": "79e64710-192a-404f-b450-5d800ef08f2c",
@@ -25,116 +26,6 @@
         }
     ],
     "cn": [
-        {
-            "type": "Ext.TitleBar",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "container|align": "start",
-                "docked": "top",
-                "id": "TitleToolBar",
-                "left": "",
-                "minHeight": "60",
-                "title": "Valet Park"
-            },
-            "designerId": "c0aa508f-979c-4fd8-b9a7-3c355dd6fb06",
-            "cn": [
-                {
-                    "type": "Ext.Button",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "action": "backButtonEvent",
-                        "hidden": true,
-                        "id": "BackButton",
-                        "ui": "back",
-                        "text": "Back"
-                    },
-                    "designerId": "079da93a-47e5-4f6e-9ea2-c2c2af3c44e2",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.Button",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "action": "onTimeButtonTap",
-                        "hidden": true,
-                        "id": "TimeButton",
-                        "iconCls": "time",
-                        "text": ""
-                    },
-                    "designerId": "92085b17-0d40-4637-846e-d9726d467a0e",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.Button",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "action": "onTimeSliderButtonTap",
-                        "id": "SliderButton",
-                        "iconCls": "arrow_down",
-                        "text": null
-                    },
-                    "designerId": "e0f41225-e7ce-4495-990d-de18c8034187",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                },
-                {
-                    "type": "Ext.Button",
-                    "reference": {
-                        "name": "items",
-                        "type": "array"
-                    },
-                    "codeClass": null,
-                    "userConfig": {
-                        "align": "right",
-                        "action": "onRefreshTapEvent",
-                        "id": "RefreshButton",
-                        "iconCls": "refresh",
-                        "text": ""
-                    },
-                    "designerId": "270f70f6-2ba5-4a1c-b1ec-e3e6592daac0",
-                    "customConfigs": [
-                        {
-                            "group": "(Custom Properties)",
-                            "name": "action",
-                            "type": "string"
-                        }
-                    ]
-                }
-            ]
-        },
         {
             "type": "Ext.Container",
             "reference": {
@@ -209,6 +100,7 @@
                         "action": "currentLocationButton",
                         "docked": null,
                         "height": 37,
+                        "hidden": false,
                         "id": "CurrentLocation",
                         "width": 155,
                         "iconCls": "locate",
@@ -234,12 +126,61 @@
                         "action": "searchLocationButtonEvent",
                         "docked": null,
                         "height": 37,
+                        "hidden": false,
                         "id": "SearchLocation",
                         "width": 155,
                         "iconCls": "search",
                         "text": "Search Location"
                     },
                     "designerId": "bd346352-70d7-4a83-82d8-955cf15fae3b",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onPayButtonEvent",
+                        "hidden": true,
+                        "id": "PayButton",
+                        "ui": "action",
+                        "width": 100,
+                        "text": "Pay"
+                    },
+                    "designerId": "14e56bdb-4b06-4838-9149-0c6a5e12afa6",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "backButtonEvent",
+                        "hidden": true,
+                        "id": "CancelButton",
+                        "ui": "action",
+                        "width": 100,
+                        "text": "Cancel"
+                    },
+                    "designerId": "0bd68f37-d39a-4ba2-afff-7df2b6eac5d7",
                     "customConfigs": [
                         {
                             "group": "(Custom Properties)",
@@ -472,6 +413,85 @@
                             "designerId": "8c56edd8-e6ea-47ba-bb18-359d922c2eae"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "hidden": true,
+                "id": "TimeSliderPanel",
+                "maxHeight": 30
+            },
+            "designerId": "83fb3f85-10ea-4345-96cc-a9f2671afcf5"
+        },
+        {
+            "type": "Ext.field.Slider",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "height": 90,
+                "hidden": true,
+                "id": "TimeSlider",
+                "style": "background-color:#2E2E2E;",
+                "label": null,
+                "maxValue": 288
+            },
+            "designerId": "e9396a95-2955-4e0b-93b9-0970ec7a0bb2"
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "height": 85,
+                "hideAnimation": null,
+                "id": "ToolTip",
+                "style": "",
+                "width": 200,
+                "layout": "vbox"
+            },
+            "designerId": "b492f2d9-cc7f-4555-96db-7a283177601a",
+            "cn": [
+                {
+                    "type": "Ext.Label",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "border": null,
+                        "id": "DayLabel",
+                        "style": "border-style:solid; border-color:#2E2E2E;text-align: center;",
+                        "styleHtmlContent": true
+                    },
+                    "designerId": "50f7b1a5-f96f-44cd-b2b5-d105b2c3ad86"
+                },
+                {
+                    "type": "Ext.Label",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "id": "TimeLabel",
+                        "style": "border-style:solid; border-color:#2E2E2E;text-align: center;",
+                        "styleHtmlContent": true
+                    },
+                    "designerId": "d455867c-c57b-4e5d-8770-89c8ea163ad2"
                 }
             ]
         },
@@ -795,21 +815,363 @@
             ]
         },
         {
-            "type": "Ext.field.Slider",
+            "type": "Ext.Toolbar",
             "reference": {
                 "name": "items",
                 "type": "array"
             },
             "codeClass": null,
             "userConfig": {
-                "height": 60,
-                "hidden": true,
-                "id": "TimeSlider",
-                "style": null,
-                "label": null,
-                "maxValue": 253
+                "docked": "top",
+                "height": "",
+                "id": "TitleToolBar",
+                "title": "Valet Park"
             },
-            "designerId": "e9396a95-2955-4e0b-93b9-0970ec7a0bb2"
+            "designerId": "7fafa223-d810-4ad4-b9b6-ce4f6c6db8f5",
+            "cn": [
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "backButtonEvent",
+                        "hidden": true,
+                        "id": "BackButton",
+                        "ui": "back",
+                        "text": "Back"
+                    },
+                    "designerId": "079da93a-47e5-4f6e-9ea2-c2c2af3c44e2",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onTimeButtonTap",
+                        "hidden": true,
+                        "id": "TimeButton",
+                        "iconCls": "time",
+                        "text": ""
+                    },
+                    "designerId": "92085b17-0d40-4637-846e-d9726d467a0e",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onTimeSliderButtonTap",
+                        "docked": "left",
+                        "id": "SliderButton",
+                        "ui": "small",
+                        "width": null,
+                        "iconCls": "arrow_down",
+                        "text": null
+                    },
+                    "designerId": "e0f41225-e7ce-4495-990d-de18c8034187",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onRefreshTapEvent",
+                        "docked": "left",
+                        "id": "RefreshButton",
+                        "ui": "small",
+                        "width": null,
+                        "iconCls": "refresh",
+                        "text": ""
+                    },
+                    "designerId": "270f70f6-2ba5-4a1c-b1ec-e3e6592daac0",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.Button",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "action": "onPayButtonScreenTap",
+                        "docked": "right",
+                        "height": null,
+                        "id": "PayButtonScreen",
+                        "minWidth": 15,
+                        "ui": "small",
+                        "width": 54,
+                        "iconCls": "info",
+                        "text": ""
+                    },
+                    "designerId": "ec47b1ba-8f7d-482f-a918-83ebac016b04",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "action",
+                            "type": "string"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "Ext.Panel",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "docked": null,
+                "height": null,
+                "hidden": false,
+                "id": "ParkDurationPanel",
+                "ui": "dark",
+                "scrollable": false
+            },
+            "designerId": "860f1dd4-c530-4e79-bdac-d0bf8a6a1c15",
+            "cn": [
+                {
+                    "type": "Ext.picker.Picker",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "bottom": 100,
+                        "height": 243,
+                        "id": "DurationPicker",
+                        "right": null,
+                        "ui": "dark",
+                        "stretchX": true,
+                        "stretchY": true,
+                        "useTitles": true
+                    },
+                    "configAlternates": {
+                        "cost": "number"
+                    },
+                    "designerId": "a4ec1de3-3870-4343-971a-b7cf6b8bb5b9",
+                    "customConfigs": [
+                        {
+                            "group": "(Custom Properties)",
+                            "name": "cost",
+                            "type": "string"
+                        }
+                    ],
+                    "cn": [
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "doneButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Done"
+                            },
+                            "designerId": "51a7014d-4db6-452f-b44c-bb53ba50f336"
+                        },
+                        {
+                            "type": "Ext.Button",
+                            "reference": {
+                                "name": "cancelButton",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "text": "Cancel"
+                            },
+                            "designerId": "45fd8d2d-8b67-4dd3-a28d-d2c08441ade1"
+                        },
+                        {
+                            "type": "Ext.Toolbar",
+                            "reference": {
+                                "name": "toolbar",
+                                "type": "object"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "docked": "top",
+                                "hidden": true
+                            },
+                            "designerId": "858e9535-6331-4974-8318-313716fab7ca"
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "HourDurationPicker",
+                                "itemId": "mypickerslot9",
+                                "autoDestroy": false,
+                                "align": "center",
+                                "name": "HourPickerSlot",
+                                "title": "Hours"
+                            },
+                            "designerId": "bd24e9fa-1344-4cbe-b6c7-9dabcbb8d2a8"
+                        },
+                        {
+                            "type": "Ext.picker.Slot",
+                            "reference": {
+                                "name": "slots",
+                                "type": "array"
+                            },
+                            "codeClass": null,
+                            "userConfig": {
+                                "id": "MinuteDurationPicker",
+                                "align": "center",
+                                "name": "MinutePickerSlot",
+                                "title": "Minutes"
+                            },
+                            "designerId": "82c7f7da-315b-4241-b915-3de96cefaf95"
+                        }
+                    ]
+                },
+                {
+                    "type": "Ext.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "centered": false,
+                        "docked": "bottom",
+                        "id": "CVVTextField",
+                        "label": "CVV",
+                        "labelWidth": "33%",
+                        "placeHolder": "XXX"
+                    },
+                    "designerId": "9f9ab2a9-2a59-41e2-943a-2800ac08a049"
+                },
+                {
+                    "type": "Ext.field.Select",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "centered": false,
+                        "docked": "bottom",
+                        "id": "CreditCardType",
+                        "label": "Type:",
+                        "labelWidth": "33%",
+                        "options": [
+                            "[",
+                            "    {",
+                            "    \ttext: 'Master Card',",
+                            "    \tvalue: 'Master Card'",
+                            "    },",
+                            "    {",
+                            "    \ttext: 'Visa',",
+                            "    \tvalue: 'Visa'",
+                            "    },",
+                            "        {",
+                            "    \ttext: 'American Express',",
+                            "    \tvalue: 'American Express'",
+                            "    }",
+                            "    ",
+                            " ]"
+                        ]
+                    },
+                    "designerId": "cd615ae1-8e1d-4899-a710-79d539dc46b1"
+                },
+                {
+                    "type": "Ext.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "docked": "bottom",
+                        "id": "CreditCardTextField",
+                        "label": "CreditCard:",
+                        "labelWidth": "33%",
+                        "placeHolder": "XXXX XXXX XXXX XXXX"
+                    },
+                    "designerId": "d7c70615-5678-469a-b7cc-129f60b9f675"
+                },
+                {
+                    "type": "Ext.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "centered": null,
+                        "disabled": true,
+                        "docked": "bottom",
+                        "id": "AmountTextField",
+                        "label": "Amount:",
+                        "labelWidth": "33%"
+                    },
+                    "designerId": "c8536401-683a-43f8-bdcb-444b84c25500"
+                },
+                {
+                    "type": "Ext.field.Text",
+                    "reference": {
+                        "name": "items",
+                        "type": "array"
+                    },
+                    "codeClass": null,
+                    "userConfig": {
+                        "centered": false,
+                        "docked": "bottom",
+                        "id": "NameTextField",
+                        "label": "Name:",
+                        "labelWidth": "33%",
+                        "placeHolder": "First & Last Name"
+                    },
+                    "designerId": "ad2a14d6-7557-4617-96a9-1145c8870b75"
+                }
+            ]
         }
     ]
 }

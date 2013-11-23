@@ -9,6 +9,9 @@
         "createdPolyLines": [
             "[]"
         ],
+        "views": [
+            "MainViewContainer"
+        ],
         "designer|userClassName": "MainViewController"
     },
     "configAlternates": {
@@ -389,7 +392,8 @@
                     "endLng",
                     "occupied",
                     "peReport",
-                    "peRules"
+                    "peRules",
+                    "currentAppliedRule"
                 ],
                 "implHandler": [
                     "var startLatLng = new google.maps.LatLng(startLat,startLng);",
@@ -403,6 +407,16 @@
                     "var strokeColor = \"#009933\";",
                     "if(occupied === 'true'){",
                     "    strokeColor = \"#FF0000\";",
+                    "}",
+                    "",
+                    "",
+                    "if(currentAppliedRule){",
+                    "    if(currentAppliedRule.getParkSpaceType() === 'Normal'){",
+                    "        //Do nothing should represent the value of occupied or not",
+                    "    } else {",
+                    "        //red occupied",
+                    "        strokeColor = \"#FF0000\";",
+                    "    }",
                     "}",
                     "",
                     "var lineSymbol = {",
@@ -443,16 +457,10 @@
                     "    for(var i=0; i < peRules.length; i++){",
                     "        var peRule = peRules[i];",
                     "        if(peRule){",
-                    "            var fromTime = peRule.getFromTime().toTimeString();",
-                    "            var toTime = peRule.getToTime().toTimeString();",
-                    "            infowindow.addTab(peRule.getFormattedTimeString(fromTime) + '-' + peRule.getFormattedTimeString(toTime),this.getRuleReport(peRule));",
+                    "            infowindow.addTab(peRule.getName(),this.getRuleReport(peRule));",
                     "        }  ",
                     "    }",
                     "}",
-                    "",
-                    "",
-                    "",
-                    "",
                     "",
                     "",
                     "/*    ",
@@ -497,8 +505,7 @@
                     "});",
                     "",
                     "MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);",
-                    "polyLine.setMap(this.getActualGoogleMap());",
-                    ""
+                    "polyLine.setMap(this.getActualGoogleMap());"
                 ]
             },
             "designerId": "09a8f924-51db-46ff-a20c-938098ebcbeb"
@@ -548,64 +555,22 @@
                     "    AMPMPickerSlot: 'PM'",
                     "};",
                     "",
+                    "",
                     "Ext.getCmp('TimePicker').setDefaults(defaultValues); ",
                     "Ext.getCmp('TimePicker').getValues();",
-                    "window.setInterval(function(){",
-                    "    MyApp.app.getController('MainViewController').refreshPESpaces();",
-                    "}, 20000);",
                     "",
-                    ""
+                    "/*",
+                    "window.setInterval(function(){",
+                    "MyApp.app.getController('MainViewController').refreshPESpaces();",
+                    "}, 20000);",
+                    "*/",
+                    "",
+                    "var timeSlider = this.getTimeSlider();",
+                    "var maxValue = 12 * 24 * 7;",
+                    "timeSlider.setMaxValue(maxValue);"
                 ]
             },
             "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
-        },
-        {
-            "type": "controlleraction",
-            "reference": {
-                "name": "listeners",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "fn": "onSliderfieldDrag",
-                "implHandler": [
-                    "var sliderPanel = this.getSliderPanel();",
-                    "var hideAnimation =  {    ",
-                    "    type: 'slide',",
-                    "    direction: 'up',",
-                    "    duration: 300",
-                    "};           ",
-                    "",
-                    "",
-                    "sliderPanel.setHTML(sliderfield.getValue());",
-                    "sliderPanel.showBy(thumb);",
-                    "",
-                    "/*",
-                    "var timePickerValObj = this.getTimePickerValueObj(sliderfield.getValue());",
-                    "",
-                    "var timePicker = this.getTimePicker();",
-                    "",
-                    "",
-                    "timePicker.setValue(timePickerValObj);",
-                    "",
-                    "Ext.Anim.run(timePickerPanel, 'fade', {",
-                    "duration: 10000,",
-                    "easing: 'ease-out'",
-                    "});",
-                    "",
-                    "var task = Ext.create('Ext.util.DelayedTask', function() {",
-                    "timePickerPanel.hide();",
-                    "});",
-                    "task.delay(10000);",
-                    "",
-                    "",
-                    "*/"
-                ],
-                "name": "drag",
-                "designer|targetType": "Ext.field.Slider",
-                "designer|controlQuery": "sliderfield"
-            },
-            "designerId": "9e5d11ee-ddd3-49de-9901-2f39f9bb7c08"
         },
         {
             "type": "basicfunction",
@@ -616,25 +581,28 @@
             "codeClass": null,
             "userConfig": {
                 "fn": "createHours",
+                "designer|params": [
+                    "peHours"
+                ],
                 "implHandler": [
                     "var data_hours = [];",
                     "",
-                    "for(i=1; i<13; i++) {",
-                    "    if(i<10){",
                     "",
-                    "        data_hours.push({",
-                    "            text: '0'+String(i),",
-                    "            value: '0'+String(i)",
-                    "        });    ",
+                    "if(peHours===0){",
+                    "    data_hours.push({",
+                    "        text: '00',",
+                    "        value: '00'",
+                    "    });   ",
+                    "}",
                     "",
-                    "    } else {",
+                    "for(i=0; i<=peHours; i++) {",
                     "",
-                    "        data_hours.push({",
-                    "            text: i,",
-                    "            value: i",
-                    "        });",
+                    "    data_hours.push({",
+                    "        text: i,",
+                    "        value: i",
+                    "    });",
                     "",
-                    "    }",
+                    "",
                     "} ",
                     "",
                     "return data_hours;"
@@ -651,7 +619,15 @@
             "codeClass": null,
             "userConfig": {
                 "fn": "createMinutes",
+                "designer|params": [
+                    "peRuleMinutes"
+                ],
                 "implHandler": [
+                    "",
+                    "var mins = peRuleMinutes - 0;",
+                    "var discreteFiveIncrements = (5 * Math.ceil(mins/5))/5;",
+                    "",
+                    "",
                     "data_minuts = [];",
                     "",
                     "data_minuts.push({",
@@ -662,8 +638,19 @@
                     "    text: '05',",
                     "    value: '05'",
                     "});",
+                    "",
+                    "if(discreteFiveIncrements==1){",
+                    "    return data_minuts;   ",
+                    "}",
+                    "",
+                    "",
+                    "var iterations = discreteFiveIncrements - 1;",
+                    "if(discreteFiveIncrements===0){",
+                    "    iterations = 10;",
+                    "}",
+                    "",
                     "var val = 10;",
-                    "for(i=0; i<10; i++) {",
+                    "for(i=0; i<iterations; i++) {",
                     "    data_minuts.push({",
                     "        text: val,",
                     "        value: val",
@@ -684,8 +671,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "ref": "hourPickerSlot",
-                "selector": "#HourPickerSlot"
+                "ref": "hourDurationPicker",
+                "selector": "#HourDurationPicker"
             },
             "designerId": "14314857-0878-4bf1-8985-36b87463bb7a"
         },
@@ -697,8 +684,8 @@
             },
             "codeClass": null,
             "userConfig": {
-                "ref": "minutePickerSlot",
-                "selector": "#MinutePickerSlot"
+                "ref": "minuteDurationPicker",
+                "selector": "#MinuteDurationPicker"
             },
             "designerId": "3e1d7ffc-a9b7-44e9-8ab9-87d7c915b32f"
         },
@@ -845,6 +832,9 @@
                     "",
                     "var mainViewController = MyApp.app.getController('MainViewController');",
                     "",
+                    "reInitRules();",
+                    "this.removePolyLinesFromMap();",
+                    "",
                     "for(var i=0;i<peSpaceDAO.getAllCount();i++){",
                     "    var record = peSpaceDAO.getAt(i);",
                     "    var id =  record.get('id');",
@@ -857,7 +847,7 @@
                     "    var ruleIdAsArray = ruleIds.split(\",\");",
                     "    var peRulesForPESpace = getRulesFromRuleIds(ruleIdAsArray);",
                     "    var generatedReport = this.generateDetailsReport(peRulesForPESpace,occupied);",
-                    "    mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules);",
+                    "    mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules,generatedReport.currentAppliedRule);",
                     "}",
                     "",
                     "for(var m=0;m<peMeterDAO.getAllCount();m++){",
@@ -881,6 +871,16 @@
                     "        }  ",
                     "    }",
                     "    return peRules;",
+                    "}",
+                    "",
+                    "//Defaults currentlyApplied and Future Applied back to false",
+                    "function reInitRules(){",
+                    "",
+                    "    for(var i=0;i<peRuleDAO.getAllCount();i++){",
+                    "        var peRuleReInit = peRuleDAO.getAt(i);",
+                    "        peRuleReInit.reInitRule();",
+                    "    }",
+                    "",
                     "}"
                 ]
             },
@@ -1188,16 +1188,26 @@
                     "    peRep.set('minEndHour','0');",
                     "    peRep.set('minEndMinute','0');",
                     "    peRep.set('mode','REALTIME');",
+                    "    MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
                     "}",
                     "",
                     "var mode = peRep.get('mode');",
+                    "",
+                    "/* ruleIds and appliedPERules, both contain all the current and future applied rules.",
+                    "Even though the applied future rules are not currently being used.",
+                    "*/",
                     "var ruleIds = [];",
                     "var appliedPERules = [];",
+                    "",
+                    "var peRuleAppliedCurrently;",
                     "",
                     "for(var i=0; i < peRules.length; i++){",
                     "    var peRule = peRules[i];",
                     "    if(peRule){",
                     "        this.checkAndApplyRule(peRule,peRep,appliedPERules);  ",
+                    "        if(peRule.getAppliedCurrently()){",
+                    "            peRuleAppliedCurrently = peRule;",
+                    "        }",
                     "    }  ",
                     "}",
                     "",
@@ -1209,7 +1219,10 @@
                     "}",
                     "",
                     "",
-                    "var peRepDescription = generate_table(mode,peRep.getStartTime(),peRep.getMinEndTime(),peRep.get('dayOfWeek'),ruleIds,peRep.get('totalCost'),'test');",
+                    "var reportTable = generate_table(mode,peRep.getStartTime(),peRep.getMinEndTime(),peRep.get('dayOfWeek'),ruleIds,peRep.get('totalCost'),'test');",
+                    "var peRepDescription = reportTable.table;",
+                    "var currentAppliedRule = reportTable.currentAppliedRule;",
+                    "",
                     "",
                     "function generate_table(mode,startTime,endTime,day,ids,totalCost,reNew) {",
                     "    // creates the reference for the body",
@@ -1236,7 +1249,7 @@
                     "        }",
                     "        createRow(\"Re-New Tickets\",reNew);",
                     "    } else {",
-                    "        createRow(\"End ParkingTime:\",\"Time Duration NOT Selected\"); ",
+                    "        //createRow(\"End ParkingTime:\",\"Time Duration NOT Selected\"); ",
                     "    }",
                     "",
                     "    if(mode === \"REALTIME\")",
@@ -1252,13 +1265,22 @@
                     "",
                     "",
                     "    }",
-                    "    createRow(\"Day\",day);",
+                    "    //createRow(\"Day\",day);",
                     "",
                     "    if(ids.length > 0){",
                     "        createRow(\"RuleIds\",ids);",
-                    "    } else {",
-                    "        createRow(\"RuleIds\",\"Free PARKING\");",
                     "    }",
+                    "",
+                    "    if(peRuleAppliedCurrently){",
+                    "        createRow('Parking Type',peRuleAppliedCurrently.getParkSpaceType());",
+                    "        createRow('Currently Applied Rule:',peRuleAppliedCurrently.getName());",
+                    "    } else {",
+                    "        createRow('Parking Type',\"Free PARKING\");",
+                    "    }",
+                    "",
+                    "",
+                    "",
+                    "",
                     "",
                     "    function createRow(lhs,rhs){",
                     "        var row=tbl.insertRow(-1);",
@@ -1276,14 +1298,22 @@
                     "    // sets the border attribute of tbl to 2;",
                     "    tbl.setAttribute(\"border\", \"2\");",
                     "",
-                    "    return body;",
+                    "    var detailsTable = {",
+                    "        table: body,  ",
+                    "        currentAppliedRule: peRuleAppliedCurrently",
+                    "    };",
+                    "",
+                    "",
+                    "",
+                    "    return detailsTable;",
                     "}",
                     "",
                     "",
                     "",
                     "var generatedReport = {",
                     "    peRepDescription: peRepDescription,",
-                    "    appliedPERules: appliedPERules",
+                    "    appliedPERules: appliedPERules,",
+                    "    currentAppliedRule: currentAppliedRule",
                     "};",
                     "",
                     "",
@@ -1335,8 +1365,10 @@
                     "",
                     "createRow(\"StartTime:\",String(peRule.getFromTime()).split('GMT')[0]);",
                     "createRow(\"EndTime:\",String(peRule.getToTime()).split('GMT')[0]);",
+                    "createRow(\"Parking Space Type:\",String(peRule.getParkSpaceType()));",
                     "createRow(\"Cost/Hour\",\"$\"+peRule.get('cost'));",
                     "createRow(\"Max Time Limit\",peRule.get('timeLimit'));",
+                    "",
                     "",
                     "",
                     "function createRow(lhs,rhs){",
@@ -1635,6 +1667,7 @@
                 "fn": "onSliderButtonTap",
                 "implHandler": [
                     "var timeSlider = this.getTimeSlider();",
+                    "var toolTip = this.getToolTip();",
                     "",
                     "if(timeSlider.isHidden()){",
                     "    Ext.getCmp('SliderButton').setIconCls('arrow_up');",
@@ -1642,6 +1675,7 @@
                     "} else {",
                     "    Ext.getCmp('SliderButton').setIconCls('arrow_down');",
                     "    timeSlider.setHidden(true);",
+                    "    toolTip.setHidden(true);",
                     "}",
                     ""
                 ],
@@ -1650,19 +1684,6 @@
                 "designer|controlQuery": "[action=onTimeSliderButtonTap]"
             },
             "designerId": "dda00aea-9ce3-4e69-90d9-c30a92ce6835"
-        },
-        {
-            "type": "controllerref",
-            "reference": {
-                "name": "items",
-                "type": "array"
-            },
-            "codeClass": null,
-            "userConfig": {
-                "ref": "sliderPanel",
-                "selector": "#SliderPanel"
-            },
-            "designerId": "33d70957-acb1-48e8-bf66-70a0fdd984f5"
         },
         {
             "type": "basicfunction",
@@ -1774,24 +1795,70 @@
                 ],
                 "implHandler": [
                     "",
+                    "var that = this;",
+                    "",
                     "if(activeItem===1){",
                     "    this.getMainViewContainer().animateActiveItem(1, {type: \"slide\", direction: \"left\"});",
-                    "    this.getBackButton().setHidden(false);",
-                    "    Ext.getCmp('SliderButton').setHidden(true);",
-                    "    Ext.getCmp('CurrentLocation').setHidden(true);",
+                    "    hideMainScreenButtons();",
+                    "    Ext.getCmp('SearchLocation').setHidden(false);",
+                    "    Ext.getCmp('BackButton').setHidden(false);",
                     "",
+                    "",
+                    "} else if (activeItem===5) {",
+                    "    this.getMainViewContainer().animateActiveItem(5, {type: \"slide\", direction: \"left\"});",
+                    "    hideMainScreenButtons();    ",
+                    "    showPayScreenButton();",
                     "",
                     "} else {",
                     "",
                     "    this.getMainViewContainer().animateActiveItem(0, {type: \"slide\", direction: \"right\"});",
-                    "    this.getBackButton().setHidden(true);",
+                    "    showMainScreenButtons();",
+                    "    hidePayScreenButton();",
+                    "    Ext.getCmp('BackButton').setHidden(true);",
+                    "",
+                    "",
+                    "    //onSliderButtonTap",
+                    "    var timeSlider = this.getTimeSlider();",
+                    "    var toolTip = this.getToolTip();",
+                    "",
+                    "    if(timeSlider.isHidden()){",
+                    "        Ext.getCmp('SliderButton').setIconCls('arrow_up');",
+                    "        timeSlider.setHidden(false);",
+                    "    } else {",
+                    "        Ext.getCmp('SliderButton').setIconCls('arrow_down');",
+                    "        timeSlider.setHidden(true);",
+                    "        toolTip.setHidden(true);",
+                    "    }",
+                    "}",
+                    "",
+                    "",
+                    "function hideMainScreenButtons(){",
+                    "    Ext.getCmp('SliderButton').setHidden(true);",
+                    "    Ext.getCmp('CurrentLocation').setHidden(true);",
+                    "    Ext.getCmp('TimeSlider').setHidden(true);",
+                    "    Ext.getCmp('SearchLocation').setHidden(true);",
+                    "    Ext.getCmp('RefreshButton').setHidden(true);",
+                    "    Ext.getCmp('PayButtonScreen').setHidden(true);",
+                    "}",
+                    "",
+                    "function showMainScreenButtons(){",
                     "    Ext.getCmp('SliderButton').setHidden(false);",
                     "    Ext.getCmp('CurrentLocation').setHidden(false);",
+                    "    Ext.getCmp('TimeSlider').setHidden(false);",
                     "    Ext.getCmp('SearchLocation').setHidden(false);",
-                    "",
-                    "",
+                    "    Ext.getCmp('RefreshButton').setHidden(false);",
+                    "    Ext.getCmp('PayButtonScreen').setHidden(false);",
                     "}",
-                    ""
+                    "",
+                    "function hidePayScreenButton(){",
+                    "    that.getPayButton().setHidden(true);",
+                    "    that.getCancelButton().setHidden(true);  ",
+                    "}",
+                    "",
+                    "function showPayScreenButton(){",
+                    "    that.getPayButton().setHidden(false);",
+                    "    that.getCancelButton().setHidden(false); ",
+                    "}"
                 ]
             },
             "designerId": "3fe85b22-8915-491a-b18e-df38e7b9feb1"
@@ -1861,38 +1928,38 @@
                     "if(navigator.geolocation) {",
                     "    browserSupportFlag = true;",
                     "    navigator.geolocation.getCurrentPosition(function(position) {",
-                    "      initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);",
-                    "\t\tsuccess(initialLocation);",
-                    "       // map.setCenter(initialLocation);",
+                    "        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);",
+                    "        success(initialLocation);",
+                    "        // map.setCenter(initialLocation);",
                     "    }, function() {",
-                    "      handleNoGeolocation(browserSupportFlag);",
+                    "        handleNoGeolocation(browserSupportFlag);",
                     "    });",
-                    "  }",
-                    "  // Browser doesn't support Geolocation",
-                    "  else {",
+                    "}",
+                    "// Browser doesn't support Geolocation",
+                    "else {",
                     "    browserSupportFlag = false;",
                     "    handleNoGeolocation(browserSupportFlag);",
-                    "  }",
+                    "}",
                     "",
-                    "  function handleNoGeolocation(errorFlag) {",
+                    "function handleNoGeolocation(errorFlag) {",
                     "    if (errorFlag === true) {",
-                    "      alert(\"Geolocation service failed.\");",
-                    "      initialLocation = newyork;",
+                    "        alert(\"Geolocation service failed.\");",
+                    "        initialLocation = newyork;",
                     "    } else {",
-                    "      alert(\"Your browser doesn't support geolocation. We've placed you in Siberia.\");",
-                    "      initialLocation = siberia;",
+                    "        alert(\"Your browser doesn't support geolocation. We've placed you in Siberia.\");",
+                    "        initialLocation = siberia;",
                     "    }",
                     "    //map.setCenter(initialLocation);",
-                    "  }",
+                    "}",
                     "",
                     "//Called Via Call Back function",
                     "function success(currentLocation){",
-                    "     var currentLocationAddress = ",
-                    "        {",
-                    "            formatted_address: \"Current Location\",",
-                    "            geo_location: currentLocation,",
-                    "            search_field: \"SearchLocationField\"",
-                    "        };",
+                    "    var currentLocationAddress = ",
+                    "    {",
+                    "        formatted_address: \"Current Location\",",
+                    "        geo_location: currentLocation,",
+                    "        search_field: \"SearchLocationField\"",
+                    "    };",
                     "    var addressArray = [];",
                     "    addressArray.push(currentLocationAddress);",
                     "    MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);",
@@ -1989,6 +2056,349 @@
                 ]
             },
             "designerId": "586f13f3-0821-48e7-a1ae-91594f7936b7"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "toolTip",
+                "selector": "#ToolTip"
+            },
+            "designerId": "af81a8c1-d43f-4508-b4b0-2ae6c4da78ae"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "dayLabel",
+                "selector": "#DayLabel"
+            },
+            "designerId": "8c75a407-1b91-4f97-a59c-9914c2855d0b"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "timeLabel",
+                "selector": "#TimeLabel"
+            },
+            "designerId": "bff660f2-01ae-4019-b9c9-9b10d2ea5f8a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "convertToTwelveHourTime",
+                "designer|params": [
+                    "timeAsString"
+                ],
+                "implHandler": [
+                    "//timeAsString is 24Hour Time in the following formatt \"12:[0-59]:[0-59]\"",
+                    "",
+                    "var timeArray = timeAsString.split(':');",
+                    "var hh = timeArray[0];",
+                    "var m = timeArray[1];",
+                    "var s = timeArray[2];",
+                    "var dd = \"AM\";",
+                    "var h = hh;",
+                    "if (h >= 12) {",
+                    "    h = hh-12;",
+                    "    dd = \"PM\";",
+                    "}",
+                    "if (h === 0) {",
+                    "    h = 12;",
+                    "}",
+                    "",
+                    "",
+                    "/* if you want 2 digit hours:",
+                    "h = h<10?\"0\"+h:h; */",
+                    "",
+                    "var pattern = new RegExp(hh+\":\"+m+\":\"+s);",
+                    "",
+                    "m = m<10?\"0\"+m:m;",
+                    "",
+                    "s = s<10?\"0\"+s:s;",
+                    "",
+                    "var replacement = h+\":\"+m;",
+                    "/* if you want to add seconds",
+                    "replacement += \":\"+s;  */",
+                    "replacement += \" \"+dd;    ",
+                    "",
+                    "return timeAsString.replace(pattern,replacement);"
+                ]
+            },
+            "designerId": "a8c378b2-0460-460b-a7a4-dc9b9924cf20"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onSliderfieldDragEnd",
+                "implHandler": [
+                    "var tooltip = this.getToolTip();",
+                    "var dayLabel = this.getDayLabel();",
+                    "var timeLabel = this.getTimeLabel();",
+                    "",
+                    "",
+                    "",
+                    "var now = new Date();",
+                    "var sliderValue = sliderfield.getValue();",
+                    "var changeMins = 5 * sliderValue;",
+                    "var changeMilli = changeMins * 60000;",
+                    "var totalTime = now.getTime() + changeMilli;",
+                    "now.setTime(totalTime);",
+                    "",
+                    "",
+                    "",
+                    "tooltip.hide();",
+                    "createGlobalPEReport(now);",
+                    "MyApp.app.getController('MainViewController').refreshMap();",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "function createGlobalPEReport(currentSliderTime){",
+                    "",
+                    "    var startTimeDate = currentSliderTime;",
+                    "",
+                    "    //SET global PEReport",
+                    "    peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    ",
+                    "",
+                    "",
+                    "    //Set Duration",
+                    "    /* Used to have duration before when calculating the total cost of parking, currently we do not include that in the PEReport*/ ",
+                    "    var duration = 0;    ",
+                    "    if(duration===0){",
+                    "        peRep.set('minEndHour','0');",
+                    "        peRep.set('minEndMinute','0');",
+                    "    } else {",
+                    "        var endTime = new Date(startTimeDate.getTime() + duration*60000);",
+                    "        peRep.set('endTime',endTime);",
+                    "        peRep.set('minEndHour',endTime.getHours());",
+                    "        peRep.set('minEndMinute',endTime.getMinutes());",
+                    "",
+                    "    }",
+                    "",
+                    "    peRep.set('mode','OFFLINE');",
+                    "    MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
+                    "",
+                    "",
+                    "}"
+                ],
+                "name": "dragend",
+                "designer|targetType": "Ext.field.Slider",
+                "designer|controlQuery": "sliderfield"
+            },
+            "designerId": "4b0ea842-0488-48a5-86de-7c7a69fa887b"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onSliderfieldDrag",
+                "implHandler": [
+                    "var tooltip = this.getToolTip();",
+                    "tooltip.setHidden(false);",
+                    "var dayLabel = this.getDayLabel();",
+                    "var timeLabel = this.getTimeLabel();",
+                    "",
+                    "",
+                    "var now = new Date();",
+                    "var sliderValue = sliderfield.getValue();",
+                    "var changeMins = 5 * sliderValue;",
+                    "var changeMilli = changeMins * 60000;",
+                    "var totalTime = now.getTime() + changeMilli;",
+                    "now.setTime(totalTime);",
+                    "var day = this.convertDayIntToString(now.getDay());",
+                    "",
+                    "if(sliderValue == 0){",
+                    "    time = \"Current Time\";",
+                    "} else {",
+                    "    time = this.convertToTwelveHourTime(now.getHours() + ':' + (5 * Math.floor(now.getMinutes()/5)) +':' +now.getSeconds());",
+                    "}",
+                    "",
+                    "",
+                    "",
+                    "dayLabel.updateHtml(day);",
+                    "timeLabel.updateHtml(time);",
+                    "tooltip.showBy(thumb);",
+                    "",
+                    "",
+                    ""
+                ],
+                "name": "drag",
+                "designer|targetType": "Ext.field.Slider",
+                "designer|controlQuery": "sliderfield"
+            },
+            "designerId": "2ec83749-d4db-4936-8800-daafb62e4f80"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onPayButtonScreenTap",
+                "implHandler": [
+                    "",
+                    "",
+                    "var hourDurationPicker = this.getHourDurationPicker();",
+                    "var minDurationPicker = this.getMinuteDurationPicker();",
+                    "",
+                    "var peRule = Ext.getStore('PERuleDAO').getById(6);",
+                    "var cost = peRule.get('cost');",
+                    "",
+                    "",
+                    "this.getDurationPicker().cost = cost;",
+                    "",
+                    "var timeLimit = peRule.get('timeLimit');",
+                    "",
+                    "var timeArray = timeLimit.split(':');",
+                    "",
+                    "var peHours = timeArray[0]-0;",
+                    "",
+                    "var peMinutes = timeArray[1];",
+                    "",
+                    "",
+                    "var hourDataSet = this.createHours(peHours);",
+                    "var minDataSet =  this.createMinutes(peMinutes);",
+                    "",
+                    "if(!hourDurationPicker.getData()){",
+                    "hourDurationPicker.setData(hourDataSet);",
+                    "}",
+                    "",
+                    "if(!minDurationPicker.getData()){",
+                    "minDurationPicker.setData(minDataSet);",
+                    "}",
+                    "",
+                    "this.changeView(5);",
+                    "",
+                    "",
+                    ""
+                ],
+                "name": "tap",
+                "designer|targetType": "Ext.Button",
+                "designer|controlQuery": "[action=onPayButtonScreenTap]"
+            },
+            "designerId": "8ed54c25-7f90-4fb0-b215-6278019827f1"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "parkDurationPanel",
+                "selector": "#ParkDurationPanel"
+            },
+            "designerId": "c9f381d7-c6f5-4c3b-a1a6-9dfbc1afb114"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "payButton",
+                "selector": "#PayButton"
+            },
+            "designerId": "b03490a4-69f2-4460-8a9e-b2f29ba6ebc9"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "cancelButton",
+                "selector": "#CancelButton"
+            },
+            "designerId": "0f5202ec-e622-4d83-8979-b644561331a3"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "durationPicker",
+                "selector": "#DurationPicker"
+            },
+            "designerId": "78152619-93af-471e-8dba-b66ef04506c8"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "onPickerslotSlotpick",
+                "implHandler": [
+                    "var durationPicker = this.getDurationPicker();",
+                    "var cost = durationPicker.cost;",
+                    "",
+                    "",
+                    "var hours = durationPicker.getValue()['HourPickerSlot']-0;",
+                    "var mins = durationPicker.getValue()['MinutePickerSlot']-0; ",
+                    "",
+                    "var amount =(hours * cost) + ((cost/60) * mins);",
+                    "",
+                    "this.getAmountTextField().setValue('$'+amount.toFixed(2));"
+                ],
+                "name": "slotpick",
+                "designer|targetType": "Ext.picker.Slot",
+                "designer|controlQuery": "pickerslot"
+            },
+            "designerId": "99fa0642-9ae6-433c-bf9b-2a50f7e84076"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "amountTextField",
+                "selector": "#AmountTextField"
+            },
+            "designerId": "3308336b-d298-409e-86eb-84449919aea3"
         }
     ]
 }

@@ -20,6 +20,9 @@ Ext.define('MyApp.controller.MainViewController', {
         createdPolyLines: [
             
         ],
+        views: [
+            'MainViewContainer'
+        ],
 
         refs: {
             streetParkingPanel: '#StreetParkingPanel',
@@ -35,15 +38,22 @@ Ext.define('MyApp.controller.MainViewController', {
             weekEnd: '#Weekend',
             timePicker: '#TimePicker',
             timePickerPanel: '#TimePickerPanel',
-            hourPickerSlot: '#HourPickerSlot',
-            minutePickerSlot: '#MinutePickerSlot',
+            hourDurationPicker: '#HourDurationPicker',
+            minuteDurationPicker: '#MinuteDurationPicker',
             titleToolBar: '#TitleToolBar',
             doneButton: '#Done',
             realTimeButton: '#RealTime',
             amPMPickerSlot: '#AMPMPickerSlot',
             durationSelector: '#DurationSelector',
-            sliderPanel: '#SliderPanel',
-            refreshButton: '#RefreshButton'
+            refreshButton: '#RefreshButton',
+            toolTip: '#ToolTip',
+            dayLabel: '#DayLabel',
+            timeLabel: '#TimeLabel',
+            parkDurationPanel: '#ParkDurationPanel',
+            payButton: '#PayButton',
+            cancelButton: '#CancelButton',
+            durationPicker: '#DurationPicker',
+            amountTextField: '#AmountTextField'
         },
 
         control: {
@@ -55,9 +65,6 @@ Ext.define('MyApp.controller.MainViewController', {
             },
             "[action=backButtonEvent]": {
                 tap: 'onBackButtonTap'
-            },
-            "sliderfield": {
-                drag: 'onSliderfieldDrag'
             },
             "[action=onTimeButtonTap]": {
                 tap: 'onTimeButtonTap'
@@ -73,6 +80,16 @@ Ext.define('MyApp.controller.MainViewController', {
             },
             "[action=onRefreshTapEvent]": {
                 tap: 'onRefreshTap'
+            },
+            "sliderfield": {
+                dragend: 'onSliderfieldDragEnd',
+                drag: 'onSliderfieldDrag'
+            },
+            "[action=onPayButtonScreenTap]": {
+                tap: 'onPayButtonScreenTap'
+            },
+            "pickerslot": {
+                slotpick: 'onPickerslotSlotpick'
             }
         }
     },
@@ -99,40 +116,6 @@ Ext.define('MyApp.controller.MainViewController', {
 
     onBackButtonTap: function(button, e, eOpts) {
         this.changeView(0);
-    },
-
-    onSliderfieldDrag: function(sliderfield, sl, thumb, e, eOpts) {
-        var sliderPanel = this.getSliderPanel();
-        var hideAnimation =  {    
-            type: 'slide',
-            direction: 'up',
-            duration: 300
-        };           
-
-
-        sliderPanel.setHTML(sliderfield.getValue());
-        sliderPanel.showBy(thumb);
-
-        /*
-        var timePickerValObj = this.getTimePickerValueObj(sliderfield.getValue());
-
-        var timePicker = this.getTimePicker();
-
-
-        timePicker.setValue(timePickerValObj);
-
-        Ext.Anim.run(timePickerPanel, 'fade', {
-        duration: 10000,
-        easing: 'ease-out'
-        });
-
-        var task = Ext.create('Ext.util.DelayedTask', function() {
-        timePickerPanel.hide();
-        });
-        task.delay(10000);
-
-
-        */
     },
 
     onTimeButtonTap: function(button, e, eOpts) {
@@ -203,6 +186,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
     onSliderButtonTap: function(button, e, eOpts) {
         var timeSlider = this.getTimeSlider();
+        var toolTip = this.getToolTip();
 
         if(timeSlider.isHidden()){
             Ext.getCmp('SliderButton').setIconCls('arrow_up');
@@ -210,6 +194,7 @@ Ext.define('MyApp.controller.MainViewController', {
         } else {
             Ext.getCmp('SliderButton').setIconCls('arrow_down');
             timeSlider.setHidden(true);
+            toolTip.setHidden(true);
         }
 
     },
@@ -217,6 +202,140 @@ Ext.define('MyApp.controller.MainViewController', {
     onRefreshTap: function(button, e, eOpts) {
         this.getDirectionsRenderer().setMap(null);
         this.getTrafficLayer().setMap(null);
+    },
+
+    onSliderfieldDragEnd: function(sliderfield, sl, thumb, value, e, eOpts) {
+        var tooltip = this.getToolTip();
+        var dayLabel = this.getDayLabel();
+        var timeLabel = this.getTimeLabel();
+
+
+
+        var now = new Date();
+        var sliderValue = sliderfield.getValue();
+        var changeMins = 5 * sliderValue;
+        var changeMilli = changeMins * 60000;
+        var totalTime = now.getTime() + changeMilli;
+        now.setTime(totalTime);
+
+
+
+        tooltip.hide();
+        createGlobalPEReport(now);
+        MyApp.app.getController('MainViewController').refreshMap();
+
+
+
+
+        function createGlobalPEReport(currentSliderTime){
+
+            var startTimeDate = currentSliderTime;
+
+            //SET global PEReport
+            peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    
+
+
+            //Set Duration
+            /* Used to have duration before when calculating the total cost of parking, currently we do not include that in the PEReport*/ 
+            var duration = 0;    
+            if(duration===0){
+                peRep.set('minEndHour','0');
+                peRep.set('minEndMinute','0');
+            } else {
+                var endTime = new Date(startTimeDate.getTime() + duration*60000);
+                peRep.set('endTime',endTime);
+                peRep.set('minEndHour',endTime.getHours());
+                peRep.set('minEndMinute',endTime.getMinutes());
+
+            }
+
+            peRep.set('mode','OFFLINE');
+            MyApp.app.getController('MainViewController').config.globalPeReport = peRep;
+
+
+        }
+    },
+
+    onSliderfieldDrag: function(sliderfield, sl, thumb, e, eOpts) {
+        var tooltip = this.getToolTip();
+        tooltip.setHidden(false);
+        var dayLabel = this.getDayLabel();
+        var timeLabel = this.getTimeLabel();
+
+
+        var now = new Date();
+        var sliderValue = sliderfield.getValue();
+        var changeMins = 5 * sliderValue;
+        var changeMilli = changeMins * 60000;
+        var totalTime = now.getTime() + changeMilli;
+        now.setTime(totalTime);
+        var day = this.convertDayIntToString(now.getDay());
+
+        if(sliderValue == 0){
+            time = "Current Time";
+        } else {
+            time = this.convertToTwelveHourTime(now.getHours() + ':' + (5 * Math.floor(now.getMinutes()/5)) +':' +now.getSeconds());
+        }
+
+
+
+        dayLabel.updateHtml(day);
+        timeLabel.updateHtml(time);
+        tooltip.showBy(thumb);
+
+
+
+    },
+
+    onPayButtonScreenTap: function(button, e, eOpts) {
+
+
+        var hourDurationPicker = this.getHourDurationPicker();
+        var minDurationPicker = this.getMinuteDurationPicker();
+
+        var peRule = Ext.getStore('PERuleDAO').getById(6);
+        var cost = peRule.get('cost');
+
+
+        this.getDurationPicker().cost = cost;
+
+        var timeLimit = peRule.get('timeLimit');
+
+        var timeArray = timeLimit.split(':');
+
+        var peHours = timeArray[0]-0;
+
+        var peMinutes = timeArray[1];
+
+
+        var hourDataSet = this.createHours(peHours);
+        var minDataSet =  this.createMinutes(peMinutes);
+
+        if(!hourDurationPicker.getData()){
+            hourDurationPicker.setData(hourDataSet);
+        }
+
+        if(!minDurationPicker.getData()){
+            minDurationPicker.setData(minDataSet);
+        }
+
+        this.changeView(5);
+
+
+
+    },
+
+    onPickerslotSlotpick: function(pickerslot, value, node, eOpts) {
+        var durationPicker = this.getDurationPicker();
+        var cost = durationPicker.cost;
+
+
+        var hours = durationPicker.getValue()['HourPickerSlot']-0;
+        var mins = durationPicker.getValue()['MinutePickerSlot']-0; 
+
+        var amount =(hours * cost) + ((cost/60) * mins);
+
+        this.getAmountTextField().setValue('$'+amount.toFixed(2));
     },
 
     addMarker: function(name, latitude, longitude, description) {
@@ -267,7 +386,7 @@ Ext.define('MyApp.controller.MainViewController', {
 
     },
 
-    createPolyLines: function(startLat, startLng, endLat, endLng, occupied, peReport, peRules) {
+    createPolyLines: function(startLat, startLng, endLat, endLng, occupied, peReport, peRules, currentAppliedRule) {
         var startLatLng = new google.maps.LatLng(startLat,startLng);
 
 
@@ -279,6 +398,16 @@ Ext.define('MyApp.controller.MainViewController', {
         var strokeColor = "#009933";
         if(occupied === 'true'){
             strokeColor = "#FF0000";
+        }
+
+
+        if(currentAppliedRule){
+            if(currentAppliedRule.getParkSpaceType() === 'Normal'){
+                //Do nothing should represent the value of occupied or not
+            } else {
+                //red occupied
+                strokeColor = "#FF0000";
+            }
         }
 
         var lineSymbol = {
@@ -319,16 +448,10 @@ Ext.define('MyApp.controller.MainViewController', {
             for(var i=0; i < peRules.length; i++){
                 var peRule = peRules[i];
                 if(peRule){
-                    var fromTime = peRule.getFromTime().toTimeString();
-                    var toTime = peRule.getToTime().toTimeString();
-                    infowindow.addTab(peRule.getFormattedTimeString(fromTime) + '-' + peRule.getFormattedTimeString(toTime),this.getRuleReport(peRule));
+                    infowindow.addTab(peRule.getName(),this.getRuleReport(peRule));
                 }  
             }
         }
-
-
-
-
 
 
         /*    
@@ -374,7 +497,6 @@ Ext.define('MyApp.controller.MainViewController', {
 
         MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);
         polyLine.setMap(this.getActualGoogleMap());
-
     },
 
     launch: function() {
@@ -413,40 +535,51 @@ Ext.define('MyApp.controller.MainViewController', {
             AMPMPickerSlot: 'PM'
         };
 
+
         Ext.getCmp('TimePicker').setDefaults(defaultValues); 
         Ext.getCmp('TimePicker').getValues();
+
+        /*
         window.setInterval(function(){
-            MyApp.app.getController('MainViewController').refreshPESpaces();
+        MyApp.app.getController('MainViewController').refreshPESpaces();
         }, 20000);
+        */
 
-
+        var timeSlider = this.getTimeSlider();
+        var maxValue = 12 * 24 * 7;
+        timeSlider.setMaxValue(maxValue);
     },
 
-    createHours: function() {
+    createHours: function(peHours) {
         var data_hours = [];
 
-        for(i=1; i<13; i++) {
-            if(i<10){
 
-                data_hours.push({
-                    text: '0'+String(i),
-                    value: '0'+String(i)
-                });    
+        if(peHours===0){
+            data_hours.push({
+                text: '00',
+                value: '00'
+            });   
+        }
 
-            } else {
+        for(i=0; i<=peHours; i++) {
 
-                data_hours.push({
-                    text: i,
-                    value: i
-                });
+            data_hours.push({
+                text: i,
+                value: i
+            });
 
-            }
+
         } 
 
         return data_hours;
     },
 
-    createMinutes: function() {
+    createMinutes: function(peRuleMinutes) {
+
+        var mins = peRuleMinutes - 0;
+        var discreteFiveIncrements = (5 * Math.ceil(mins/5))/5;
+
+
         data_minuts = [];
 
         data_minuts.push({
@@ -457,8 +590,19 @@ Ext.define('MyApp.controller.MainViewController', {
             text: '05',
             value: '05'
         });
+
+        if(discreteFiveIncrements==1){
+            return data_minuts;   
+        }
+
+
+        var iterations = discreteFiveIncrements - 1;
+        if(discreteFiveIncrements===0){
+            iterations = 10;
+        }
+
         var val = 10;
-        for(i=0; i<10; i++) {
+        for(i=0; i<iterations; i++) {
             data_minuts.push({
                 text: val,
                 value: val
@@ -578,6 +722,9 @@ Ext.define('MyApp.controller.MainViewController', {
 
         var mainViewController = MyApp.app.getController('MainViewController');
 
+        reInitRules();
+        this.removePolyLinesFromMap();
+
         for(var i=0;i<peSpaceDAO.getAllCount();i++){
             var record = peSpaceDAO.getAt(i);
             var id =  record.get('id');
@@ -590,7 +737,7 @@ Ext.define('MyApp.controller.MainViewController', {
             var ruleIdAsArray = ruleIds.split(",");
             var peRulesForPESpace = getRulesFromRuleIds(ruleIdAsArray);
             var generatedReport = this.generateDetailsReport(peRulesForPESpace,occupied);
-            mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules);
+            mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules,generatedReport.currentAppliedRule);
         }
 
         for(var m=0;m<peMeterDAO.getAllCount();m++){
@@ -614,6 +761,16 @@ Ext.define('MyApp.controller.MainViewController', {
                 }  
             }
             return peRules;
+        }
+
+        //Defaults currentlyApplied and Future Applied back to false
+        function reInitRules(){
+
+            for(var i=0;i<peRuleDAO.getAllCount();i++){
+                var peRuleReInit = peRuleDAO.getAt(i);
+                peRuleReInit.reInitRule();
+            }
+
         }
     },
 
@@ -787,16 +944,26 @@ Ext.define('MyApp.controller.MainViewController', {
             peRep.set('minEndHour','0');
             peRep.set('minEndMinute','0');
             peRep.set('mode','REALTIME');
+            MyApp.app.getController('MainViewController').config.globalPeReport = peRep;
         }
 
         var mode = peRep.get('mode');
+
+        /* ruleIds and appliedPERules, both contain all the current and future applied rules.
+        Even though the applied future rules are not currently being used.
+        */
         var ruleIds = [];
         var appliedPERules = [];
+
+        var peRuleAppliedCurrently;
 
         for(var i=0; i < peRules.length; i++){
             var peRule = peRules[i];
             if(peRule){
                 this.checkAndApplyRule(peRule,peRep,appliedPERules);  
+                if(peRule.getAppliedCurrently()){
+                    peRuleAppliedCurrently = peRule;
+                }
             }  
         }
 
@@ -808,7 +975,10 @@ Ext.define('MyApp.controller.MainViewController', {
         }
 
 
-        var peRepDescription = generate_table(mode,peRep.getStartTime(),peRep.getMinEndTime(),peRep.get('dayOfWeek'),ruleIds,peRep.get('totalCost'),'test');
+        var reportTable = generate_table(mode,peRep.getStartTime(),peRep.getMinEndTime(),peRep.get('dayOfWeek'),ruleIds,peRep.get('totalCost'),'test');
+        var peRepDescription = reportTable.table;
+        var currentAppliedRule = reportTable.currentAppliedRule;
+
 
         function generate_table(mode,startTime,endTime,day,ids,totalCost,reNew) {
             // creates the reference for the body
@@ -835,7 +1005,7 @@ Ext.define('MyApp.controller.MainViewController', {
                 }
                 createRow("Re-New Tickets",reNew);
             } else {
-                createRow("End ParkingTime:","Time Duration NOT Selected"); 
+                //createRow("End ParkingTime:","Time Duration NOT Selected"); 
             }
 
             if(mode === "REALTIME")
@@ -851,13 +1021,22 @@ Ext.define('MyApp.controller.MainViewController', {
 
 
             }
-            createRow("Day",day);
+            //createRow("Day",day);
 
             if(ids.length > 0){
                 createRow("RuleIds",ids);
-            } else {
-                createRow("RuleIds","Free PARKING");
             }
+
+            if(peRuleAppliedCurrently){
+                createRow('Parking Type',peRuleAppliedCurrently.getParkSpaceType());
+                createRow('Currently Applied Rule:',peRuleAppliedCurrently.getName());
+            } else {
+                createRow('Parking Type',"Free PARKING");
+            }
+
+
+
+
 
             function createRow(lhs,rhs){
                 var row=tbl.insertRow(-1);
@@ -875,14 +1054,22 @@ Ext.define('MyApp.controller.MainViewController', {
             // sets the border attribute of tbl to 2;
             tbl.setAttribute("border", "2");
 
-            return body;
+            var detailsTable = {
+                table: body,  
+                currentAppliedRule: peRuleAppliedCurrently
+            };
+
+
+
+            return detailsTable;
         }
 
 
 
         var generatedReport = {
             peRepDescription: peRepDescription,
-            appliedPERules: appliedPERules
+            appliedPERules: appliedPERules,
+            currentAppliedRule: currentAppliedRule
         };
 
 
@@ -920,8 +1107,10 @@ Ext.define('MyApp.controller.MainViewController', {
 
         createRow("StartTime:",String(peRule.getFromTime()).split('GMT')[0]);
         createRow("EndTime:",String(peRule.getToTime()).split('GMT')[0]);
+        createRow("Parking Space Type:",String(peRule.getParkSpaceType()));
         createRow("Cost/Hour","$"+peRule.get('cost'));
         createRow("Max Time Limit",peRule.get('timeLimit'));
+
 
 
         function createRow(lhs,rhs){
@@ -1086,24 +1275,70 @@ Ext.define('MyApp.controller.MainViewController', {
 
     changeView: function(activeItem) {
 
+        var that = this;
+
         if(activeItem===1){
             this.getMainViewContainer().animateActiveItem(1, {type: "slide", direction: "left"});
-            this.getBackButton().setHidden(false);
-            Ext.getCmp('SliderButton').setHidden(true);
-            Ext.getCmp('CurrentLocation').setHidden(true);
+            hideMainScreenButtons();
+            Ext.getCmp('SearchLocation').setHidden(false);
+            Ext.getCmp('BackButton').setHidden(false);
 
+
+        } else if (activeItem===5) {
+            this.getMainViewContainer().animateActiveItem(5, {type: "slide", direction: "left"});
+            hideMainScreenButtons();    
+            showPayScreenButton();
 
         } else {
 
             this.getMainViewContainer().animateActiveItem(0, {type: "slide", direction: "right"});
-            this.getBackButton().setHidden(true);
-            Ext.getCmp('SliderButton').setHidden(false);
-            Ext.getCmp('CurrentLocation').setHidden(false);
-            Ext.getCmp('SearchLocation').setHidden(false);
+            showMainScreenButtons();
+            hidePayScreenButton();
+            Ext.getCmp('BackButton').setHidden(true);
 
 
+            //onSliderButtonTap
+            var timeSlider = this.getTimeSlider();
+            var toolTip = this.getToolTip();
+
+            if(timeSlider.isHidden()){
+                Ext.getCmp('SliderButton').setIconCls('arrow_up');
+                timeSlider.setHidden(false);
+            } else {
+                Ext.getCmp('SliderButton').setIconCls('arrow_down');
+                timeSlider.setHidden(true);
+                toolTip.setHidden(true);
+            }
         }
 
+
+        function hideMainScreenButtons(){
+            Ext.getCmp('SliderButton').setHidden(true);
+            Ext.getCmp('CurrentLocation').setHidden(true);
+            Ext.getCmp('TimeSlider').setHidden(true);
+            Ext.getCmp('SearchLocation').setHidden(true);
+            Ext.getCmp('RefreshButton').setHidden(true);
+            Ext.getCmp('PayButtonScreen').setHidden(true);
+        }
+
+        function showMainScreenButtons(){
+            Ext.getCmp('SliderButton').setHidden(false);
+            Ext.getCmp('CurrentLocation').setHidden(false);
+            Ext.getCmp('TimeSlider').setHidden(false);
+            Ext.getCmp('SearchLocation').setHidden(false);
+            Ext.getCmp('RefreshButton').setHidden(false);
+            Ext.getCmp('PayButtonScreen').setHidden(false);
+        }
+
+        function hidePayScreenButton(){
+            that.getPayButton().setHidden(true);
+            that.getCancelButton().setHidden(true);  
+        }
+
+        function showPayScreenButton(){
+            that.getPayButton().setHidden(false);
+            that.getCancelButton().setHidden(false); 
+        }
     },
 
     addDirections: function(start, end) {
@@ -1214,6 +1449,41 @@ Ext.define('MyApp.controller.MainViewController', {
         return trafficLayer;
 
 
+    },
+
+    convertToTwelveHourTime: function(timeAsString) {
+        //timeAsString is 24Hour Time in the following formatt "12:[0-59]:[0-59]"
+
+        var timeArray = timeAsString.split(':');
+        var hh = timeArray[0];
+        var m = timeArray[1];
+        var s = timeArray[2];
+        var dd = "AM";
+        var h = hh;
+        if (h >= 12) {
+            h = hh-12;
+            dd = "PM";
+        }
+        if (h === 0) {
+            h = 12;
+        }
+
+
+        /* if you want 2 digit hours:
+        h = h<10?"0"+h:h; */
+
+        var pattern = new RegExp(hh+":"+m+":"+s);
+
+        m = m<10?"0"+m:m;
+
+        s = s<10?"0"+s:s;
+
+        var replacement = h+":"+m;
+        /* if you want to add seconds
+        replacement += ":"+s;  */
+        replacement += " "+dd;    
+
+        return timeAsString.replace(pattern,replacement);
     }
 
 });

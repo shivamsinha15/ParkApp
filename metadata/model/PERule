@@ -117,10 +117,12 @@
                     "var validDay = this.validDay(reportObject.get('dayOfWeek'));",
                     "",
                     "//All Times",
+                    "/*",
                     "if(reportMinEndTime === 0 && validDay){",
-                    "    this.set('appliedCurrently',true);",
-                    "    return true;   ",
+                    "this.set('appliedCurrently',true);",
+                    "return true;   ",
                     "}",
+                    "*/",
                     "",
                     "if(validTimes && validDay){",
                     "    if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){",
@@ -158,16 +160,15 @@
                     "",
                     "var validDay = this.validDay(reportObject.get('dayOfWeek'));",
                     "",
-                    "//All Times",
+                    "",
                     "if((reportMinEndTime === 0)&& validDay){",
-                    "    this.set('appliedCurrently',true);",
+                    "    this.set('appliedFuture',true);",
                     "    return true;   ",
                     "}",
                     "",
                     "",
                     "if(validTimes && validDay){",
                     "    if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){",
-                    "        //alert('PE Rule can be applied in the Future');",
                     "        this.set('appliedFuture', true);",
                     "        return true;   ",
                     "    }",
@@ -213,7 +214,38 @@
             "userConfig": {
                 "fn": "getToTime",
                 "implHandler": [
-                    "return this.parseTime(this.get('toTime'));"
+                    "var toTime = this.parseTime(this.get('toTime'));",
+                    "var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;",
+                    "",
+                    "",
+                    "/*",
+                    "",
+                    "Note changing the date(dayOfMonth,Month and Year) of FROM and TO times for rules are required ",
+                    "because of this.canBeAppliedCurrently/Future:",
+                    "",
+                    "(reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime))",
+                    "",
+                    "The above will return false if say today is Sunday 10th Nov, we wanted to see if the Rule canBeApplied on the Sunday 17th Nov",
+                    "Since peRuleStartTime will have the peRuleStartTime && peRuleEndTime as Sunday 10th 2013, XX:XX; While reportStartTime will be Sunday 17th 2013, XX:XX",
+                    "",
+                    "The if statement below converts it such that peRuleStartTime will now be the same date at the Report: Sunday 17th 2013, XX:XX",
+                    "",
+                    "*/",
+                    "",
+                    "if(peRep){",
+                    "    var reportStartTimeDateObject = peRep.getStartTime();",
+                    "    var dayOfMonth = reportStartTimeDateObject.getDate();",
+                    "    var month = reportStartTimeDateObject.getMonth();",
+                    "    var year = reportStartTimeDateObject.getFullYear();",
+                    "    ",
+                    "    toTime.setMonth(month);",
+                    "    toTime.setDate(dayOfMonth);",
+                    "    toTime.setFullYear(year);    ",
+                    "}",
+                    "",
+                    "",
+                    "return toTime;",
+                    ""
                 ]
             },
             "designerId": "e7724256-8c76-4157-b6ca-f88bb27ab2b9"
@@ -228,7 +260,39 @@
             "userConfig": {
                 "fn": "getFromTime",
                 "implHandler": [
-                    "return this.parseTime(this.get('fromTime'));"
+                    "var fromTime = this.parseTime(this.get('fromTime'));",
+                    "var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;",
+                    "",
+                    "",
+                    "",
+                    "/*",
+                    "",
+                    "Note changing the date(dayOfMonth,Month and Year) of FROM and TO times for rules are required ",
+                    "because of this.canBeAppliedCurrently/Future:",
+                    "",
+                    "(reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime))",
+                    "",
+                    "The above will return false if say today is Sunday 10th Nov, we wanted to see if the Rule canBeApplied on the Sunday 17th Nov",
+                    "Since peRuleStartTime will have the peRuleStartTime && peRuleEndTime as Sunday 10th 2013, XX:XX; While reportStartTime will be Sunday 17th 2013, XX:XX",
+                    "",
+                    "The if statement below converts it such that peRuleStartTime will now be the same date at the Report: Sunday 17th 2013, XX:XX",
+                    "",
+                    "*/",
+                    "",
+                    "if(peRep){",
+                    "    var reportStartTimeDateObject = peRep.getStartTime();",
+                    "    var dayOfMonth = reportStartTimeDateObject.getDate();",
+                    "    var month = reportStartTimeDateObject.getMonth();",
+                    "    var year = reportStartTimeDateObject.getFullYear();",
+                    "    ",
+                    "    fromTime.setMonth(month);",
+                    "    fromTime.setDate(dayOfMonth);",
+                    "    fromTime.setFullYear(year);    ",
+                    "}",
+                    "",
+                    "",
+                    "return fromTime;",
+                    ""
                 ]
             },
             "designerId": "7b9ab3f3-2f8f-429b-9c8a-7f9551f8c87a"
@@ -330,20 +394,123 @@
                     "var peFromDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('fromDay'));",
                     "var peToDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('toDay'));",
                     "",
+                    "//This just makes it easier to evaluate if valid day ",
+                    "if(peReportDayAsInt===0){",
+                    "    peReportDayAsInt = 7;",
+                    "} ",
+                    "",
+                    "if (peFromDayAsInt===0){",
+                    "    peFromDayAsInt = 7;",
+                    "} ",
+                    "",
+                    "if (peToDayAsInt===0){",
+                    "    peToDayAsInt = 7;",
+                    "}",
                     "",
                     "if(peReportDayAsInt>=peFromDayAsInt && peReportDayAsInt<=peToDayAsInt){",
                     "    validDay = true;",
                     "}",
                     "",
                     "//SpecialCase for SUNDAY: Since rules will generally be written Mon-Sunday or Sat-Sunday",
-                    "if(peReportDayAsInt===0 &&(peReportDayAsInt===peToDayAsInt)){",
-                    "    validDay = true;",
-                    "}",
+                    "//if(peReportDayAsInt===0 &&(peReportDayAsInt===peToDayAsInt)){",
+                    "//    validDay = true;",
+                    "//}",
                     "",
                     "return validDay;"
                 ]
             },
             "designerId": "38c98eee-983d-4fcd-bf58-65cb77758101"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "parkSpaceType"
+            },
+            "designerId": "c828c40b-eaaa-4176-b752-d09f406fe223"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getParkSpaceType",
+                "implHandler": [
+                    "return this.get('parkSpaceType');"
+                ]
+            },
+            "designerId": "d2d4d800-b3d2-47bd-a690-edb5bd47bcf5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getAppliedCurrently",
+                "implHandler": [
+                    "return this.get('appliedCurrently');"
+                ]
+            },
+            "designerId": "971219c7-7ba1-4e8b-a9bd-ab34d0eda79f"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getAppliedFuture",
+                "implHandler": [
+                    "return this.get('appliedFuture');"
+                ]
+            },
+            "designerId": "9bdcf2ec-bff2-4e6f-afe4-f48942f806ee"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getName",
+                "implHandler": [
+                    "var fromTime = this.getFromTime().toTimeString();",
+                    "var toTime = this.getToTime().toTimeString();",
+                    "var name = this.getFormattedTimeString(fromTime) + '-' + this.getFormattedTimeString(toTime);",
+                    "return name;"
+                ]
+            },
+            "designerId": "52364f4d-9912-42a0-a1a3-3d982558b8bb"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "reInitRule",
+                "implHandler": [
+                    "this.set('appliedCurrently',false);",
+                    "this.set('appliedFuture',false);"
+                ]
+            },
+            "designerId": "2d63aeef-4489-4ecc-a35b-8e5dbf0568a8"
         }
     ]
 }

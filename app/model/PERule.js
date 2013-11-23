@@ -52,6 +52,9 @@ Ext.define('MyApp.model.PERule', {
                 },
                 name: 'fromTimeHour',
                 type: 'int'
+            },
+            {
+                name: 'parkSpaceType'
             }
         ]
     },
@@ -67,10 +70,12 @@ Ext.define('MyApp.model.PERule', {
         var validDay = this.validDay(reportObject.get('dayOfWeek'));
 
         //All Times
+        /*
         if(reportMinEndTime === 0 && validDay){
-            this.set('appliedCurrently',true);
-            return true;   
+        this.set('appliedCurrently',true);
+        return true;   
         }
+        */
 
         if(validTimes && validDay){
             if((reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime)){
@@ -94,16 +99,15 @@ Ext.define('MyApp.model.PERule', {
 
         var validDay = this.validDay(reportObject.get('dayOfWeek'));
 
-        //All Times
+
         if((reportMinEndTime === 0)&& validDay){
-            this.set('appliedCurrently',true);
+            this.set('appliedFuture',true);
             return true;   
         }
 
 
         if(validTimes && validDay){
             if((peRuleStartTime>reportStartTime) && (reportMinEndTime>peRuleStartTime)){
-                //alert('PE Rule can be applied in the Future');
                 this.set('appliedFuture', true);
                 return true;   
             }
@@ -124,11 +128,74 @@ Ext.define('MyApp.model.PERule', {
     },
 
     getToTime: function() {
-        return this.parseTime(this.get('toTime'));
+        var toTime = this.parseTime(this.get('toTime'));
+        var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;
+
+
+        /*
+
+        Note changing the date(dayOfMonth,Month and Year) of FROM and TO times for rules are required 
+        because of this.canBeAppliedCurrently/Future:
+
+        (reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime))
+
+        The above will return false if say today is Sunday 10th Nov, we wanted to see if the Rule canBeApplied on the Sunday 17th Nov
+        Since peRuleStartTime will have the peRuleStartTime && peRuleEndTime as Sunday 10th 2013, XX:XX; While reportStartTime will be Sunday 17th 2013, XX:XX
+
+        The if statement below converts it such that peRuleStartTime will now be the same date at the Report: Sunday 17th 2013, XX:XX
+
+        */
+
+        if(peRep){
+            var reportStartTimeDateObject = peRep.getStartTime();
+            var dayOfMonth = reportStartTimeDateObject.getDate();
+            var month = reportStartTimeDateObject.getMonth();
+            var year = reportStartTimeDateObject.getFullYear();
+
+            toTime.setMonth(month);
+            toTime.setDate(dayOfMonth);
+            toTime.setFullYear(year);    
+        }
+
+
+        return toTime;
+
     },
 
     getFromTime: function() {
-        return this.parseTime(this.get('fromTime'));
+        var fromTime = this.parseTime(this.get('fromTime'));
+        var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;
+
+
+
+        /*
+
+        Note changing the date(dayOfMonth,Month and Year) of FROM and TO times for rules are required 
+        because of this.canBeAppliedCurrently/Future:
+
+        (reportStartTime >= peRuleStartTime) && (reportStartTime < peRuleEndTime))
+
+        The above will return false if say today is Sunday 10th Nov, we wanted to see if the Rule canBeApplied on the Sunday 17th Nov
+        Since peRuleStartTime will have the peRuleStartTime && peRuleEndTime as Sunday 10th 2013, XX:XX; While reportStartTime will be Sunday 17th 2013, XX:XX
+
+        The if statement below converts it such that peRuleStartTime will now be the same date at the Report: Sunday 17th 2013, XX:XX
+
+        */
+
+        if(peRep){
+            var reportStartTimeDateObject = peRep.getStartTime();
+            var dayOfMonth = reportStartTimeDateObject.getDate();
+            var month = reportStartTimeDateObject.getMonth();
+            var year = reportStartTimeDateObject.getFullYear();
+
+            fromTime.setMonth(month);
+            fromTime.setDate(dayOfMonth);
+            fromTime.setFullYear(year);    
+        }
+
+
+        return fromTime;
+
     },
 
     getFormattedTimeString: function(toTimeString) {
@@ -143,17 +210,53 @@ Ext.define('MyApp.model.PERule', {
         var peFromDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('fromDay'));
         var peToDayAsInt =  MyApp.app.getController('MainViewController').convertDayStringToInt(this.get('toDay'));
 
+        //This just makes it easier to evaluate if valid day 
+        if(peReportDayAsInt===0){
+            peReportDayAsInt = 7;
+        } 
+
+        if (peFromDayAsInt===0){
+            peFromDayAsInt = 7;
+        } 
+
+        if (peToDayAsInt===0){
+            peToDayAsInt = 7;
+        }
 
         if(peReportDayAsInt>=peFromDayAsInt && peReportDayAsInt<=peToDayAsInt){
             validDay = true;
         }
 
         //SpecialCase for SUNDAY: Since rules will generally be written Mon-Sunday or Sat-Sunday
-        if(peReportDayAsInt===0 &&(peReportDayAsInt===peToDayAsInt)){
-            validDay = true;
-        }
+        //if(peReportDayAsInt===0 &&(peReportDayAsInt===peToDayAsInt)){
+        //    validDay = true;
+        //}
 
         return validDay;
+    },
+
+    getParkSpaceType: function() {
+        return this.get('parkSpaceType');
+    },
+
+    getAppliedCurrently: function() {
+        return this.get('appliedCurrently');
+    },
+
+    getAppliedFuture: function() {
+        return this.get('appliedFuture');
+    },
+
+    getName: function() {
+        var fromTime = this.getFromTime().toTimeString();
+        var toTime = this.getToTime().toTimeString();
+        var name = this.getFormattedTimeString(fromTime) + '-' + this.getFormattedTimeString(toTime);
+        return name;
+    },
+
+    reInitRule: function() {
+        this.set('appliedCurrently',false);
+        this.set('appliedFuture',false);
     }
 
 });
