@@ -90,6 +90,9 @@ Ext.define('MyApp.controller.MainViewController', {
             },
             "pickerslot": {
                 slotpick: 'onPickerslotSlotpick'
+            },
+            "[action=onPayButtonEvent]": {
+                tap: 'onPayButtonTap'
             }
         }
     },
@@ -338,6 +341,10 @@ Ext.define('MyApp.controller.MainViewController', {
         this.getAmountTextField().setValue('$'+amount.toFixed(2));
     },
 
+    onPayButtonTap: function(button, e, eOpts) {
+        //So far does nothing
+    },
+
     addMarker: function(name, latitude, longitude, description) {
         var myIcon = {
             url: "http://127.0.0.1/resources/img/parking-meter-export.png"
@@ -491,12 +498,73 @@ Ext.define('MyApp.controller.MainViewController', {
         }
         */
 
+
+        /*
+        DOUBLE CLICK LISTENER 
+
+        Google event listener was trapping both single and double clicks.
+        Hence Decided to only use the single click listerner and cater for double clicks.
+
+        Lessons Learnt:
+        setTimeout(function,time)
+        1. The function must be wrapped in an a anonymous function, otherwise it is called immediately.
+        2. setTimeout is called Asynchronously, hence any logic below the method is called immediately. 
+
+        */
+        var lastClicked;
+
+        function openWindowIfRequired(thisClickTime,timeDifference){
+            if(lastClicked === thisClickTime){
+                console.log('Single Click'); 
+                infowindow.open(actGoogMap,null);
+            }
+            lastClicked = thisClickTime; 
+        }
+
+
+        function openWindow(thisClickTime,timeDifference){
+            setTimeout(function() {openWindowIfRequired(thisClickTime,timeDifference);},2000);   
+        }
+
         google.maps.event.addListener(polyLine, 'click', function() {
-            infowindow.open(actGoogMap,null);
+            if(!lastClicked){
+                var now = new Date();
+                lastClicked = now.getTime();
+                setTimeout(function() {openWindow(lastClicked,timeDifference);},2000);
+                return;
+            } 
+
+            var currentClickTime = new Date();
+            var timeDifference =  currentClickTime.getTime() - lastClicked;
+
+            if(timeDifference < 2000){
+                lastClicked = currentClickTime.getTime();
+                console.log('Double Clicked');
+                onDoubleClicked(polyLine);
+            } else {
+                lastClicked = currentClickTime.getTime();
+                openWindow(lastClicked,timeDifference);  
+            }
         });
 
         MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);
         polyLine.setMap(this.getActualGoogleMap());
+
+
+
+
+        function onDoubleClicked(polyLine){
+            MyApp.app.getController('MainViewController').setCurrentLocation();	
+            setTimeout(function() {giveASecForCurrentLocationCallBackToFinish(polyLine);},1000);   
+        }
+
+        function giveASecForCurrentLocationCallBackToFinish(polyLine){
+            MyApp.app.getController('MainViewController').config.globalToCoordinates = polyLine.getPath().getAt(0);
+            var start = MyApp.app.getController('MainViewController').config.globalFromCoordinates;
+            var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;
+
+            MyApp.app.getController('MainViewController').addDirections(start,end);
+        }
     },
 
     launch: function() {
@@ -734,8 +802,8 @@ Ext.define('MyApp.controller.MainViewController', {
             var endLng =  record.get('endLng');
             var occupied = record.get('occupied');
             var ruleIds = record.get('ruleIds');
-            var ruleIdAsArray = ruleIds.split(",");
-            var peRulesForPESpace = getRulesFromRuleIds(ruleIdAsArray);
+            //var ruleIdAsArray = ruleIds.split(",");
+            var peRulesForPESpace = getRulesFromRuleIds(ruleIds);
             var generatedReport = this.generateDetailsReport(peRulesForPESpace,occupied);
             mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules,generatedReport.currentAppliedRule);
         }
@@ -1347,8 +1415,8 @@ Ext.define('MyApp.controller.MainViewController', {
         var map = this.getActualGoogleMap();
         directionsDisplay.setMap(map);
 
-        var trafficLayer = this.getTrafficLayer();
-        trafficLayer.setMap(map);
+        //var trafficLayer = this.getTrafficLayer();
+        //trafficLayer.setMap(map);
 
         var request = {
             origin:start,
@@ -1484,6 +1552,48 @@ Ext.define('MyApp.controller.MainViewController', {
         replacement += " "+dd;    
 
         return timeAsString.replace(pattern,replacement);
+    },
+
+    setCurrentLocation: function() {
+        var initialLocation;
+        var siberia = new google.maps.LatLng(60, 105);
+        var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);
+        var browserSupportFlag =  false;
+
+        //var map = this.getActualGoogleMap();
+
+        if(navigator.geolocation) {
+            browserSupportFlag = true;
+            navigator.geolocation.getCurrentPosition(function(position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+                success(initialLocation);
+                // map.setCenter(initialLocation);
+            }, function() {
+                handleNoGeolocation(browserSupportFlag);
+            });
+        }
+        // Browser doesn't support Geolocation
+        else {
+            browserSupportFlag = false;
+            handleNoGeolocation(browserSupportFlag);
+        }
+
+        function handleNoGeolocation(errorFlag) {
+            if (errorFlag === true) {
+                alert("Geolocation service failed.");
+                initialLocation = newyork;
+            } else {
+                alert("Your browser doesn't support geolocation. We've placed you in Siberia.");
+                initialLocation = siberia;
+            }
+            //map.setCenter(initialLocation);
+        }
+
+        //Called Via Call Back function
+        function success(currentLocation){
+            MyApp.app.getController('MainViewController').config.globalFromCoordinates = currentLocation;
+        }
+
     }
 
 });

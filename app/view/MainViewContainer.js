@@ -156,24 +156,25 @@ Ext.define('MyApp.view.MainViewContainer', {
             },
             {
                 xtype: 'panel',
-                height: 85,
                 id: 'ToolTip',
                 style: '',
-                width: 200,
                 layout: {
+                    align: 'start',
                     type: 'vbox'
                 },
                 items: [
                     {
                         xtype: 'label',
+                        docked: 'bottom',
                         id: 'DayLabel',
-                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center;',
+                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center; background-color:#FFFFFF;',
                         styleHtmlContent: true
                     },
                     {
                         xtype: 'label',
+                        docked: 'top',
                         id: 'TimeLabel',
-                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center;',
+                        style: 'border-style:solid; border-color:#2E2E2E;text-align: center;  background-color:#FFFFFF;',
                         styleHtmlContent: true
                     }
                 ]

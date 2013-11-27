@@ -4,7 +4,7 @@
         "model": true,
         "component": true,
         "controller": true,
-        "resource": true,
+        "resource": false,
         "79e64710-192a-404f-b450-5d800ef08f2c": {
             "id": "79e64710-192a-404f-b450-5d800ef08f2c",
             "cn": [
@@ -19,7 +19,6 @@
                 },
                 {
                     "id": "40986cae-8ec2-4130-b8dd-6f9a4de29e59",
-                    "expanded": false,
                     "cn": [
                         {
                             "id": "6c96eeba-8a78-402e-961f-6e88587521bb"
@@ -76,7 +75,6 @@
                 },
                 {
                     "id": "b492f2d9-cc7f-4555-96db-7a283177601a",
-                    "expanded": false,
                     "cn": [
                         {
                             "id": "50f7b1a5-f96f-44cd-b2b5-d105b2c3ad86"
@@ -158,6 +156,7 @@
                 },
                 {
                     "id": "860f1dd4-c530-4e79-bdac-d0bf8a6a1c15",
+                    "expanded": false,
                     "cn": [
                         {
                             "id": "a4ec1de3-3870-4343-971a-b7cf6b8bb5b9",
@@ -647,6 +646,12 @@
                 },
                 {
                     "id": "3308336b-d298-409e-86eb-84449919aea3"
+                },
+                {
+                    "id": "9b5046a7-c988-4753-b1ea-3304f3795db5"
+                },
+                {
+                    "id": "1b109472-0082-4529-9b79-75f87445890f"
                 }
             ]
         },
@@ -667,7 +672,6 @@
         "openTabs": [
             "6aeb0b2d-c6b5-4a60-a3bf-4b498f46e72d",
             "79e64710-192a-404f-b450-5d800ef08f2c",
-            "fd27c368-df8f-4df4-8e09-044eeb9e81c8",
             "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
             "488b01c0-9af3-4c9f-9449-07d241348bf7",
             "ca65a8a4-d966-476a-96f8-ea60fcb46038",
@@ -679,7 +683,7 @@
     },
     "inspectorState": {
         "topInstance": "79e64710-192a-404f-b450-5d800ef08f2c",
-        "selectedInstance": "82c7f7da-315b-4241-b915-3de96cefaf95"
+        "selectedInstance": "d455867c-c57b-4e5d-8770-89c8ea163ad2"
     },
     "codeState": {
         "topInstance": "79e64710-192a-404f-b450-5d800ef08f2c"
