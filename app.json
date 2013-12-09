@@ -1,0 +1,68 @@
+{
+   "name": "MyApp",
+   "indexHtmlPath": "index.html",
+   "url": null,
+   "js": [
+      {
+         "path": "touch/sencha-touch.js",
+         "x-bootstrap": true
+      },
+      {
+         "path": "bootstrap.js",
+         "x-bootstrap": true
+      },
+      {
+         "path": "app.js",
+         "bundle": true,
+         "update": "delta"
+      },
+      {
+         "path": "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js"
+      }
+   ],
+   "css": [
+      {
+         "update": "delta",
+         "platform": [
+            "phone",
+            "tablet",
+            "desktop"
+         ],
+         "theme": "Cupertino",
+         "path": "resources/css/cupertino.css",
+         "_architect_active_theme": true
+      }
+   ],
+   "appCache": {
+      "cache": [
+         "index.html"
+      ],
+      "network": [
+         "*"
+      ],
+      "fallback": []
+   },
+   "resources": [
+      "resources/images",
+      "resources/icons",
+      "resources/startup"
+   ],
+   "ignore": [
+      ".svn$"
+   ],
+   "archivePath": "archive",
+   "requires": [],
+   "id": "8e53ffcd-b6c2-4cb4-a4e0-009d06424d10",
+   "_architect": {
+      "_comment": "Please don't edit. This is Architect data.",
+      "name": "MyApp",
+      "css": [],
+      "js": [
+         {
+            "path": "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobubble/src/infobubble.js"
+         }
+      ],
+      "resources": [],
+      "requires": []
+   }
+}

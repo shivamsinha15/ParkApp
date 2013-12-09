@@ -9,10 +9,10 @@
         "createdPolyLines": [
             "[]"
         ],
+        "designer|userClassName": "MainViewController",
         "views": [
             "MainViewContainer"
-        ],
-        "designer|userClassName": "MainViewController"
+        ]
     },
     "configAlternates": {
         "createdPolyLines": "array",
@@ -92,14 +92,14 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=currentLocationButton]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onCurrentLocationTap",
                 "implHandler": [
                     "var senchaGoogleMap = this.getMyMap();",
                     "senchaGoogleMap.setUseCurrentLocation(true);"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=currentLocationButton]"
+                "name": "tap"
             },
             "designerId": "d4d9159c-d320-43c5-b7ca-0215c2c7dad4"
         },
@@ -150,8 +150,16 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=searchLocationButtonEvent]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onSearchLocationTap",
                 "implHandler": [
+                    "",
+                    "",
+                    "//this.getSearchLocationPanel.showBy(button);",
+                    "",
+                    "",
+                    "",
                     "var activeId = Ext.getCmp('MainViewContainer').getActiveItem().getId();",
                     "if(activeId === 'SearchLocationPanel'){",
                     "",
@@ -159,15 +167,13 @@
                     "    var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;",
                     "",
                     "    this.addDirections(start,end);",
-                    "    this.changeView(0); ",
+                    "    this.changeView(0);",
                     "} else {",
                     "    this.changeView(1);",
                     "}",
                     ""
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=searchLocationButtonEvent]"
+                "name": "tap"
             },
             "designerId": "e6727e49-3603-4491-b7e7-b0e825867f38"
         },
@@ -192,13 +198,13 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=backButtonEvent]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onBackButtonTap",
                 "implHandler": [
                     "this.changeView(0);"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=backButtonEvent]"
+                "name": "tap"
             },
             "designerId": "2e80d01b-2715-444c-b29c-f7f57421e44a"
         },
@@ -314,13 +320,13 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "addMarker",
                 "designer|params": [
                     "name",
                     "latitude",
                     "longitude",
                     "description"
                 ],
+                "fn": "addMarker",
                 "implHandler": [
                     "var myIcon = {",
                     "    url: \"http://127.0.0.1/resources/img/parking-meter-export.png\"",
@@ -390,7 +396,6 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "createPolyLines",
                 "designer|params": [
                     "startLat",
                     "startLng",
@@ -401,6 +406,7 @@
                     "peRules",
                     "currentAppliedRule"
                 ],
+                "fn": "createPolyLines",
                 "implHandler": [
                     "var startLatLng = new google.maps.LatLng(startLat,startLng);",
                     "",
@@ -587,7 +593,7 @@
             "userConfig": {
                 "fn": "launch",
                 "implHandler": [
-                    "var senchaGoogleMap = this.getMyMap();    ",
+                    "var senchaGoogleMap = this.getMyMap();",
                     "",
                     "",
                     "var mapOpts = {",
@@ -598,7 +604,7 @@
                     "",
                     "",
                     "var parraCoordinates = {",
-                    "    latitude: -33.815498, ",
+                    "    latitude: -33.815498,",
                     "    longitude: 151.004893",
                     "};",
                     "",
@@ -623,9 +629,6 @@
                     "};",
                     "",
                     "",
-                    "Ext.getCmp('TimePicker').setDefaults(defaultValues); ",
-                    "Ext.getCmp('TimePicker').getValues();",
-                    "",
                     "/*",
                     "window.setInterval(function(){",
                     "MyApp.app.getController('MainViewController').refreshPESpaces();",
@@ -647,10 +650,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "createHours",
                 "designer|params": [
                     "peHours"
                 ],
+                "fn": "createHours",
                 "implHandler": [
                     "var data_hours = [];",
                     "",
@@ -685,10 +688,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "createMinutes",
                 "designer|params": [
                     "peRuleMinutes"
                 ],
+                "fn": "createMinutes",
                 "implHandler": [
                     "",
                     "var mins = peRuleMinutes - 0;",
@@ -764,10 +767,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "getTimePickerValueObj",
                 "designer|params": [
                     "sliderValue"
                 ],
+                "fn": "getTimePickerValueObj",
                 "implHandler": [
                     "var hours = this.getHours();",
                     "var minutes = this.getMinutes();",
@@ -1124,6 +1127,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onTimeButtonTap]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onTimeButtonTap",
                 "implHandler": [
                     "var timePickerPanel = this.getTimePickerPanel();",
@@ -1134,9 +1139,7 @@
                     "    this.getTimePickerPanel().setHidden(true);",
                     "}"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onTimeButtonTap]"
+                "name": "tap"
             },
             "designerId": "62d9e582-fde6-4d86-82b2-1532473c4d42"
         },
@@ -1174,12 +1177,12 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "checkAndApplyRule",
                 "designer|params": [
                     "peRule",
                     "peSpaceReport",
                     "appliedRules"
                 ],
+                "fn": "checkAndApplyRule",
                 "implHandler": [
                     "",
                     "var totalRuleTimeInHours;",
@@ -1239,11 +1242,11 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "generateDetailsReport",
                 "designer|params": [
                     "peRules",
                     "occupied"
                 ],
+                "fn": "generateDetailsReport",
                 "implHandler": [
                     "var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;",
                     "",
@@ -1397,10 +1400,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "getRuleReport",
                 "designer|params": [
                     "peRule"
                 ],
+                "fn": "getRuleReport",
                 "implHandler": [
                     "",
                     "// creates the reference for the body",
@@ -1466,10 +1469,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "convertDayIntToString",
                 "designer|params": [
                     "dayInt"
                 ],
+                "fn": "convertDayIntToString",
                 "implHandler": [
                     "if(dayInt===0){",
                     "    return \"Sunday\";   ",
@@ -1498,10 +1501,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "convertDayStringToInt",
                 "designer|params": [
                     "dayAsString"
                 ],
+                "fn": "convertDayStringToInt",
                 "implHandler": [
                     "if(dayAsString===\"Sunday\"){",
                     "    return 0;   ",
@@ -1556,6 +1559,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onDoneButtonTap]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onDoneButtonTap",
                 "implHandler": [
                     "var timePickerPanel = this.getTimePickerPanel();",
@@ -1608,9 +1613,7 @@
                     "MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
                     "this.refreshMap();"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onDoneButtonTap]"
+                "name": "tap"
             },
             "designerId": "61e76c25-ea77-493e-814b-0bce966009e8"
         },
@@ -1622,13 +1625,13 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onRealTimeButtonTap]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onRealTimeButtonTap",
                 "implHandler": [
                     ""
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onRealTimeButtonTap]"
+                "name": "tap"
             },
             "designerId": "755ecf0d-9090-44ee-8488-9e3e93611ac9"
         },
@@ -1666,10 +1669,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "convertTo24HourTime",
                 "designer|params": [
                     "timeString"
                 ],
+                "fn": "convertTo24HourTime",
                 "implHandler": [
                     "// Time String has to be the following format: \"10:30 AM\"",
                     "",
@@ -1705,10 +1708,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "nextDay",
                 "designer|params": [
                     "x"
                 ],
+                "fn": "nextDay",
                 "implHandler": [
                     "var now = new Date();",
                     "var day = now.getDay();",
@@ -1731,6 +1734,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onTimeSliderButtonTap]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onSliderButtonTap",
                 "implHandler": [
                     "var timeSlider = this.getTimeSlider();",
@@ -1746,9 +1751,7 @@
                     "}",
                     ""
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onTimeSliderButtonTap]"
+                "name": "tap"
             },
             "designerId": "dda00aea-9ce3-4e69-90d9-c30a92ce6835"
         },
@@ -1782,12 +1785,12 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "showAddress",
                 "designer|params": [
                     "address",
                     "addressArray",
                     "searchFieldId"
                 ],
+                "fn": "showAddress",
                 "implHandler": [
                     "var geocoder = new google.maps.Geocoder();",
                     "geocoder.geocode( { 'address': address}, function(results, status) {",
@@ -1856,10 +1859,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "changeView",
                 "designer|params": [
                     "activeItem"
                 ],
+                "fn": "changeView",
                 "implHandler": [
                     "",
                     "var that = this;",
@@ -1938,11 +1941,11 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "addDirections",
                 "designer|params": [
                     "start",
                     "end"
                 ],
+                "fn": "addDirections",
                 "implHandler": [
                     "var directionsDisplay = this.getDirectionsRenderer();",
                     "var directionsService = new google.maps.DirectionsService();",
@@ -1979,11 +1982,11 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "addCurrentLocation",
                 "designer|params": [
                     "address",
                     "searchFieldId"
                 ],
+                "fn": "addCurrentLocation",
                 "implHandler": [
                     "var initialLocation;",
                     "var siberia = new google.maps.LatLng(60, 105);",
@@ -2071,14 +2074,14 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onRefreshTapEvent]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onRefreshTap",
                 "implHandler": [
                     "this.getDirectionsRenderer().setMap(null);",
                     "this.getTrafficLayer().setMap(null);"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onRefreshTapEvent]"
+                "name": "tap"
             },
             "designerId": "c0ce0c62-18cb-490a-9d3b-44f80c0c695e"
         },
@@ -2171,10 +2174,10 @@
             },
             "codeClass": null,
             "userConfig": {
-                "fn": "convertToTwelveHourTime",
                 "designer|params": [
                     "timeAsString"
                 ],
+                "fn": "convertToTwelveHourTime",
                 "implHandler": [
                     "//timeAsString is 24Hour Time in the following formatt \"12:[0-59]:[0-59]\"",
                     "",
@@ -2220,6 +2223,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "sliderfield",
+                "designer|targetType": "Ext.field.Slider",
                 "fn": "onSliderfieldDragEnd",
                 "implHandler": [
                     "var tooltip = this.getToolTip();",
@@ -2272,9 +2277,7 @@
                     "",
                     "}"
                 ],
-                "name": "dragend",
-                "designer|targetType": "Ext.field.Slider",
-                "designer|controlQuery": "sliderfield"
+                "name": "dragend"
             },
             "designerId": "4b0ea842-0488-48a5-86de-7c7a69fa887b"
         },
@@ -2286,6 +2289,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "sliderfield",
+                "designer|targetType": "Ext.field.Slider",
                 "fn": "onSliderfieldDrag",
                 "implHandler": [
                     "var tooltip = this.getToolTip();",
@@ -2317,9 +2322,7 @@
                     "",
                     ""
                 ],
-                "name": "drag",
-                "designer|targetType": "Ext.field.Slider",
-                "designer|controlQuery": "sliderfield"
+                "name": "drag"
             },
             "designerId": "2ec83749-d4db-4936-8800-daafb62e4f80"
         },
@@ -2331,6 +2334,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onPayButtonScreenTap]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onPayButtonScreenTap",
                 "implHandler": [
                     "",
@@ -2369,9 +2374,7 @@
                     "",
                     ""
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onPayButtonScreenTap]"
+                "name": "tap"
             },
             "designerId": "8ed54c25-7f90-4fb0-b215-6278019827f1"
         },
@@ -2435,6 +2438,8 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "pickerslot",
+                "designer|targetType": "Ext.picker.Slot",
                 "fn": "onPickerslotSlotpick",
                 "implHandler": [
                     "var durationPicker = this.getDurationPicker();",
@@ -2448,9 +2453,7 @@
                     "",
                     "this.getAmountTextField().setValue('$'+amount.toFixed(2));"
                 ],
-                "name": "slotpick",
-                "designer|targetType": "Ext.picker.Slot",
-                "designer|controlQuery": "pickerslot"
+                "name": "slotpick"
             },
             "designerId": "99fa0642-9ae6-433c-bf9b-2a50f7e84076"
         },
@@ -2475,13 +2478,13 @@
             },
             "codeClass": null,
             "userConfig": {
+                "designer|controlQuery": "[action=onPayButtonEvent]",
+                "designer|targetType": "Ext.Button",
                 "fn": "onPayButtonTap",
                 "implHandler": [
                     "//So far does nothing"
                 ],
-                "name": "tap",
-                "designer|targetType": "Ext.Button",
-                "designer|controlQuery": "[action=onPayButtonEvent]"
+                "name": "tap"
             },
             "designerId": "9b5046a7-c988-4753-b1ea-3304f3795db5"
         },
@@ -2537,6 +2540,19 @@
                 ]
             },
             "designerId": "1b109472-0082-4529-9b79-75f87445890f"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "searchLocationPanel",
+                "selector": "#SearchLocationPanel"
+            },
+            "designerId": "300ceaf3-9235-496d-ba48-ac6d11b34a0f"
         }
     ]
 }

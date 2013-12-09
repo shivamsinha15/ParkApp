@@ -6,9 +6,9 @@
     },
     "codeClass": null,
     "userConfig": {
+        "designer|userClassName": "PESpaceDAO",
         "model": "PESpace",
-        "storeId": "PESpaceDAO",
-        "designer|userClassName": "PESpaceDAO"
+        "storeId": "PESpaceDAO"
     },
     "designerId": "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
     "cn": [
@@ -31,6 +31,9 @@
                         "type": "object"
                     },
                     "codeClass": null,
+                    "userConfig": {
+                        "idProperty": null
+                    },
                     "designerId": "3a9816a4-8274-4076-8aac-16c012e0e6dc"
                 }
             ]

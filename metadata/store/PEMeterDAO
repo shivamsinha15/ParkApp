@@ -6,9 +6,9 @@
     },
     "codeClass": null,
     "userConfig": {
+        "designer|userClassName": "PEMeterDAO",
         "model": "PEMeter",
-        "storeId": "PEMeterDAO",
-        "designer|userClassName": "PEMeterDAO"
+        "storeId": "PEMeterDAO"
     },
     "designerId": "ca65a8a4-d966-476a-96f8-ea60fcb46038",
     "cn": [
@@ -31,6 +31,9 @@
                         "type": "object"
                     },
                     "codeClass": null,
+                    "userConfig": {
+                        "idProperty": null
+                    },
                     "designerId": "f00b0f6c-9624-46af-b896-d485848c7aff"
                 }
             ]

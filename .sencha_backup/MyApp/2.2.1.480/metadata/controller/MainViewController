@@ -1,0 +1,2542 @@
+{
+    "type": "Ext.app.Controller",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "createdPolyLines": [
+            "[]"
+        ],
+        "designer|userClassName": "MainViewController",
+        "views": [
+            "MainViewContainer"
+        ]
+    },
+    "configAlternates": {
+        "createdPolyLines": "array",
+        "globalPeReport": "object",
+        "globalFromCoordinates": "object",
+        "globalToCoordinates": "object",
+        "directionsRenderer": "object",
+        "lastClickEventTime": "number"
+    },
+    "designerId": "002e032a-bf86-4e30-b5a8-6341878c03a9",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "peLoadedSpaces",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "peLoadedRules",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "createdPolyLines",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "globalPeReport",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "globalFromCoordinates",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "globalToCoordinates",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "directionsRenderer",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "trafficLayer",
+            "type": "string"
+        },
+        {
+            "group": "(Custom Properties)",
+            "name": "lastClickEventTime",
+            "type": "string"
+        }
+    ],
+    "cn": [
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "streetParkingPanel",
+                "selector": "#StreetParkingPanel"
+            },
+            "designerId": "61f9c738-49b1-416c-9472-7cce4ab52b80"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=currentLocationButton]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onCurrentLocationTap",
+                "implHandler": [
+                    "var senchaGoogleMap = this.getMyMap();",
+                    "senchaGoogleMap.setUseCurrentLocation(true);"
+                ],
+                "name": "tap"
+            },
+            "designerId": "d4d9159c-d320-43c5-b7ca-0215c2c7dad4"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "timeSlider",
+                "selector": "#TimeSlider"
+            },
+            "designerId": "6cdb30c5-2f84-4ac3-b406-83777c6ca547"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "mainViewContainer",
+                "selector": "#MainViewContainer"
+            },
+            "designerId": "e05d66fb-9b9b-42fb-bc5c-f8191dfb7be4"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "bottomToolBar",
+                "selector": "#BottomToolBar"
+            },
+            "designerId": "41484f7f-aba0-45b6-9077-4ccc6809a41b"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=searchLocationButtonEvent]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onSearchLocationTap",
+                "implHandler": [
+                    "var activeId = Ext.getCmp('MainViewContainer').getActiveItem().getId();",
+                    "if(activeId === 'SearchLocationPanel'){",
+                    "",
+                    "    var start = MyApp.app.getController('MainViewController').config.globalFromCoordinates;",
+                    "    var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;",
+                    "",
+                    "    this.addDirections(start,end);",
+                    "    this.changeView(0); ",
+                    "} else {",
+                    "    this.changeView(1);",
+                    "}",
+                    ""
+                ],
+                "name": "tap"
+            },
+            "designerId": "e6727e49-3603-4491-b7e7-b0e825867f38"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "backButton",
+                "selector": "#BackButton"
+            },
+            "designerId": "d02746f7-7e3d-440d-a48c-a82975ca52e3"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=backButtonEvent]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onBackButtonTap",
+                "implHandler": [
+                    "this.changeView(0);"
+                ],
+                "name": "tap"
+            },
+            "designerId": "2e80d01b-2715-444c-b29c-f7f57421e44a"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "daySelectorButton",
+                "selector": "#DaySelectorButton"
+            },
+            "designerId": "6f0e0590-c44b-422f-94f5-adb672ec6c22"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "searchLocationField",
+                "selector": "#SearchLocationField"
+            },
+            "designerId": "60e3a331-0a7d-4b22-968f-1a248a852308"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "myMap",
+                "selector": "#MyMap"
+            },
+            "designerId": "d8b363cf-78af-44a5-a72d-a4ca40c12f0d"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "weekDay",
+                "selector": "#Weekday"
+            },
+            "designerId": "3da0b5c8-c747-41c2-97a0-d6eacf179b3e"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "dayTypeSelectorField",
+                "selector": "#DayTypeSelectorField"
+            },
+            "designerId": "5706d7c6-1115-4e53-a106-947391925b1b"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "weekEnd",
+                "selector": "#Weekend"
+            },
+            "designerId": "4e4b5a56-b9eb-4a49-87c3-ac9ee82096f7"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "timePicker",
+                "selector": "#TimePicker"
+            },
+            "designerId": "9671d8f9-400e-4d9f-bbfc-48b8468e65b0"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "timePickerPanel",
+                "selector": "#TimePickerPanel"
+            },
+            "designerId": "ba032aa8-0dfa-42aa-9186-cf2af7f40db9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "name",
+                    "latitude",
+                    "longitude",
+                    "description"
+                ],
+                "fn": "addMarker",
+                "implHandler": [
+                    "var myIcon = {",
+                    "    url: \"http://127.0.0.1/resources/img/parking-meter-export.png\"",
+                    "};",
+                    "",
+                    "var marker = new google.maps.Marker({",
+                    "    position: new google.maps.LatLng(latitude,longitude),",
+                    "    icon: myIcon,",
+                    "    map: this.getActualGoogleMap(),",
+                    "    clickable: true",
+                    "});",
+                    "",
+                    "",
+                    "marker.info = new google.maps.InfoWindow({",
+                    "    content: description ",
+                    "});",
+                    "",
+                    "",
+                    "new google.maps.event.addListener(marker, 'click', function() {",
+                    "    marker.info.open(marker.map, marker);",
+                    "});",
+                    "",
+                    "",
+                    "",
+                    "/* Adding markers to a map ",
+                    "",
+                    "ParraCity ",
+                    "- http://www.parracity.nsw.gov.au/live/my_home/parking__and__transport/parking",
+                    "- http://www.parracity.nsw.gov.au/__data/asset_types/google_map/js/map_lib.js",
+                    "http://stackoverflow.com/questions/10132625/google-maps-marker-and-sencha-touch-2",
+                    "",
+                    "",
+                    "*/",
+                    "",
+                    ""
+                ]
+            },
+            "designerId": "e306006c-d349-4d4b-ad60-27a18fd6999b"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getActualGoogleMap",
+                "implHandler": [
+                    "/*",
+                    "this.getMyMap().getMap();",
+                    "Not using this, because it has a chance of being called from onload from the datastore ",
+                    "",
+                    "*/",
+                    "return  Ext.getCmp('MyMap').getMap();",
+                    "",
+                    ""
+                ]
+            },
+            "designerId": "9d3d94ce-556a-410c-8e6b-53ddbfeeb8f9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "startLat",
+                    "startLng",
+                    "endLat",
+                    "endLng",
+                    "occupied",
+                    "peReport",
+                    "peRules",
+                    "currentAppliedRule"
+                ],
+                "fn": "createPolyLines",
+                "implHandler": [
+                    "var startLatLng = new google.maps.LatLng(startLat,startLng);",
+                    "",
+                    "",
+                    "var polyLineCo = [ ",
+                    "startLatLng,",
+                    "new google.maps.LatLng(endLat,endLng)",
+                    "];",
+                    "",
+                    "var strokeColor = \"#009933\";",
+                    "if(occupied === 'true'){",
+                    "    strokeColor = \"#FF0000\";",
+                    "}",
+                    "",
+                    "",
+                    "if(currentAppliedRule){",
+                    "    if(currentAppliedRule.getParkSpaceType() === 'Normal'){",
+                    "        //Do nothing should represent the value of occupied or not",
+                    "    } else {",
+                    "        //red occupied",
+                    "        strokeColor = \"#FF0000\";",
+                    "    }",
+                    "}",
+                    "",
+                    "var lineSymbol = {",
+                    "    path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW",
+                    "};",
+                    "",
+                    "var polyLine = new google.maps.Polyline({",
+                    "    path: polyLineCo,",
+                    "    strokeColor: strokeColor,",
+                    "    strokeOpacity: 1.0,",
+                    "    strokeWeight: 4,",
+                    "    icons: [{",
+                    "        //icon:'http://mapicons.nicolasmollet.com/wp-content/uploads/mapicons/shape-default/color-1f92de/shapecolor-color/shadow-1/border-dark/symbolstyle-white/symbolshadowstyle-dark/gradient-no/car.png'",
+                    "    }]",
+                    "});",
+                    "",
+                    "",
+                    "var actGoogMap = this.getActualGoogleMap();",
+                    "var tbody = peReport.innerHTML;",
+                    "var infowindow = new InfoBubble({",
+                    "    position: startLatLng,",
+                    "    maxWidth: 170,",
+                    "    maxHeight: 180",
+                    "});",
+                    "",
+                    "infowindow.addTab('Details',tbody);",
+                    "",
+                    "var tempStore = Ext.create('Ext.data.Store', {",
+                    "    model: 'MyApp.model.PERule'  ",
+                    "});",
+                    "",
+                    "tempStore.add(peRules);",
+                    "tempStore.sort('fromTimeHour', 'ASC');",
+                    "peRules = tempStore.getData().items;",
+                    "",
+                    "",
+                    "if(peRules){",
+                    "    for(var i=0; i < peRules.length; i++){",
+                    "        var peRule = peRules[i];",
+                    "        if(peRule){",
+                    "            infowindow.addTab(peRule.getName(),this.getRuleReport(peRule));",
+                    "        }  ",
+                    "    }",
+                    "}",
+                    "",
+                    "",
+                    "/*    ",
+                    "var infowindow = new InfoBox({",
+                    "id: \"infobox\",",
+                    "content: tbody,",
+                    "position: startLatLng,",
+                    "disableAutoPan: false,",
+                    "maxWidth: 150,",
+                    "pixelOffset: new google.maps.Size(-140, 0),",
+                    "zIndex: null,",
+                    "boxStyle: {",
+                    "background: \"url('http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/examples/tipbox.gif') no-repeat\",",
+                    "opacity: 0.75,",
+                    "width: \"280px\"",
+                    "},",
+                    "closeBoxMargin: \"12px 4px 2px 2px\",",
+                    "closeBoxURL: \"http://www.google.com/intl/en_us/mapfiles/close.gif\",",
+                    "infoBoxClearance: new google.maps.Size(1, 1)",
+                    "});",
+                    "*/",
+                    "",
+                    "",
+                    "/*",
+                    "if(ruleIdAsArray){",
+                    "for(var i=0; i < ruleIdAsArray.length; i++){",
+                    "var peRuleId = ruleIdAsArray[i];",
+                    "var peRule = peRuleDAO.getById(peRuleId);",
+                    "if(peRule){",
+                    "appliedCurrently = peRule.get('appliedCurrently');",
+                    "appliedIntheFuture = peRule.get('appliedFuture');",
+                    "if((appliedCurrently === true) || (appliedIntheFuture === true)){",
+                    "infowindow.addTab('starttime');",
+                    "}",
+                    "}  ",
+                    "}",
+                    "}",
+                    "*/",
+                    "",
+                    "",
+                    "/*",
+                    "  DOUBLE CLICK LISTENER ",
+                    "    ",
+                    "  Google event listener was trapping both single and double clicks.",
+                    "  Hence Decided to only use the single click listerner and cater for double clicks.",
+                    "  ",
+                    "  Lessons Learnt:",
+                    "  setTimeout(function,time)",
+                    "  1. The function must be wrapped in an a anonymous function, otherwise it is called immediately.",
+                    "  2. setTimeout is called Asynchronously, hence any logic below the method is called immediately. ",
+                    "  ",
+                    "*/",
+                    "var lastClicked;",
+                    "",
+                    "function openWindowIfRequired(thisClickTime,timeDifference){",
+                    "    if(lastClicked === thisClickTime){",
+                    "        console.log('Single Click'); ",
+                    "        infowindow.open(actGoogMap,null);",
+                    "    }",
+                    "    lastClicked = thisClickTime; ",
+                    "}",
+                    "",
+                    "",
+                    "function openWindow(thisClickTime,timeDifference){",
+                    "    setTimeout(function() {openWindowIfRequired(thisClickTime,timeDifference);},2000);   ",
+                    "}",
+                    "",
+                    "google.maps.event.addListener(polyLine, 'click', function() {",
+                    "    if(!lastClicked){",
+                    "        var now = new Date();",
+                    "        lastClicked = now.getTime();",
+                    "        setTimeout(function() {openWindow(lastClicked,timeDifference);},2000);",
+                    "        return;",
+                    "    } ",
+                    "",
+                    "    var currentClickTime = new Date();",
+                    "    var timeDifference =  currentClickTime.getTime() - lastClicked;",
+                    "",
+                    "    if(timeDifference < 2000){",
+                    "         lastClicked = currentClickTime.getTime();",
+                    "         console.log('Double Clicked');",
+                    "         onDoubleClicked(polyLine);",
+                    "    } else {",
+                    "          lastClicked = currentClickTime.getTime();",
+                    "          openWindow(lastClicked,timeDifference);  ",
+                    "    }",
+                    "});",
+                    "",
+                    "MyApp.app.getController('MainViewController').config.createdPolyLines.push(polyLine);",
+                    "polyLine.setMap(this.getActualGoogleMap());",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "function onDoubleClicked(polyLine){",
+                    "   \tMyApp.app.getController('MainViewController').setCurrentLocation();\t",
+                    "    setTimeout(function() {giveASecForCurrentLocationCallBackToFinish(polyLine);},1000);   ",
+                    "}",
+                    "",
+                    "function giveASecForCurrentLocationCallBackToFinish(polyLine){",
+                    "    MyApp.app.getController('MainViewController').config.globalToCoordinates = polyLine.getPath().getAt(0);",
+                    "    var start = MyApp.app.getController('MainViewController').config.globalFromCoordinates;",
+                    "    var end = MyApp.app.getController('MainViewController').config.globalToCoordinates;",
+                    "",
+                    "    MyApp.app.getController('MainViewController').addDirections(start,end);",
+                    "}"
+                ]
+            },
+            "designerId": "09a8f924-51db-46ff-a20c-938098ebcbeb"
+        },
+        {
+            "type": "fixedfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "launch",
+                "implHandler": [
+                    "var senchaGoogleMap = this.getMyMap();    ",
+                    "",
+                    "",
+                    "var mapOpts = {",
+                    "    zoom: 19,",
+                    "    center: parraCoordinates,",
+                    "    mapTypeId: google.maps.MapTypeId.ROADMAP",
+                    "};",
+                    "",
+                    "",
+                    "var parraCoordinates = {",
+                    "    latitude: -33.815498, ",
+                    "    longitude: 151.004893",
+                    "};",
+                    "",
+                    "",
+                    "senchaGoogleMap.setMapCenter(parraCoordinates);",
+                    "senchaGoogleMap.setUseCurrentLocation(false);",
+                    "senchaGoogleMap.setMapOptions(mapOpts);",
+                    "",
+                    "",
+                    "var now = new Date();",
+                    "var nowHours = now.getHours();",
+                    "var nowMin = now.getMinutes();",
+                    "",
+                    "",
+                    "this.dynamicallyAdjustComponentSize();",
+                    "this.loadParkingData();",
+                    "",
+                    "var defaultValues = {",
+                    "    HourPickerSlot: '1',",
+                    "    MinutePickerSlot: '00',",
+                    "    AMPMPickerSlot: 'PM'",
+                    "};",
+                    "",
+                    "",
+                    "Ext.getCmp('TimePicker').setDefaults(defaultValues); ",
+                    "Ext.getCmp('TimePicker').getValues();",
+                    "",
+                    "/*",
+                    "window.setInterval(function(){",
+                    "MyApp.app.getController('MainViewController').refreshPESpaces();",
+                    "}, 20000);",
+                    "*/",
+                    "",
+                    "var timeSlider = this.getTimeSlider();",
+                    "var maxValue = 12 * 24 * 7;",
+                    "timeSlider.setMaxValue(maxValue);"
+                ]
+            },
+            "designerId": "0bdd7516-0f22-42b5-8cff-68d147b17aaf"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "peHours"
+                ],
+                "fn": "createHours",
+                "implHandler": [
+                    "var data_hours = [];",
+                    "",
+                    "",
+                    "if(peHours===0){",
+                    "    data_hours.push({",
+                    "        text: '00',",
+                    "        value: '00'",
+                    "    });   ",
+                    "}",
+                    "",
+                    "for(i=0; i<=peHours; i++) {",
+                    "",
+                    "    data_hours.push({",
+                    "        text: i,",
+                    "        value: i",
+                    "    });",
+                    "",
+                    "",
+                    "} ",
+                    "",
+                    "return data_hours;"
+                ]
+            },
+            "designerId": "9b9b3213-9931-44fe-92a4-2b90215d5375"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "peRuleMinutes"
+                ],
+                "fn": "createMinutes",
+                "implHandler": [
+                    "",
+                    "var mins = peRuleMinutes - 0;",
+                    "var discreteFiveIncrements = (5 * Math.ceil(mins/5))/5;",
+                    "",
+                    "",
+                    "data_minuts = [];",
+                    "",
+                    "data_minuts.push({",
+                    "    text: '00',",
+                    "    value: '00'",
+                    "});",
+                    "data_minuts.push({",
+                    "    text: '05',",
+                    "    value: '05'",
+                    "});",
+                    "",
+                    "if(discreteFiveIncrements==1){",
+                    "    return data_minuts;   ",
+                    "}",
+                    "",
+                    "",
+                    "var iterations = discreteFiveIncrements - 1;",
+                    "if(discreteFiveIncrements===0){",
+                    "    iterations = 10;",
+                    "}",
+                    "",
+                    "var val = 10;",
+                    "for(i=0; i<iterations; i++) {",
+                    "    data_minuts.push({",
+                    "        text: val,",
+                    "        value: val",
+                    "    });",
+                    "    val = val + 5;",
+                    "}",
+                    "",
+                    "return data_minuts;"
+                ]
+            },
+            "designerId": "9b53ef1d-3118-4eee-9dbe-501807eb0a10"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "hourDurationPicker",
+                "selector": "#HourDurationPicker"
+            },
+            "designerId": "14314857-0878-4bf1-8985-36b87463bb7a"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "minuteDurationPicker",
+                "selector": "#MinuteDurationPicker"
+            },
+            "designerId": "3e1d7ffc-a9b7-44e9-8ab9-87d7c915b32f"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "sliderValue"
+                ],
+                "fn": "getTimePickerValueObj",
+                "implHandler": [
+                    "var hours = this.getHours();",
+                    "var minutes = this.getMinutes();",
+                    "",
+                    "var timeinDecimals = sliderValue/59;",
+                    "var minHrs = timeinDecimals.toString().split(\".\");",
+                    "",
+                    "var hoursInD = minHrs[0];",
+                    "var minInD = timeinDecimals - hoursInD;",
+                    "",
+                    "var hourArrayIndex = hoursInD;",
+                    "var hourPickerValue = hours[hourArrayIndex];",
+                    "",
+                    "var minArrayIndex = Math.floor((minInD * 59)/5);",
+                    "var minutePickerValue = minutes[minArrayIndex];",
+                    "",
+                    "//alert('MinArray:' + minArrayIndex);",
+                    "//alert('HourArray:' + hourArrayIndex);",
+                    "//alert('MinText:' + minutePickerValue.text);",
+                    "//alert('HourText:' + hourPickerValue.text);",
+                    "",
+                    "/*",
+                    "",
+                    "",
+                    "console.log('<><><><><><><><><><><><><><><><><><>');",
+                    "console.log('sliderValue' + sliderValue);",
+                    "console.log('timeinDecimals' + timeinDecimals);",
+                    "console.log('minInD' + minInD);",
+                    "console.log('minArrayIndex' + minArrayIndex);",
+                    "console.log('minutePickerValue' + minutePickerValue.text);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "console.log('<><><><><><><><><><><><><><><><><><>');",
+                    "console.log('sliderValue' + sliderValue);",
+                    "console.log('timeinDecimals' + timeinDecimals);",
+                    "console.log('hoursInD' + hoursInD);",
+                    "console.log('hourArrayIndex' + hourArrayIndex);",
+                    "console.log('hourPickerValue' + hourPickerValue.text);",
+                    "",
+                    "",
+                    "",
+                    "return {",
+                    "MinutePickerSlot: hourPickerValue.text",
+                    "};",
+                    "",
+                    "*/",
+                    "",
+                    "",
+                    "",
+                    "/*timePicker.setValue({",
+                    "HourPickerSlot: '20',",
+                    "MinutePIckerSlot: '32' });",
+                    "*/",
+                    "",
+                    "",
+                    "return {",
+                    "    MinutePickerSlot: minutePickerValue.text,",
+                    "HourPickerSlot: hourPickerValue.text};"
+                ]
+            },
+            "designerId": "1b94260f-0aa8-4cee-af2d-fcdc12720c3a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "loadParkingData",
+                "implHandler": [
+                    "var peSpaceDAOStore = Ext.getStore('PESpaceDAO');",
+                    "//var peProxy = peSpaceDAOStore.getProxy();",
+                    "//var peSpaceProxyUrl = \"http://54.200.11.164/parking-engine/PESpace/all\";",
+                    "//var urlRequest = peSpaceProxyUrl;",
+                    "//peProxy.setUrl(urlRequest);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "peSpaceDAOStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "        this.loadPERules();",
+                    "    },",
+                    "    scope: this",
+                    "});",
+                    "/*Accessing Information from Records:",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "for(var i=0;i<records._records.length;i++){",
+                    "",
+                    "var record = peStore.getAt(i);",
+                    "var id =  record.get('id');",
+                    "var startLat =  record.get('startLat');",
+                    "var startLng =  record.get('startLng');",
+                    "var endLat =  record.get('endLat');",
+                    "var endLng =  record.get('endLng');",
+                    "",
+                    "mainViewController.createPolyLines(startLat,startLng,endLat,endLng);",
+                    "",
+                    "*/"
+                ]
+            },
+            "designerId": "9bbea6ec-dbfa-42e0-a553-fbb7330531a9"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "refreshMap",
+                "implHandler": [
+                    "var peSpaceDAO = Ext.getStore('PESpaceDAO'); ",
+                    "var peRuleDAO = Ext.getStore('PERuleDAO');",
+                    "var peMeterDAO = Ext.getStore('PEMeterDAO');",
+                    "",
+                    "var peSpaces = peSpaceDAO.getData();",
+                    "var peRules = peRuleDAO.getData();",
+                    "var peMeters = peMeterDAO.getData();",
+                    "",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "reInitRules();",
+                    "this.removePolyLinesFromMap();",
+                    "",
+                    "for(var i=0;i<peSpaceDAO.getAllCount();i++){",
+                    "    var record = peSpaceDAO.getAt(i);",
+                    "    var id =  record.get('id');",
+                    "    var startLat =  record.get('startLat');",
+                    "    var startLng =  record.get('startLng');",
+                    "    var endLat =  record.get('endLat');",
+                    "    var endLng =  record.get('endLng');",
+                    "    var occupied = record.get('occupied');",
+                    "    var ruleIds = record.get('ruleIds');",
+                    "    //var ruleIdAsArray = ruleIds.split(\",\");",
+                    "    var peRulesForPESpace = getRulesFromRuleIds(ruleIds);",
+                    "    var generatedReport = this.generateDetailsReport(peRulesForPESpace,occupied);",
+                    "    mainViewController.createPolyLines(startLat,startLng,endLat,endLng,''+occupied+'',generatedReport.peRepDescription,generatedReport.appliedPERules,generatedReport.currentAppliedRule);",
+                    "}",
+                    "",
+                    "for(var m=0;m<peMeterDAO.getAllCount();m++){",
+                    "    var mRecord = peMeterDAO.getAt(m);",
+                    "    var mId =  mRecord.get('id');",
+                    "    var mPointLat =  mRecord.get('pointLat');",
+                    "    var mPointLng =  mRecord.get('pointLng');",
+                    "    var mParkingSpaceIds =  mRecord.get('parkingSpaceIds');",
+                    "    var mParkingRuleIds =  mRecord.get('parkingRuleIds');",
+                    "    mainViewController.addMarker(mId,mPointLat,mPointLng,'SomeType Of Description');     ",
+                    "}",
+                    "",
+                    "",
+                    "function getRulesFromRuleIds(ruleIdAsArray){ ",
+                    "    var peRules = [];",
+                    "    for(var i=0; i < ruleIdAsArray.length; i++){",
+                    "        var peRuleId = ruleIdAsArray[i];",
+                    "        var peRule = peRuleDAO.getById(peRuleId);",
+                    "        if(peRule){",
+                    "            peRules.push(peRule); ",
+                    "        }  ",
+                    "    }",
+                    "    return peRules;",
+                    "}",
+                    "",
+                    "//Defaults currentlyApplied and Future Applied back to false",
+                    "function reInitRules(){",
+                    "",
+                    "    for(var i=0;i<peRuleDAO.getAllCount();i++){",
+                    "        var peRuleReInit = peRuleDAO.getAt(i);",
+                    "        peRuleReInit.reInitRule();",
+                    "    }",
+                    "",
+                    "}"
+                ]
+            },
+            "designerId": "b8197f28-0106-4c8f-920a-3ea231628706"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "loadPERules",
+                "implHandler": [
+                    "var peStore = Ext.getStore('PERuleDAO');",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "peStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "        this.loadPEMeters();",
+                    "    },",
+                    "    scope: this",
+                    "});",
+                    "/*Accessing Information from Records:",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "for(var i=0;i<records._records.length;i++){",
+                    "",
+                    "MyApp.app.getController('MainViewController').peLoadedSpaces = [''];",
+                    "var record = peStore.getAt(i);",
+                    "var id =  record.get('id');",
+                    "var startLat =  record.get('startLat');",
+                    "var startLng =  record.get('startLng');",
+                    "var endLat =  record.get('endLat');",
+                    "var endLng =  record.get('endLng');",
+                    "",
+                    "mainViewController.createPolyLines(startLat,startLng,endLat,endLng);",
+                    "",
+                    "*/"
+                ]
+            },
+            "designerId": "f9f7488f-a811-43e4-a9b6-6297f6e7cb07"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "loadPEMeters",
+                "implHandler": [
+                    "var peMeterDAOStore = Ext.getStore('PEMeterDAO');",
+                    "var mainViewController = MyApp.app.getController('MainViewController');",
+                    "",
+                    "peMeterDAOStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "        this.refreshMap();",
+                    "    },",
+                    "    scope: this",
+                    "});"
+                ]
+            },
+            "designerId": "b3993e77-aad6-40fc-ad4b-03db30f7235c"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "dynamicallyAdjustComponentSize",
+                "implHandler": [
+                    "this.getTitleToolBar().setSize(window.innerWidth,getPercentage(5,window.innerHeight));",
+                    "this.getBottomToolBar().setSize(window.innerWidth,getPercentage(5,window.innerHeight));",
+                    "this.getMainViewContainer().setSize(window.innerWidth,window.innerHeight);",
+                    "this.getMyMap().setSize(getPercentage(100,window.innerWidth),getPercentage(100,window.innerHeight));",
+                    "Ext.getCmp('MapContainer').setSize(window.innerWidth,window.innerHeight);",
+                    "",
+                    "//var timePickerPanelWidth = getPercentage(25,window.innerWidth);",
+                    "//var timePickerPanelHeight = getPercentage(30,window.innerHeight);",
+                    "//this.getTimePickerPanel().setSize(timePickerPanelWidth,timePickerPanelHeight);",
+                    "",
+                    "//var timepickerHeight = timePickerPanelHeight/1.8;",
+                    "//Ext.getCmp('TimePicker').setSize(timePickerPanelWidth,timepickerHeight);",
+                    "//Ext.getCmp('HourPickerSlot').setSize(timePickerPanelWidth/3,getPercentage(90,timepickerHeight));",
+                    "//Ext.getCmp('MinutePickerSlot').setSize(timePickerPanelWidth/3,timePickerPanelHeight/1);",
+                    "//Ext.getCmp('AMPMPickerSlot').setSize(timePickerPanelWidth/3,timePickerPanelHeight/1);",
+                    "",
+                    "",
+                    "function getPercentage(percentageValue,totalSize)",
+                    "{",
+                    "    return (totalSize/100)*percentageValue;",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "bfef5624-0963-4de2-b91f-27399743db98"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "titleToolBar",
+                "selector": "#TitleToolBar"
+            },
+            "designerId": "abc80c8d-a71a-4080-b19b-031088caefee"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "refreshPESpaces",
+                "implHandler": [
+                    "var peSpaceDAOStore = Ext.getStore('PESpaceDAO');",
+                    "//var peProxy = peSpaceDAOStore.getProxy();",
+                    "//var peSpaceProxyUrl = \"http://54.200.11.164/parking-engine/PESpace/all\";",
+                    "//var urlRequest = peSpaceProxyUrl;",
+                    "//peProxy.setUrl(urlRequest);",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "peSpaceDAOStore.load({",
+                    "    callback: function(store, records, successful, operation, eOpts) {",
+                    "        this.removePolyLinesFromMap();",
+                    "        this.refreshMap();",
+                    "    },",
+                    "    scope: this",
+                    "});"
+                ]
+            },
+            "designerId": "a1a81c97-45a3-414b-800c-a41bc7f86f71"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "removePolyLinesFromMap",
+                "implHandler": [
+                    "var existingPolyLines =  MyApp.app.getController('MainViewController').config.createdPolyLines;",
+                    "",
+                    "for(var i=0;i<existingPolyLines.length;i++){",
+                    "    existingPolyLines[i].setMap(null);",
+                    "}",
+                    "",
+                    "existingPolyLines.splice(i,existingPolyLines.length);"
+                ]
+            },
+            "designerId": "f6ac52fc-342f-4402-8ef0-0404726d8226"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onTimeButtonTap]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onTimeButtonTap",
+                "implHandler": [
+                    "var timePickerPanel = this.getTimePickerPanel();",
+                    "",
+                    "if(timePickerPanel.isHidden()){",
+                    "    this.getTimePickerPanel().showBy(button);",
+                    "} else {",
+                    "    this.getTimePickerPanel().setHidden(true);",
+                    "}"
+                ],
+                "name": "tap"
+            },
+            "designerId": "62d9e582-fde6-4d86-82b2-1532473c4d42"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "createAMPM",
+                "implHandler": [
+                    "var data_AMPM = [];",
+                    "",
+                    "data_AMPM.push({",
+                    "    text:'PM',",
+                    "    value:'PM'",
+                    "});",
+                    "data_AMPM.push({",
+                    "    text:'AM',",
+                    "    value:'AM'",
+                    "});",
+                    "",
+                    "return data_AMPM;"
+                ]
+            },
+            "designerId": "27843e76-1273-4c26-8d23-cb2cf4f90e72"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "peRule",
+                    "peSpaceReport",
+                    "appliedRules"
+                ],
+                "fn": "checkAndApplyRule",
+                "implHandler": [
+                    "",
+                    "var totalRuleTimeInHours;",
+                    "var totalRuleCost;",
+                    "var endTime; ",
+                    "var startTime; ",
+                    "",
+                    "if(peRule.canBeAppliedCurrently(peSpaceReport)){",
+                    "    endTime = peSpaceReport.getMinEndTime();",
+                    "    if(endTime !== 0){  ",
+                    "        if(peSpaceReport.getMinEndTime()>peRule.getToTime()){",
+                    "            endTime = peRule.getToTime();",
+                    "        }",
+                    "        startTime = peSpaceReport.getStartTime();",
+                    "        if(peSpaceReport.getStartTime()<peRule.getFromTime()){",
+                    "            startTime = peRule.getFromTime();",
+                    "        }",
+                    "",
+                    "        totalRuleTimeInHours = (endTime - startTime)/1000/60/60;",
+                    "        totalRuleCost = totalRuleTimeInHours * peRule.get('cost');",
+                    "        //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);",
+                    "        //alert('totalRuleCost: ' + totalRuleCost);",
+                    "        peSpaceReport.addToTotalCost(totalRuleCost);",
+                    "        //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));",
+                    "    }",
+                    "    appliedRules.push(peRule);",
+                    "",
+                    "} else if(peRule.canBeAppliedInTheFuture(peSpaceReport)){",
+                    "",
+                    "    endTime = peSpaceReport.getMinEndTime();",
+                    "    if(endTime !== 0){",
+                    "        if(peSpaceReport.getMinEndTime()>peRule.getToTime()){",
+                    "            endTime = peRule.getToTime();",
+                    "        }",
+                    "",
+                    "        startTime = peRule.getFromTime();",
+                    "        totalRuleTimeInHours = (endTime - startTime)/1000/60/60;",
+                    "        totalRuleCost = totalRuleTimeInHours * peRule.get('cost');",
+                    "        //alert('totalRuleTimeInHours: ' + totalRuleTimeInHours);",
+                    "        //alert('totalRuleCost: ' + totalRuleCost);",
+                    "        peSpaceReport.addToTotalCost(totalRuleCost);",
+                    "        //alert('totalReportCost: ' + peSpaceReport.get('totalCost'));",
+                    "    }",
+                    "    appliedRules.push(peRule);",
+                    "",
+                    "",
+                    "}//END OF ELSE IF   "
+                ]
+            },
+            "designerId": "9d008037-a0e4-43e3-bd78-28103b97352a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "peRules",
+                    "occupied"
+                ],
+                "fn": "generateDetailsReport",
+                "implHandler": [
+                    "var peRep = MyApp.app.getController('MainViewController').config.globalPeReport;",
+                    "",
+                    "",
+                    "if(!peRep){",
+                    "    peRep = Ext.create('MyApp.model.PEReport', new Date());    ",
+                    "    // peRep.set('startHour','16');",
+                    "    // peRep.set('startMinute','30');",
+                    "    peRep.set('minEndHour','0');",
+                    "    peRep.set('minEndMinute','0');",
+                    "    peRep.set('mode','REALTIME');",
+                    "    MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
+                    "}",
+                    "",
+                    "var mode = peRep.get('mode');",
+                    "",
+                    "/* ruleIds and appliedPERules, both contain all the current and future applied rules.",
+                    "Even though the applied future rules are not currently being used.",
+                    "*/",
+                    "var ruleIds = [];",
+                    "var appliedPERules = [];",
+                    "",
+                    "var peRuleAppliedCurrently;",
+                    "",
+                    "for(var i=0; i < peRules.length; i++){",
+                    "    var peRule = peRules[i];",
+                    "    if(peRule){",
+                    "        this.checkAndApplyRule(peRule,peRep,appliedPERules);  ",
+                    "        if(peRule.getAppliedCurrently()){",
+                    "            peRuleAppliedCurrently = peRule;",
+                    "        }",
+                    "    }  ",
+                    "}",
+                    "",
+                    "for(var u=0; u < appliedPERules.length; u++){",
+                    "    var appliedPeRule = peRules[u];",
+                    "    if(appliedPeRule){",
+                    "        ruleIds.push(appliedPeRule.getId());",
+                    "    }  ",
+                    "}",
+                    "",
+                    "",
+                    "var reportTable = generate_table(mode,peRep.getStartTime(),peRep.getMinEndTime(),peRep.get('dayOfWeek'),ruleIds,peRep.get('totalCost'),'test');",
+                    "var peRepDescription = reportTable.table;",
+                    "var currentAppliedRule = reportTable.currentAppliedRule;",
+                    "",
+                    "",
+                    "function generate_table(mode,startTime,endTime,day,ids,totalCost,reNew) {",
+                    "    // creates the reference for the body",
+                    "    var body = document.createElement(\"body\");",
+                    "",
+                    "    // creates a <table> element and a <tbody> element",
+                    "    var tbl     = document.createElement(\"table\");",
+                    "    var tblBody = document.createElement(\"tbody\");",
+                    "    //var br = document.createElement(\"br\");",
+                    "",
+                    "    createRow(\"Mode:\",mode);",
+                    "    createRow(\"Start ParkingTime:\",String(startTime).split(\"GMT\")[0]);",
+                    "    var allTimes = false;",
+                    "    if(endTime === 0){",
+                    "        allTimes = true;",
+                    "    }",
+                    "",
+                    "    if(!allTimes){",
+                    "        createRow(\"End ParkingTime:\",String(endTime).split(\"GMT\")[0]); ",
+                    "        if(ids.length>0){",
+                    "            createRow(\"TotalCost\",'$'+totalCost);",
+                    "        } else {",
+                    "            createRow(\"TotalCost\",\"Free PARKING\");",
+                    "        }",
+                    "        createRow(\"Re-New Tickets\",reNew);",
+                    "    } else {",
+                    "        //createRow(\"End ParkingTime:\",\"Time Duration NOT Selected\"); ",
+                    "    }",
+                    "",
+                    "    if(mode === \"REALTIME\")",
+                    "    {",
+                    "        var peSpaceStatus = \"Available\";",
+                    "        if(occupied){",
+                    "            peSpaceStatus = \"Not Available\";",
+                    "        }",
+                    "        createRow(\"Current Status\",peSpaceStatus);",
+                    "",
+                    "    } else {",
+                    "",
+                    "",
+                    "",
+                    "    }",
+                    "    //createRow(\"Day\",day);",
+                    "",
+                    "    if(ids.length > 0){",
+                    "        createRow(\"RuleIds\",ids);",
+                    "    }",
+                    "",
+                    "    if(peRuleAppliedCurrently){",
+                    "        createRow('Parking Type',peRuleAppliedCurrently.getParkSpaceType());",
+                    "        createRow('Currently Applied Rule:',peRuleAppliedCurrently.getName());",
+                    "    } else {",
+                    "        createRow('Parking Type',\"Free PARKING\");",
+                    "    }",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "    function createRow(lhs,rhs){",
+                    "        var row=tbl.insertRow(-1);",
+                    "        var cell1=row.insertCell(0);",
+                    "        var cell2=row.insertCell(1);",
+                    "        cell1.innerHTML=lhs;",
+                    "        cell2.innerHTML=rhs;",
+                    "    } ",
+                    "",
+                    "    // put the <tbody> in the <table>",
+                    "    tbl.appendChild(tblBody);",
+                    "    // appends <table> into <body>",
+                    "    //--> if you wanted to adda a break body.appendChild(br);",
+                    "    body.appendChild(tbl);",
+                    "    // sets the border attribute of tbl to 2;",
+                    "    tbl.setAttribute(\"border\", \"2\");",
+                    "",
+                    "    var detailsTable = {",
+                    "        table: body,  ",
+                    "        currentAppliedRule: peRuleAppliedCurrently",
+                    "    };",
+                    "",
+                    "",
+                    "",
+                    "    return detailsTable;",
+                    "}",
+                    "",
+                    "",
+                    "",
+                    "var generatedReport = {",
+                    "    peRepDescription: peRepDescription,",
+                    "    appliedPERules: appliedPERules,",
+                    "    currentAppliedRule: currentAppliedRule",
+                    "};",
+                    "",
+                    "",
+                    "return generatedReport;"
+                ]
+            },
+            "designerId": "ce5fb8b5-877b-42c1-8340-111c0be89120"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "peRule"
+                ],
+                "fn": "getRuleReport",
+                "implHandler": [
+                    "",
+                    "// creates the reference for the body",
+                    "var body = document.createElement(\"body\");",
+                    "",
+                    "// creates a <table> element and a <tbody> element",
+                    "var tbl     = document.createElement(\"table\");",
+                    "var tblBody = document.createElement(\"tbody\");",
+                    "//var br = document.createElement(\"br\");",
+                    "",
+                    "var toDay = peRule.get('toDay');",
+                    "var fromDay = peRule.get('fromDay');",
+                    "var sameDay = false;",
+                    "if(toDay === fromDay){",
+                    "    sameDay = true;",
+                    "}",
+                    "",
+                    "/*",
+                    "",
+                    "if(sameDay){",
+                    "createRow(\"Day:\",convertDayIntToString(toDay));",
+                    "} else {",
+                    "createRow(\"From Day:\",convertDayIntToString(fromDay));",
+                    "createRow(\"To Day:\",convertDayIntToString(toDay));",
+                    "}",
+                    "*/",
+                    "",
+                    "",
+                    "",
+                    "createRow(\"StartTime:\",String(peRule.getFromTime()).split('GMT')[0]);",
+                    "createRow(\"EndTime:\",String(peRule.getToTime()).split('GMT')[0]);",
+                    "createRow(\"Parking Space Type:\",String(peRule.getParkSpaceType()));",
+                    "createRow(\"Cost/Hour\",\"$\"+peRule.get('cost'));",
+                    "createRow(\"Max Time Limit\",peRule.get('timeLimit'));",
+                    "",
+                    "",
+                    "",
+                    "function createRow(lhs,rhs){",
+                    "    var row=tbl.insertRow(-1);",
+                    "    var cell1=row.insertCell(0);",
+                    "    var cell2=row.insertCell(1);",
+                    "    cell1.innerHTML=lhs;",
+                    "    cell2.innerHTML=rhs;",
+                    "} ",
+                    "",
+                    "// put the <tbody> in the <table>",
+                    "tbl.appendChild(tblBody);",
+                    "// appends <table> into <body>",
+                    "//--> if you wanted to adda a break body.appendChild(br);",
+                    "body.appendChild(tbl);",
+                    "// sets the border attribute of tbl to 2;",
+                    "tbl.setAttribute(\"border\", \"2\");",
+                    "return body;"
+                ]
+            },
+            "designerId": "eb76159f-90ac-4546-814e-0aff9f8ea7fa"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "dayInt"
+                ],
+                "fn": "convertDayIntToString",
+                "implHandler": [
+                    "if(dayInt===0){",
+                    "    return \"Sunday\";   ",
+                    "} else if (dayInt===1){",
+                    "    return \"Monday\";",
+                    "} else if (dayInt===2){",
+                    "    return \"Tuesday\";",
+                    "} else if (dayInt===3){",
+                    "    return \"Wednesday\";",
+                    "} else if (dayInt===4){",
+                    "    return \"Thursday\";",
+                    "} else if (dayInt===5){",
+                    "    return \"Friday\";",
+                    "} else if (dayInt===6){",
+                    "    return \"Saturday\";",
+                    "}"
+                ]
+            },
+            "designerId": "71915843-58a7-4970-9f0b-aeb024706c57"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "dayAsString"
+                ],
+                "fn": "convertDayStringToInt",
+                "implHandler": [
+                    "if(dayAsString===\"Sunday\"){",
+                    "    return 0;   ",
+                    "} else if (dayAsString===\"Monday\"){",
+                    "    return 1;",
+                    "} else if (dayAsString===\"Tuesday\"){",
+                    "    return 2;",
+                    "} else if (dayAsString===\"Wednesday\"){",
+                    "    return 3;",
+                    "} else if (dayAsString===\"Thursday\"){",
+                    "    return 4;",
+                    "} else if (dayAsString===\"Friday\"){",
+                    "    return 5;",
+                    "} else if (dayAsString===\"Saturday\"){",
+                    "    return 6;",
+                    "}"
+                ]
+            },
+            "designerId": "d156c07c-4aec-405c-9973-6c62c14805e2"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "doneButton",
+                "selector": "#Done"
+            },
+            "designerId": "893bccf4-128f-467b-af02-f2564393de0f"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "realTimeButton",
+                "selector": "#RealTime"
+            },
+            "designerId": "ba904bfa-1f45-462d-a089-0ea3fc13c6df"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onDoneButtonTap]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onDoneButtonTap",
+                "implHandler": [
+                    "var timePickerPanel = this.getTimePickerPanel();",
+                    "",
+                    "",
+                    "",
+                    "var dayType = this.getDayTypeSelectorField().getValue();",
+                    "var duration = this.getDurationSelector().getValue();",
+                    "",
+                    "//10:30 AM converting to 24Hour Time.",
+                    "var timePickerValues = this.getTimePicker().getValues();",
+                    "var min;",
+                    "var hour;",
+                    "var ampm;",
+                    "",
+                    "",
+                    "",
+                    "if(timePickerValues){",
+                    "    min = timePickerValues.MinutePickerSlot;",
+                    "    hour = timePickerValues.HourPickerSlot;",
+                    "    ampm = timePickerValues.AMPMPickerSlot;",
+                    "}",
+                    "",
+                    "",
+                    "",
+                    "var timeString = hour + \":\" + min +\" \"+ampm;",
+                    "var startTimeDate = this.convertTo24HourTime(timeString);",
+                    "",
+                    "//SET global PEReport",
+                    "peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    ",
+                    "",
+                    "",
+                    "//Set Duration",
+                    "if(duration===0){",
+                    "    peRep.set('minEndHour','0');",
+                    "    peRep.set('minEndMinute','0');",
+                    "} else {",
+                    "    var endTime = new Date(startTimeDate.getTime() + duration*60000);",
+                    "    peRep.set('endTime',endTime);",
+                    "    peRep.set('minEndHour',endTime.getHours());",
+                    "    peRep.set('minEndMinute',endTime.getMinutes());",
+                    "",
+                    "}",
+                    "peRep.set('mode','OFFLINE');",
+                    "",
+                    "if(!timePickerPanel.isHidden()){",
+                    "    this.getTimePickerPanel().setHidden(true);",
+                    "} ",
+                    "",
+                    "MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
+                    "this.refreshMap();"
+                ],
+                "name": "tap"
+            },
+            "designerId": "61e76c25-ea77-493e-814b-0bce966009e8"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onRealTimeButtonTap]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onRealTimeButtonTap",
+                "implHandler": [
+                    ""
+                ],
+                "name": "tap"
+            },
+            "designerId": "755ecf0d-9090-44ee-8488-9e3e93611ac9"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "amPMPickerSlot",
+                "selector": "#AMPMPickerSlot"
+            },
+            "designerId": "a750c1ee-e240-4ff9-98ff-75367e05fde1"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "durationSelector",
+                "selector": "#DurationSelector"
+            },
+            "designerId": "00d9cb93-9acd-46c7-bea0-79c88f3980cf"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "timeString"
+                ],
+                "fn": "convertTo24HourTime",
+                "implHandler": [
+                    "// Time String has to be the following format: \"10:30 AM\"",
+                    "",
+                    "var today = new Date();",
+                    "today = this.nextDay(today.getDay());",
+                    "var time = am_pm_to_hours(timeString).split(\":\");",
+                    "",
+                    "return new Date(today.getFullYear(),(today.getMonth()),today.getDate(),time[0],time[1]); ",
+                    "",
+                    "",
+                    "",
+                    "function am_pm_to_hours(time) {",
+                    "    var hours = Number(time.match(/^(\\d+)/)[1]);",
+                    "    var minutes = Number(time.match(/:(\\d+)/)[1]);",
+                    "    var AMPM = time.match(/\\s(.*)$/)[1];",
+                    "    if (AMPM == \"PM\" && hours < 12) hours = hours + 12;",
+                    "    if (AMPM == \"AM\" && hours == 12) hours = hours - 12;",
+                    "    var sHours = hours.toString();",
+                    "    var sMinutes = minutes.toString();",
+                    "    if (hours < 10) sHours = \"0\" + sHours;",
+                    "    if (minutes < 10) sMinutes = \"0\" + sMinutes;",
+                    "    return (sHours +':'+sMinutes);",
+                    "}"
+                ]
+            },
+            "designerId": "2d728f71-4e71-4a90-b8d0-463a1db60c84"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "x"
+                ],
+                "fn": "nextDay",
+                "implHandler": [
+                    "var now = new Date();",
+                    "var day = now.getDay();",
+                    "",
+                    "//If next day OR today",
+                    "now.setDate(now.getDate()-1);",
+                    "",
+                    "//http://stackoverflow.com/questions/1579010/get-next-date-from-weekday-in-javascript",
+                    "now.setDate(now.getDate() + (x+(7-now.getDay())) % 7);",
+                    "return now;"
+                ]
+            },
+            "designerId": "8a8cf74a-6b49-46ad-a129-ac7b2ad2addf"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onTimeSliderButtonTap]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onSliderButtonTap",
+                "implHandler": [
+                    "var timeSlider = this.getTimeSlider();",
+                    "var toolTip = this.getToolTip();",
+                    "",
+                    "if(timeSlider.isHidden()){",
+                    "    Ext.getCmp('SliderButton').setIconCls('arrow_up');",
+                    "    timeSlider.setHidden(false);",
+                    "} else {",
+                    "    Ext.getCmp('SliderButton').setIconCls('arrow_down');",
+                    "    timeSlider.setHidden(true);",
+                    "    toolTip.setHidden(true);",
+                    "}",
+                    ""
+                ],
+                "name": "tap"
+            },
+            "designerId": "dda00aea-9ce3-4e69-90d9-c30a92ce6835"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "clearAddressList",
+                "implHandler": [
+                    "var searchLocationPanel = Ext.getCmp('SearchLocationPanel');",
+                    "",
+                    "var addressList = Ext.getCmp('AddressList');",
+                    "searchLocationPanel.remove(addressList,true);",
+                    "",
+                    "/*Note destorying the list component was the only way to completely remove the contents",
+                    "of the list. If the list does not exist then it is create during",
+                    "MyApp.app.getController('MainViewController').showAddress */"
+                ]
+            },
+            "designerId": "c48b23c9-7ce3-4602-abbf-91325be7de18"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "address",
+                    "addressArray",
+                    "searchFieldId"
+                ],
+                "fn": "showAddress",
+                "implHandler": [
+                    "var geocoder = new google.maps.Geocoder();",
+                    "geocoder.geocode( { 'address': address}, function(results, status) {",
+                    "if (status == google.maps.GeocoderStatus.OK) {",
+                    "",
+                    "    for (var i=0;i<results.length;i++)",
+                    "    { ",
+                    "        var formattedAddress = results[i].formatted_address;",
+                    "        var geoLocation = results[i].geometry.location;",
+                    "",
+                    "        if(i>10){",
+                    "            break;   ",
+                    "        }",
+                    "",
+                    "        var resultAddress = ",
+                    "        {",
+                    "            formatted_address: formattedAddress,",
+                    "            geo_location: geoLocation,",
+                    "            search_field: searchFieldId",
+                    "        };",
+                    "",
+                    "        addressArray.push(resultAddress);",
+                    "    }",
+                    "",
+                    "    showAddressCallBack(addressArray);",
+                    "",
+                    "} else {",
+                    "    alert('Geocode was not successful for the following reason: ' + status);",
+                    "}",
+                    "});",
+                    "",
+                    "function showAddressCallBack(addressArray){",
+                    "var addressList = Ext.getCmp('AddressList');",
+                    "if(addressList){",
+                    "    MyApp.app.getController('MainViewController').clearAddressList();",
+                    "",
+                    "} ",
+                    "",
+                    "var newAddressList =  Ext.create('Ext.List',{",
+                    "    action: 'addressListEvent',",
+                    "    height: 753,",
+                    "    id: 'AddressList',",
+                    "    itemId: 'mylist',",
+                    "    width: 899,",
+                    "    itemTpl: [",
+                    "    '<div style=\\'margin-left:10px;\\'>',",
+                    "    '    {formatted_address},{geo_location}',",
+                    "    '</div>'",
+                    "    ]",
+                    "}",
+                    ");",
+                    "",
+                    "newAddressList.setData(addressArray);",
+                    "Ext.getCmp('SearchLocationPanel').add(newAddressList);",
+                    "",
+                    "}"
+                ]
+            },
+            "designerId": "1a026bde-0d55-4d74-ba7a-190bd99eb35d"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "activeItem"
+                ],
+                "fn": "changeView",
+                "implHandler": [
+                    "",
+                    "var that = this;",
+                    "",
+                    "if(activeItem===1){",
+                    "    this.getMainViewContainer().animateActiveItem(1, {type: \"slide\", direction: \"left\"});",
+                    "    hideMainScreenButtons();",
+                    "    Ext.getCmp('SearchLocation').setHidden(false);",
+                    "    Ext.getCmp('BackButton').setHidden(false);",
+                    "",
+                    "",
+                    "} else if (activeItem===5) {",
+                    "    this.getMainViewContainer().animateActiveItem(5, {type: \"slide\", direction: \"left\"});",
+                    "    hideMainScreenButtons();    ",
+                    "    showPayScreenButton();",
+                    "",
+                    "} else {",
+                    "",
+                    "    this.getMainViewContainer().animateActiveItem(0, {type: \"slide\", direction: \"right\"});",
+                    "    showMainScreenButtons();",
+                    "    hidePayScreenButton();",
+                    "    Ext.getCmp('BackButton').setHidden(true);",
+                    "",
+                    "",
+                    "    //onSliderButtonTap",
+                    "    var timeSlider = this.getTimeSlider();",
+                    "    var toolTip = this.getToolTip();",
+                    "",
+                    "    if(timeSlider.isHidden()){",
+                    "        Ext.getCmp('SliderButton').setIconCls('arrow_up');",
+                    "        timeSlider.setHidden(false);",
+                    "    } else {",
+                    "        Ext.getCmp('SliderButton').setIconCls('arrow_down');",
+                    "        timeSlider.setHidden(true);",
+                    "        toolTip.setHidden(true);",
+                    "    }",
+                    "}",
+                    "",
+                    "",
+                    "function hideMainScreenButtons(){",
+                    "    Ext.getCmp('SliderButton').setHidden(true);",
+                    "    Ext.getCmp('CurrentLocation').setHidden(true);",
+                    "    Ext.getCmp('TimeSlider').setHidden(true);",
+                    "    Ext.getCmp('SearchLocation').setHidden(true);",
+                    "    Ext.getCmp('RefreshButton').setHidden(true);",
+                    "    Ext.getCmp('PayButtonScreen').setHidden(true);",
+                    "}",
+                    "",
+                    "function showMainScreenButtons(){",
+                    "    Ext.getCmp('SliderButton').setHidden(false);",
+                    "    Ext.getCmp('CurrentLocation').setHidden(false);",
+                    "    Ext.getCmp('TimeSlider').setHidden(false);",
+                    "    Ext.getCmp('SearchLocation').setHidden(false);",
+                    "    Ext.getCmp('RefreshButton').setHidden(false);",
+                    "    Ext.getCmp('PayButtonScreen').setHidden(false);",
+                    "}",
+                    "",
+                    "function hidePayScreenButton(){",
+                    "    that.getPayButton().setHidden(true);",
+                    "    that.getCancelButton().setHidden(true);  ",
+                    "}",
+                    "",
+                    "function showPayScreenButton(){",
+                    "    that.getPayButton().setHidden(false);",
+                    "    that.getCancelButton().setHidden(false); ",
+                    "}"
+                ]
+            },
+            "designerId": "3fe85b22-8915-491a-b18e-df38e7b9feb1"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "start",
+                    "end"
+                ],
+                "fn": "addDirections",
+                "implHandler": [
+                    "var directionsDisplay = this.getDirectionsRenderer();",
+                    "var directionsService = new google.maps.DirectionsService();",
+                    "var map = this.getActualGoogleMap();",
+                    "directionsDisplay.setMap(map);",
+                    "",
+                    "//var trafficLayer = this.getTrafficLayer();",
+                    "//trafficLayer.setMap(map);",
+                    "",
+                    "var request = {",
+                    "    origin:start,",
+                    "    destination:end,",
+                    "    travelMode: google.maps.TravelMode.DRIVING,",
+                    "    durationInTraffic: true",
+                    "};",
+                    "",
+                    "directionsService.route(request, function(result, status){directionServiceCallBack(result, status);});",
+                    "",
+                    "",
+                    "function directionServiceCallBack(result, status) {",
+                    "    if (status == google.maps.DirectionsStatus.OK) {",
+                    "        directionsDisplay.setDirections(result);",
+                    "    }",
+                    "}                        "
+                ]
+            },
+            "designerId": "7e9e1893-a873-4453-9b5c-210d920715ed"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "address",
+                    "searchFieldId"
+                ],
+                "fn": "addCurrentLocation",
+                "implHandler": [
+                    "var initialLocation;",
+                    "var siberia = new google.maps.LatLng(60, 105);",
+                    "var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);",
+                    "var browserSupportFlag =  false;",
+                    "",
+                    "//var map = this.getActualGoogleMap();",
+                    "",
+                    "if(navigator.geolocation) {",
+                    "    browserSupportFlag = true;",
+                    "    navigator.geolocation.getCurrentPosition(function(position) {",
+                    "        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);",
+                    "        success(initialLocation);",
+                    "        // map.setCenter(initialLocation);",
+                    "    }, function() {",
+                    "        handleNoGeolocation(browserSupportFlag);",
+                    "    });",
+                    "}",
+                    "// Browser doesn't support Geolocation",
+                    "else {",
+                    "    browserSupportFlag = false;",
+                    "    handleNoGeolocation(browserSupportFlag);",
+                    "}",
+                    "",
+                    "function handleNoGeolocation(errorFlag) {",
+                    "    if (errorFlag === true) {",
+                    "        alert(\"Geolocation service failed.\");",
+                    "        initialLocation = newyork;",
+                    "    } else {",
+                    "        alert(\"Your browser doesn't support geolocation. We've placed you in Siberia.\");",
+                    "        initialLocation = siberia;",
+                    "    }",
+                    "    //map.setCenter(initialLocation);",
+                    "}",
+                    "",
+                    "//Called Via Call Back function",
+                    "function success(currentLocation){",
+                    "    var currentLocationAddress = ",
+                    "    {",
+                    "        formatted_address: \"Current Location\",",
+                    "        geo_location: currentLocation,",
+                    "        search_field: \"SearchLocationField\"",
+                    "    };",
+                    "    var addressArray = [];",
+                    "    addressArray.push(currentLocationAddress);",
+                    "    MyApp.app.getController('MainViewController').showAddress(address,addressArray,searchFieldId);",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "968ef355-8e7e-4507-98ea-3bd6185a9d02"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getDirectionsRenderer",
+                "implHandler": [
+                    "//Must be a singleton",
+                    "var directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;",
+                    "",
+                    "if(directionsDisplay){",
+                    "    return directionsDisplay;",
+                    "} else {",
+                    "    //Initialize  ",
+                    "    MyApp.app.getController('MainViewController').config.directionsRenderer =  new google.maps.DirectionsRenderer();",
+                    "    directionsDisplay = MyApp.app.getController('MainViewController').config.directionsRenderer;",
+                    "}    ",
+                    "",
+                    "",
+                    "return directionsDisplay;"
+                ]
+            },
+            "designerId": "fb6333b3-064a-4ae3-885d-65469ff65b2b"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onRefreshTapEvent]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onRefreshTap",
+                "implHandler": [
+                    "this.getDirectionsRenderer().setMap(null);",
+                    "this.getTrafficLayer().setMap(null);"
+                ],
+                "name": "tap"
+            },
+            "designerId": "c0ce0c62-18cb-490a-9d3b-44f80c0c695e"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "refreshButton",
+                "selector": "#RefreshButton"
+            },
+            "designerId": "434f2f01-fdef-47a0-b53d-876cb508b250"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "getTrafficLayer",
+                "implHandler": [
+                    "//Must be a singleton",
+                    "var trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;",
+                    "",
+                    "if(trafficLayer){",
+                    "    return trafficLayer;",
+                    "} else {",
+                    "    //Initialize  ",
+                    "    MyApp.app.getController('MainViewController').config.trafficLayer = new google.maps.TrafficLayer();",
+                    "    trafficLayer = MyApp.app.getController('MainViewController').config.trafficLayer;",
+                    "}    ",
+                    "",
+                    "",
+                    "return trafficLayer;",
+                    "",
+                    ""
+                ]
+            },
+            "designerId": "586f13f3-0821-48e7-a1ae-91594f7936b7"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "toolTip",
+                "selector": "#ToolTip"
+            },
+            "designerId": "af81a8c1-d43f-4508-b4b0-2ae6c4da78ae"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "dayLabel",
+                "selector": "#DayLabel"
+            },
+            "designerId": "8c75a407-1b91-4f97-a59c-9914c2855d0b"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "timeLabel",
+                "selector": "#TimeLabel"
+            },
+            "designerId": "bff660f2-01ae-4019-b9c9-9b10d2ea5f8a"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|params": [
+                    "timeAsString"
+                ],
+                "fn": "convertToTwelveHourTime",
+                "implHandler": [
+                    "//timeAsString is 24Hour Time in the following formatt \"12:[0-59]:[0-59]\"",
+                    "",
+                    "var timeArray = timeAsString.split(':');",
+                    "var hh = timeArray[0];",
+                    "var m = timeArray[1];",
+                    "var s = timeArray[2];",
+                    "var dd = \"AM\";",
+                    "var h = hh;",
+                    "if (h >= 12) {",
+                    "    h = hh-12;",
+                    "    dd = \"PM\";",
+                    "}",
+                    "if (h === 0) {",
+                    "    h = 12;",
+                    "}",
+                    "",
+                    "",
+                    "/* if you want 2 digit hours:",
+                    "h = h<10?\"0\"+h:h; */",
+                    "",
+                    "var pattern = new RegExp(hh+\":\"+m+\":\"+s);",
+                    "",
+                    "m = m<10?\"0\"+m:m;",
+                    "",
+                    "s = s<10?\"0\"+s:s;",
+                    "",
+                    "var replacement = h+\":\"+m;",
+                    "/* if you want to add seconds",
+                    "replacement += \":\"+s;  */",
+                    "replacement += \" \"+dd;    ",
+                    "",
+                    "return timeAsString.replace(pattern,replacement);"
+                ]
+            },
+            "designerId": "a8c378b2-0460-460b-a7a4-dc9b9924cf20"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "sliderfield",
+                "designer|targetType": "Ext.field.Slider",
+                "fn": "onSliderfieldDragEnd",
+                "implHandler": [
+                    "var tooltip = this.getToolTip();",
+                    "var dayLabel = this.getDayLabel();",
+                    "var timeLabel = this.getTimeLabel();",
+                    "",
+                    "",
+                    "",
+                    "var now = new Date();",
+                    "var sliderValue = sliderfield.getValue();",
+                    "var changeMins = 5 * sliderValue;",
+                    "var changeMilli = changeMins * 60000;",
+                    "var totalTime = now.getTime() + changeMilli;",
+                    "now.setTime(totalTime);",
+                    "",
+                    "",
+                    "",
+                    "tooltip.hide();",
+                    "createGlobalPEReport(now);",
+                    "MyApp.app.getController('MainViewController').refreshMap();",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "function createGlobalPEReport(currentSliderTime){",
+                    "",
+                    "    var startTimeDate = currentSliderTime;",
+                    "",
+                    "    //SET global PEReport",
+                    "    peRep = Ext.create('MyApp.model.PEReport', startTimeDate);    ",
+                    "",
+                    "",
+                    "    //Set Duration",
+                    "    /* Used to have duration before when calculating the total cost of parking, currently we do not include that in the PEReport*/ ",
+                    "    var duration = 0;    ",
+                    "    if(duration===0){",
+                    "        peRep.set('minEndHour','0');",
+                    "        peRep.set('minEndMinute','0');",
+                    "    } else {",
+                    "        var endTime = new Date(startTimeDate.getTime() + duration*60000);",
+                    "        peRep.set('endTime',endTime);",
+                    "        peRep.set('minEndHour',endTime.getHours());",
+                    "        peRep.set('minEndMinute',endTime.getMinutes());",
+                    "",
+                    "    }",
+                    "",
+                    "    peRep.set('mode','OFFLINE');",
+                    "    MyApp.app.getController('MainViewController').config.globalPeReport = peRep;",
+                    "",
+                    "",
+                    "}"
+                ],
+                "name": "dragend"
+            },
+            "designerId": "4b0ea842-0488-48a5-86de-7c7a69fa887b"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "sliderfield",
+                "designer|targetType": "Ext.field.Slider",
+                "fn": "onSliderfieldDrag",
+                "implHandler": [
+                    "var tooltip = this.getToolTip();",
+                    "tooltip.setHidden(false);",
+                    "var dayLabel = this.getDayLabel();",
+                    "var timeLabel = this.getTimeLabel();",
+                    "",
+                    "",
+                    "var now = new Date();",
+                    "var sliderValue = sliderfield.getValue();",
+                    "var changeMins = 5 * sliderValue;",
+                    "var changeMilli = changeMins * 60000;",
+                    "var totalTime = now.getTime() + changeMilli;",
+                    "now.setTime(totalTime);",
+                    "var day = this.convertDayIntToString(now.getDay());",
+                    "",
+                    "if(sliderValue == 0){",
+                    "    time = \"Current Time\";",
+                    "} else {",
+                    "    time = this.convertToTwelveHourTime(now.getHours() + ':' + (5 * Math.floor(now.getMinutes()/5)) +':' +now.getSeconds());",
+                    "}",
+                    "",
+                    "",
+                    "",
+                    "dayLabel.updateHtml(day);",
+                    "timeLabel.updateHtml(time);",
+                    "tooltip.showBy(thumb);",
+                    "",
+                    "",
+                    ""
+                ],
+                "name": "drag"
+            },
+            "designerId": "2ec83749-d4db-4936-8800-daafb62e4f80"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onPayButtonScreenTap]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onPayButtonScreenTap",
+                "implHandler": [
+                    "",
+                    "",
+                    "var hourDurationPicker = this.getHourDurationPicker();",
+                    "var minDurationPicker = this.getMinuteDurationPicker();",
+                    "",
+                    "var peRule = Ext.getStore('PERuleDAO').getById(6);",
+                    "var cost = peRule.get('cost');",
+                    "",
+                    "",
+                    "this.getDurationPicker().cost = cost;",
+                    "",
+                    "var timeLimit = peRule.get('timeLimit');",
+                    "",
+                    "var timeArray = timeLimit.split(':');",
+                    "",
+                    "var peHours = timeArray[0]-0;",
+                    "",
+                    "var peMinutes = timeArray[1];",
+                    "",
+                    "",
+                    "var hourDataSet = this.createHours(peHours);",
+                    "var minDataSet =  this.createMinutes(peMinutes);",
+                    "",
+                    "if(!hourDurationPicker.getData()){",
+                    "    hourDurationPicker.setData(hourDataSet);",
+                    "}",
+                    "",
+                    "if(!minDurationPicker.getData()){",
+                    "    minDurationPicker.setData(minDataSet);",
+                    "}",
+                    "",
+                    "this.changeView(5);",
+                    "",
+                    "",
+                    ""
+                ],
+                "name": "tap"
+            },
+            "designerId": "8ed54c25-7f90-4fb0-b215-6278019827f1"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "parkDurationPanel",
+                "selector": "#ParkDurationPanel"
+            },
+            "designerId": "c9f381d7-c6f5-4c3b-a1a6-9dfbc1afb114"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "payButton",
+                "selector": "#PayButton"
+            },
+            "designerId": "b03490a4-69f2-4460-8a9e-b2f29ba6ebc9"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "cancelButton",
+                "selector": "#CancelButton"
+            },
+            "designerId": "0f5202ec-e622-4d83-8979-b644561331a3"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "durationPicker",
+                "selector": "#DurationPicker"
+            },
+            "designerId": "78152619-93af-471e-8dba-b66ef04506c8"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "pickerslot",
+                "designer|targetType": "Ext.picker.Slot",
+                "fn": "onPickerslotSlotpick",
+                "implHandler": [
+                    "var durationPicker = this.getDurationPicker();",
+                    "var cost = durationPicker.cost;",
+                    "",
+                    "",
+                    "var hours = durationPicker.getValue()['HourPickerSlot']-0;",
+                    "var mins = durationPicker.getValue()['MinutePickerSlot']-0; ",
+                    "",
+                    "var amount =(hours * cost) + ((cost/60) * mins);",
+                    "",
+                    "this.getAmountTextField().setValue('$'+amount.toFixed(2));"
+                ],
+                "name": "slotpick"
+            },
+            "designerId": "99fa0642-9ae6-433c-bf9b-2a50f7e84076"
+        },
+        {
+            "type": "controllerref",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "ref": "amountTextField",
+                "selector": "#AmountTextField"
+            },
+            "designerId": "3308336b-d298-409e-86eb-84449919aea3"
+        },
+        {
+            "type": "controlleraction",
+            "reference": {
+                "name": "listeners",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "designer|controlQuery": "[action=onPayButtonEvent]",
+                "designer|targetType": "Ext.Button",
+                "fn": "onPayButtonTap",
+                "implHandler": [
+                    "//So far does nothing"
+                ],
+                "name": "tap"
+            },
+            "designerId": "9b5046a7-c988-4753-b1ea-3304f3795db5"
+        },
+        {
+            "type": "basicfunction",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "fn": "setCurrentLocation",
+                "implHandler": [
+                    "var initialLocation;",
+                    "var siberia = new google.maps.LatLng(60, 105);",
+                    "var newyork = new google.maps.LatLng(40.69847032728747, -73.9514422416687);",
+                    "var browserSupportFlag =  false;",
+                    "",
+                    "//var map = this.getActualGoogleMap();",
+                    "",
+                    "if(navigator.geolocation) {",
+                    "    browserSupportFlag = true;",
+                    "    navigator.geolocation.getCurrentPosition(function(position) {",
+                    "        initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);",
+                    "        success(initialLocation);",
+                    "        // map.setCenter(initialLocation);",
+                    "    }, function() {",
+                    "        handleNoGeolocation(browserSupportFlag);",
+                    "    });",
+                    "}",
+                    "// Browser doesn't support Geolocation",
+                    "else {",
+                    "    browserSupportFlag = false;",
+                    "    handleNoGeolocation(browserSupportFlag);",
+                    "}",
+                    "",
+                    "function handleNoGeolocation(errorFlag) {",
+                    "    if (errorFlag === true) {",
+                    "        alert(\"Geolocation service failed.\");",
+                    "        initialLocation = newyork;",
+                    "    } else {",
+                    "        alert(\"Your browser doesn't support geolocation. We've placed you in Siberia.\");",
+                    "        initialLocation = siberia;",
+                    "    }",
+                    "    //map.setCenter(initialLocation);",
+                    "}",
+                    "",
+                    "//Called Via Call Back function",
+                    "function success(currentLocation){",
+                    "     MyApp.app.getController('MainViewController').config.globalFromCoordinates = currentLocation;",
+                    "}",
+                    ""
+                ]
+            },
+            "designerId": "1b109472-0082-4529-9b79-75f87445890f"
+        }
+    ]
+}

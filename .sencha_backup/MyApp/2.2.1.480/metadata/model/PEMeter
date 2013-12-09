@@ -1,0 +1,74 @@
+{
+    "type": "Ext.data.Model",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "PEMeter"
+    },
+    "designerId": "5f51fa54-7949-4137-aebc-9e1124696bde",
+    "cn": [
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "id"
+            },
+            "designerId": "d482b3fd-340e-482d-98b4-cecff471caaf"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "pointLat"
+            },
+            "designerId": "a0926b58-258d-4307-a0f2-60b4c2c04af0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "pointLng"
+            },
+            "designerId": "50d9b40a-4a59-4b61-81d1-19382f4212e0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "parkingSpaceIds"
+            },
+            "designerId": "8571f565-23be-4cfc-8744-a33e44c75ef0"
+        },
+        {
+            "type": "Ext.data.Field",
+            "reference": {
+                "name": "fields",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "name": "parkingRuleIds"
+            },
+            "designerId": "ade9046c-8e0b-4af9-bb77-5326f5c448bc"
+        }
+    ]
+}

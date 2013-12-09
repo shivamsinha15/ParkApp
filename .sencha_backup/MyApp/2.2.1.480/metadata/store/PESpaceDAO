@@ -1,0 +1,39 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "PESpaceDAO",
+        "model": "PESpace",
+        "storeId": "PESpaceDAO"
+    },
+    "designerId": "bcd0259e-a90b-46e5-9f43-80e8bf47abb8",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.JsonP",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://54.200.11.164/parking-engine/PESpace/alljsonp"
+            },
+            "designerId": "853e9079-ec99-4e5c-bbdd-9d8f0d4d9af1",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "3a9816a4-8274-4076-8aac-16c012e0e6dc"
+                }
+            ]
+        }
+    ]
+}

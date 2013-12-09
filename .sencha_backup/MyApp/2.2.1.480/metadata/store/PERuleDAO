@@ -1,0 +1,39 @@
+{
+    "type": "jsonstore",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "PERuleDAO",
+        "model": "PERule",
+        "storeId": "PERuleDAO"
+    },
+    "designerId": "488b01c0-9af3-4c9f-9449-07d241348bf7",
+    "cn": [
+        {
+            "type": "Ext.data.proxy.JsonP",
+            "reference": {
+                "name": "proxy",
+                "type": "object"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "url": "http://54.200.11.164/parking-engine/PERule/alljsonp"
+            },
+            "designerId": "91934142-23cb-4ccb-8342-ea748025fba4",
+            "cn": [
+                {
+                    "type": "Ext.data.reader.Json",
+                    "reference": {
+                        "name": "reader",
+                        "type": "object"
+                    },
+                    "codeClass": null,
+                    "designerId": "085b7090-ff26-485c-9b2d-e57c02a31333"
+                }
+            ]
+        }
+    ]
+}
